@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Blog & Devlog — 3R Studio & Roman Pavlorek. Zápisky z vývoje her, experimentů a projektů.">
+<title>Blog & Devlog — 3R Studio</title>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --yellow: #b8890c; --yellow-fill: #f5c518;
+  --bg: #f8f6f2; --bg2: #f1ede6; --bg3: #e8e3db;
+  --text: #111110; --dim: rgba(17,17,16,0.52); --muted: rgba(17,17,16,0.36);
+  --border: rgba(17,17,16,0.09);
+  --r: 10px; --r-lg: 16px;
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--yellow); border-radius: 2px; }
+
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px; background: rgba(248,246,242,0.92);
+  backdrop-filter: blur(20px); border-bottom: 0.5px solid var(--border); z-index: 100;
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.logo-box { background: var(--yellow-fill); color: #111; font-family: 'Inter', sans-serif; font-weight: 800; font-style: italic; font-size: 14px; letter-spacing: -0.04em; padding: 4px 8px; border-radius: 5px; line-height: 1.1; }
+.logo-studio { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.lang-toggle { display: flex; gap: 2px; margin-left: 8px; }
+.lang-btn { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 9px; border-radius: 5px; background: transparent; border: 0.5px solid var(--border); color: var(--muted); cursor: pointer; transition: all 0.2s; }
+.lang-btn:hover { color: var(--text); border-color: rgba(17,17,16,0.2); }
+.lang-btn.active { background: var(--yellow-fill); color: #111; border-color: var(--yellow-fill); }
+.nav-lnk { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
+.nav-lnk:hover { color: var(--yellow); }
+.nav-lnk.active { color: var(--text); }
+
+.page-header {
+  padding: 140px 80px 60px; border-bottom: 0.5px solid var(--border);
+}
+.ph-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.32em; color: var(--yellow); text-transform: uppercase; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.ph-eyebrow::before { content: ''; width: 18px; height: 1px; background: var(--yellow); }
+.ph-title { font-family: 'Inter', sans-serif; font-size: clamp(36px, 5.5vw, 72px); font-weight: 800; font-style: italic; line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 20px; }
+.ph-title em { font-style: normal; color: var(--yellow); }
+.ph-sub { font-size: 16px; color: var(--dim); font-weight: 300; max-width: 480px; line-height: 1.7; }
+
+.filter-bar { display: flex; gap: 6px; padding: 28px 80px; border-bottom: 0.5px solid var(--border); flex-wrap: wrap; }
+.f-btn { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); background: transparent; border: 0.5px solid var(--border); padding: 7px 16px; border-radius: 100px; cursor: pointer; transition: all 0.2s; }
+.f-btn:hover { border-color: rgba(184,137,12,0.4); color: var(--text); }
+.f-btn.active { background: var(--yellow-fill); color: #111110; border-color: var(--yellow-fill); }
+
+.posts-wrap { max-width: 1200px; margin: 0 auto; padding: 60px 80px 120px; }
+.posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+.post-card {
+  background: #fff; border: 0.5px solid var(--border); border-radius: var(--r-lg);
+  overflow: hidden; text-decoration: none; color: inherit;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  display: flex; flex-direction: column;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  opacity: 0; transform: translateY(16px);
+}
+.post-card.visible { opacity: 1; transform: none; transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.25s, box-shadow 0.25s; }
+.post-card:hover { border-color: rgba(184,137,12,0.35); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+
+.post-card-top { padding: 28px 28px 0; display: flex; align-items: flex-start; justify-content: space-between; }
+.post-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; }
+.tag-devlog { background: rgba(184,137,12,0.1); color: var(--yellow); border: 0.5px solid rgba(184,137,12,0.28); }
+
+.tag-ai { background: rgba(217,119,6,0.08); color: #d97706; border: 0.5px solid rgba(217,119,6,0.22); }
+.tag-launch { background: rgba(22,163,74,0.07); color: #16a34a; border: 0.5px solid rgba(22,163,74,0.22); }
+
+.post-date { font-size: 10px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; font-weight: 500; }
+.post-card-body { padding: 16px 28px 28px; flex: 1; display: flex; flex-direction: column; }
+.post-title { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 700; font-style: italic; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 10px; }
+.post-excerpt { font-size: 13px; color: var(--dim); line-height: 1.65; font-weight: 300; flex: 1; }
+.post-footer { padding: 12px 28px; border-top: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.post-author { font-size: 11px; color: var(--muted); font-weight: 400; }
+.post-read { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--yellow); display: flex; align-items: center; gap: 5px; transition: gap 0.2s; }
+.post-card:hover .post-read { gap: 8px; }
+.post-like { display: flex; align-items: center; gap: 5px; background: none; border: 0.5px solid var(--border); border-radius: 100px; padding: 5px 11px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 600; color: var(--dim); transition: all 0.2s; }
+.post-like:hover { border-color: rgba(184,137,12,0.4); color: var(--yellow); }
+.post-like.liked { background: rgba(245,197,24,0.12); border-color: rgba(184,137,12,0.35); color: var(--yellow); }
+.post-like .like-icon { font-size: 13px; line-height: 1; transition: transform 0.15s; }
+.post-like:hover .like-icon { transform: scale(1.25); }
+.post-like.liked .like-icon { transform: scale(1.15); }
+
+.posts-empty { grid-column: 1/-1; text-align: center; padding: 80px 20px; }
+.posts-empty-letter { font-family: 'Inter', sans-serif; font-size: 100px; font-style: italic; font-weight: 800; color: rgba(184,137,12,0.1); margin-bottom: 16px; }
+.posts-empty-text { font-size: 15px; color: var(--muted); font-weight: 300; }
+
+.nl-strip {
+  background: var(--bg2); border-top: 0.5px solid var(--border);
+  padding: 64px 80px; display: flex; align-items: center; justify-content: space-between; gap: 48px;
+}
+.nl-title { font-family: 'Inter', sans-serif; font-size: clamp(22px,2.8vw,34px); font-weight: 800; font-style: italic; letter-spacing: -0.03em; }
+.nl-title em { font-style: normal; color: var(--yellow); }
+.nl-sub { font-size: 13px; color: var(--dim); margin-top: 8px; font-weight: 300; }
+.nl-form { display: flex; gap: 10px; min-width: 340px; }
+.nl-input { flex: 1; background: #fff; border: 0.5px solid var(--border); border-radius: 8px; padding: 12px 16px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.2s; }
+.nl-input::placeholder { color: var(--muted); }
+.nl-input:focus { border-color: rgba(184,137,12,0.45); }
+.nl-btn { background: var(--yellow-fill); color: #111110; padding: 12px 20px; border-radius: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; border: none; transition: background 0.2s; white-space: nowrap; }
+.nl-btn:hover { background: var(--yellow); color: #fff; }
+
+footer { border-top: 0.5px solid var(--border); padding: 28px 80px; display: flex; align-items: center; justify-content: space-between; background: var(--bg); }
+.footer-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; }
+.footer-logo img { height: 22px; }
+.footer-copy { font-size: 11px; color: var(--muted); }
+.footer-lnk { font-size: 11px; color: var(--dim); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; font-weight: 600; }
+.footer-lnk:hover { color: var(--yellow); }
+
+@media (max-width: 900px) {
+  #nav { padding: 0 40px; }
+  .page-header { padding: 120px 40px 50px; }
+  .filter-bar { padding: 20px 40px; }
+  .posts-wrap { padding: 48px 40px 80px; }
+  .posts-grid { grid-template-columns: 1fr 1fr; }
+  .nl-strip { flex-direction: column; padding: 48px 40px; }
+  .nl-form { min-width: unset; width: 100%; }
+  footer { padding: 24px 40px; }
+}
+@media (max-width: 640px) {
+  #nav { padding: 0 20px; }
+  .page-header { padding: 100px 24px 40px; }
+  .filter-bar { padding: 16px 24px; }
+  .posts-wrap { padding: 32px 24px 60px; }
+  .posts-grid { grid-template-columns: 1fr; }
+  .nl-strip { padding: 40px 24px; }
+  .nl-form { flex-direction: column; }
+  footer { padding: 20px 24px; flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="3rstudio_v3.html">
+    <span class="logo-box">3R</span>
+    <span class="logo-studio">Studio</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-lnk active" href="blog.html" data-cs="Blog" data-en="Blog">Blog</a>
+    <a class="nav-lnk" href="3rstudio_v3.html" data-cs="← Studio" data-en="← Studio">← Studio</a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="cs" onclick="setLang('cs')">CZ</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="ph-eyebrow" data-cs="Blog & Devlog" data-en="Blog & Devlog">Blog & Devlog</div>
+  <h1 class="ph-title"><span data-cs="Zápisky" data-en="Notes">Zápisky</span><br><span data-cs="z" data-en="from">z</span> <em><span data-cs="tvoření." data-en="creating.">tvoření.</span></em></h1>
+  <p class="ph-sub" data-cs="Vývoj her, experimenty, myšlenky z cesty. Bez filtrování. Přidáváno průběžně." data-en="Game dev, experiments, thoughts on the journey. Unfiltered. Updated regularly.">Vývoj her, experimenty, myšlenky z cesty. Bez filtrování. Přidáváno průběžně.</p>
+</div>
+
+<div class="filter-bar">
+  <button class="f-btn active" data-filter="all" data-cs="Vše" data-en="All">Vše</button>
+  <button class="f-btn" data-filter="devlog" data-cs="Devlog" data-en="Devlog">Devlog</button>
+  <button class="f-btn" data-filter="launch" data-cs="Launch" data-en="Launch">Launch</button>
+  <button class="f-btn" data-filter="ai" data-cs="AI & Tech" data-en="AI & Tech">AI & Tech</button>
+</div>
+
+<div class="posts-wrap">
+  <div class="posts-grid" id="posts-grid">
+
+    <!--
+    ================================================================
+    BOT TEMPLATE — copy and fill in below:
+    Categories: devlog | launch | ai
+    ================================================================
+    <a class="post-card" href="blog-post-[ID].html" data-cat="[devlog|launch|ai]" data-post-id="[ID]">
+      <div class="post-card-top">
+        <span class="post-tag tag-[devlog|launch|ai]" data-cs="[Devlog|Launch|AI & Tech]" data-en="[Devlog|Launch|AI & Tech]">[Devlog|Launch|AI & Tech]</span>
+        <span class="post-date">[DD. MM. YYYY]</span>
+      </div>
+      <div class="post-card-body">
+        <div class="post-title" data-cs="[TITULEK CZ]" data-en="[TITLE EN]">[TITULEK CZ]</div>
+        <div class="post-excerpt" data-cs="[POPIS CZ]" data-en="[EXCERPT EN]">[POPIS CZ]</div>
+      </div>
+      <div class="post-footer">
+        <button class="post-like" onclick="toggleLike(event, '[ID]')" aria-label="Like">
+          <span class="like-icon">♡</span>
+          <span class="like-count">0</span>
+        </button>
+        <span class="post-read" data-cs="Číst →" data-en="Read →">Číst →</span>
+      </div>
+    </a>
+    ================================================================
+    -->
+
+    <!-- Placeholder — remove when first posts arrive -->
+    <div class="posts-empty">
+      <div class="posts-empty-letter">B</div>
+      <div class="posts-empty-text" data-cs="První zápisky brzy…" data-en="First posts coming soon…">První zápisky brzy…</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="nl-strip">
+  <div>
+    <div class="nl-title"><em><span data-cs="Nový post?" data-en="New post?">Nový post?</span></em><br><span data-cs="Hned víš." data-en="You'll know.">Hned víš.</span></div>
+    <div class="nl-sub" data-cs="Email při každém novém zápisku. Max 2× týdně." data-en="Email with every new post. Max 2× weekly.">Email při každém novém zápisku. Max 2× týdně.</div>
+  </div>
+  <form id="nl-form" onsubmit="submitNl(event)">
+    <div class="nl-form">
+      <input class="nl-input" type="email" id="nl-email" data-placeholder-cs="váš@email.cz" data-placeholder-en="your@email.com" placeholder="váš@email.cz" required>
+      <button class="nl-btn" type="submit" data-cs="Přihlásit" data-en="Subscribe">Přihlásit</button>
+    </div>
+  </form>
+</div>
+
+<footer>
+  <a href="3rstudio_v3.html" class="footer-logo" style="gap:8px;">
+    <span class="logo-box" style="font-size:12px;padding:3px 7px;">3R</span>
+    <span class="logo-studio" style="font-size:11px;">Studio</span>
+  </a>
+  <div class="footer-copy">© 2026 3R Studio</div>
+  <a class="footer-lnk" href="3rstudio_v3.html" data-cs="← Studio" data-en="← Studio">← Studio</a>
+</footer>
+
+<script>
+/* ===== LANGUAGE ===== */
+const LANG_KEY = '3rs-lang';
+let currentLang = localStorage.getItem(LANG_KEY) || 'cs';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem(LANG_KEY, lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-cs]').forEach(el => {
+    if (el.dataset[lang]) el.textContent = el.dataset[lang];
+  });
+  document.querySelectorAll('[data-placeholder-cs]').forEach(el => {
+    el.placeholder = lang === 'en' ? (el.dataset.placeholderEn || '') : (el.dataset.placeholderCs || '');
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+// Init language on load
+setLang(currentLang);
+
+/* ===== LIKES ===== */
+const LIKES_KEY = '3rs-blog-likes';
+
+function getLikes() {
+  try { return JSON.parse(localStorage.getItem(LIKES_KEY)) || {}; } catch(e) { return {}; }
+}
+
+function toggleLike(e, postId) {
+  e.preventDefault();
+  e.stopPropagation();
+  const btn = e.currentTarget;
+  const likes = getLikes();
+  const liked = !!likes[postId];
+  if (liked) {
+    delete likes[postId];
+  } else {
+    likes[postId] = 1;
+  }
+  localStorage.setItem(LIKES_KEY, JSON.stringify(likes));
+  applyLikeState(btn, postId, likes);
+}
+
+function applyLikeState(btn, postId, likes) {
+  const liked = !!likes[postId];
+  btn.classList.toggle('liked', liked);
+  const icon = btn.querySelector('.like-icon');
+  const count = btn.querySelector('.like-count');
+  if (icon) icon.textContent = liked ? '♥' : '♡';
+  if (count) {
+    const base = parseInt(btn.dataset.baseCount || '0', 10);
+    count.textContent = liked ? base + 1 : base;
+  }
+}
+
+function initLikes() {
+  const likes = getLikes();
+  document.querySelectorAll('.post-like').forEach(btn => {
+    const card = btn.closest('[data-post-id]');
+    if (!card) return;
+    const postId = card.dataset.postId;
+    const countEl = btn.querySelector('.like-count');
+    if (countEl) btn.dataset.baseCount = countEl.textContent || '0';
+    applyLikeState(btn, postId, likes);
+  });
+}
+
+initLikes();
+
+/* ===== FILTER ===== */
+let currentFilter = 'all';
+document.querySelectorAll('.f-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentFilter = btn.dataset.filter;
+    document.querySelectorAll('.f-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === currentFilter));
+    document.querySelectorAll('.post-card[data-cat]').forEach(card => {
+      card.style.display = (currentFilter === 'all' || card.dataset.cat === currentFilter) ? '' : 'none';
+    });
+  });
+});
+
+/* ===== SCROLL REVEAL ===== */
+const cardObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); cardObserver.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.post-card').forEach((c, i) => {
+  c.style.transitionDelay = (i % 3) * 80 + 'ms';
+  cardObserver.observe(c);
+});
+
+/* ===== NEWSLETTER ===== */
+const NL_URL = 'https://n8n.3rstudio.eu/webhook/newsletter';
+async function submitNl(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.nl-btn');
+  const email = document.getElementById('nl-email').value;
+  const sending = currentLang === 'en' ? 'Sending…' : 'Odesílám…';
+  const ok = currentLang === 'en' ? '✓ Subscribed!' : '✓ Přihlášen!';
+  const err = currentLang === 'en' ? 'Error — try again' : 'Chyba — zkus znovu';
+  btn.textContent = sending; btn.disabled = true;
+  try {
+    await fetch(NL_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ email, source: 'blog', lang: currentLang }) });
+    btn.textContent = ok;
+    document.getElementById('nl-email').value = '';
+  } catch {
+    btn.textContent = err; btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

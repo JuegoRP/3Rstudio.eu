@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Gream — Vzdělávací mobilní hra pro děti. Hravé učení s gamifikací. iOS & Android. 3R Studio.">
+<meta property="og:title" content="Gream — 3R Studio">
+<meta property="og:description" content="Vzdělávací mobilní hra pro děti. Launch srpen 2026 App Store & Google Play.">
+<title>Gream — 3R Studio</title>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+  gtag('event', 'project_view', { project: 'gream' });
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --teal: #0891b2; --teal-fill: #06b6d4; --teal-light: rgba(8,145,178,0.1);
+  --bg: #f8f6f2; --bg2: #f0f7f9; --bg3: #e1f0f4;
+  --text: #111110; --dim: rgba(17,17,16,0.52); --muted: rgba(17,17,16,0.36);
+  --border: rgba(17,17,16,0.09);
+  --r: 10px; --r-lg: 16px; --r-xl: 22px;
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 2px; }
+
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; background: rgba(248,246,242,0.92);
+  backdrop-filter: blur(20px); border-bottom: 0.5px solid var(--border); z-index: 100;
+}
+.nav-back {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--dim); text-decoration: none; transition: color 0.2s;
+}
+.nav-back:hover { color: var(--teal); }
+.nav-back svg { transition: transform 0.2s; }
+.nav-back:hover svg { transform: translateX(-3px); }
+.nav-logo { display: flex; align-items: center; text-decoration: none; }
+.nav-logo img { height: 26px; }
+
+#hero {
+  min-height: 88vh; display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 120px 80px 72px; position: relative; overflow: hidden;
+  background: var(--bg2);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(8,145,178,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(8,145,178,0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.hero-glow { position: absolute; width: 600px; height: 600px; top: -150px; right: -150px; background: radial-gradient(circle, rgba(6,182,212,0.14) 0%, transparent 65%); pointer-events: none; }
+.hero-letter {
+  position: absolute; bottom: -80px; right: -20px;
+  font-family: 'Inter', sans-serif; font-size: clamp(240px,28vw,420px);
+  font-style: italic; font-weight: 800; color: rgba(8,145,178,0.07); line-height: 1; pointer-events: none; user-select: none;
+}
+
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
+.hero-breadcrumb {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+}
+.hero-breadcrumb a { color: var(--teal); text-decoration: none; }
+.hero-breadcrumb a:hover { text-decoration: underline; }
+
+.hero-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--teal); background: var(--teal-light); border: 0.5px solid rgba(8,145,178,0.3);
+  padding: 6px 14px; border-radius: 100px; margin-bottom: 20px;
+}
+.s-dot { width: 4px; height: 4px; background: var(--teal); border-radius: 50%; animation: blink 1.5s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+
+.hero-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(60px, 9.5vw, 140px);
+  font-weight: 800; font-style: italic; line-height: 0.9; letter-spacing: -0.04em; margin-bottom: 20px;
+  color: var(--teal);
+}
+.hero-sub-title { font-size: clamp(14px, 1.8vw, 18px); color: var(--dim); font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 28px; }
+.hero-desc { font-size: 17px; color: var(--dim); line-height: 1.75; max-width: 580px; margin-bottom: 40px; font-weight: 300; }
+.hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+.btn-primary {
+  background: var(--teal); color: #fff; padding: 14px 32px; border-radius: 8px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; border: none; transition: background 0.2s, transform 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { background: #0e7490; transform: translateY(-2px); }
+.btn-ghost {
+  background: transparent; color: var(--dim); padding: 14px 24px; border-radius: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; border: 0.5px solid var(--border); transition: border-color 0.2s, color 0.2s;
+}
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+.hero-stats { display: flex; gap: 40px; margin-top: 48px; }
+.hstat-n { font-family: 'Inter', sans-serif; font-size: 36px; font-style: italic; font-weight: 800; color: var(--teal); line-height: 1; margin-bottom: 4px; }
+.hstat-l { font-size: 10px; letter-spacing: 0.22em; color: var(--muted); text-transform: uppercase; font-weight: 500; }
+
+.page-content { max-width: 1200px; margin: 0 auto; padding: 80px 80px 120px; }
+
+.cs-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.3em; color: var(--teal); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.cs-eyebrow::before { content: ''; width: 16px; height: 1px; background: var(--teal); }
+.cs-title { font-family: 'Inter', sans-serif; font-size: clamp(24px, 3vw, 38px); font-weight: 800; font-style: italic; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 40px; }
+.cs-title em { font-style: normal; color: var(--teal); }
+
+.about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; margin-bottom: 80px; align-items: start; }
+.about-text { font-size: 16px; color: var(--dim); line-height: 1.8; font-weight: 300; margin-bottom: 20px; }
+
+.meta-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.meta-card { background: #fff; border: 0.5px solid var(--border); border-radius: var(--r); padding: 16px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.meta-lbl { font-size: 9px; letter-spacing: 0.28em; color: var(--muted); text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
+.meta-val { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--text); }
+
+.features-list { display: flex; flex-direction: column; border: 0.5px solid var(--border); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 80px; background: #fff; }
+.feature-item { display: flex; align-items: flex-start; gap: 20px; padding: 22px 28px; border-bottom: 0.5px solid var(--border); transition: background 0.2s; }
+.feature-item:last-child { border-bottom: none; }
+.feature-item:hover { background: var(--teal-light); }
+.fi-num { font-family: 'Inter', sans-serif; font-style: italic; font-weight: 800; font-size: 22px; color: rgba(8,145,178,0.4); min-width: 32px; }
+.fi-title { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 5px; color: var(--text); }
+.fi-desc { font-size: 13px; color: var(--dim); line-height: 1.65; font-weight: 300; }
+
+.preview-area {
+  background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r-xl);
+  overflow: hidden; margin-bottom: 80px; position: relative;
+  min-height: 400px; display: flex; align-items: center; justify-content: center;
+}
+.preview-grid-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(8,145,178,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(8,145,178,0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.preview-letter { font-family: 'Inter', sans-serif; font-size: 120px; font-style: italic; font-weight: 800; color: rgba(8,145,178,0.12); line-height: 1; margin-bottom: 16px; text-align: center; }
+.preview-hint { font-size: 12px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; font-weight: 500; text-align: center; }
+
+.notify-form { display: flex; gap: 10px; max-width: 480px; margin-bottom: 12px; }
+.n-input {
+  flex: 1; background: #fff; border: 0.5px solid var(--border); border-radius: 8px;
+  padding: 13px 16px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text);
+  outline: none; transition: border-color 0.2s;
+}
+.n-input::placeholder { color: var(--muted); }
+.n-input:focus { border-color: rgba(8,145,178,0.5); }
+.n-btn {
+  background: var(--teal); color: #fff; padding: 13px 22px; border-radius: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; border: none; transition: background 0.2s, transform 0.2s; white-space: nowrap;
+}
+.n-btn:hover { background: #0e7490; transform: translateY(-1px); }
+.n-msg { font-size: 12px; color: var(--teal); display: none; margin-top: 8px; font-weight: 600; }
+.n-note { font-size: 11px; color: var(--muted); font-weight: 300; margin-top: 8px; }
+
+.store-badges { display: flex; gap: 10px; margin-top: 24px; }
+.store-badge {
+  display: flex; align-items: center; gap: 10px; padding: 12px 20px;
+  background: #fff; border: 0.5px solid var(--border); border-radius: var(--r);
+  cursor: pointer; transition: border-color 0.2s; text-decoration: none; color: inherit;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.store-badge:hover { border-color: rgba(8,145,178,0.35); }
+.store-badge svg { color: var(--teal); }
+.sb-lbl { font-size: 9px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
+.sb-name { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; color: var(--text); }
+
+.press-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 40px; }
+.press-item { background: #fff; border: 0.5px solid var(--border); border-radius: var(--r); padding: 20px 22px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: border-color 0.2s; }
+.press-item:hover { border-color: rgba(8,145,178,0.3); }
+.press-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; color: var(--text); }
+.press-format { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.press-icon { font-size: 18px; color: var(--muted); transition: all 0.2s; }
+.press-item:hover .press-icon { color: var(--teal); transform: translate(2px,-2px); }
+
+.cta-strip { background: var(--bg2); border: 0.5px solid rgba(8,145,178,0.2); border-radius: var(--r-xl); padding: 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+
+.other-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 40px; }
+.other-card { background: #fff; border: 0.5px solid var(--border); border-radius: var(--r-lg); padding: 22px; text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.other-card:hover { border-color: rgba(8,145,178,0.35); transform: translateY(-2px); }
+.oc-letter { font-family: 'Inter', sans-serif; font-style: italic; font-weight: 800; font-size: 30px; color: var(--teal); margin-bottom: 10px; }
+.oc-name { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.01em; color: var(--text); }
+.oc-type { font-size: 11px; color: var(--dim); }
+
+.divider { height: 1px; background: linear-gradient(to right, transparent, rgba(8,145,178,0.2), transparent); margin: 80px 0; }
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  #hero { padding: 100px 40px 60px; }
+  .page-content { padding: 60px 40px 80px; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .press-grid { grid-template-columns: 1fr 1fr; }
+  .other-grid { grid-template-columns: 1fr 1fr; }
+  .cta-strip { flex-direction: column; }
+}
+@media (max-width: 640px) {
+  #hero { padding: 100px 24px 48px; }
+  #nav { padding: 0 24px; }
+  .page-content { padding: 40px 24px 60px; }
+  .meta-cards { grid-template-columns: 1fr; }
+  .press-grid { grid-template-columns: 1fr; }
+  .other-grid { grid-template-columns: 1fr; }
+  .notify-form { flex-direction: column; }
+  .store-badges { flex-direction: column; }
+  .hero-stats { flex-wrap: wrap; gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-back" href="3rstudio_v3.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    3R Studio
+  </a>
+  <a class="nav-logo" href="3rstudio_v3.html"><img src="logo-dark.png" alt="3R Studio"></a>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-letter">G</div>
+  <div class="hero-content">
+    <div class="hero-breadcrumb">
+      <a href="3rstudio_v3.html">3R Studio</a> / Projekty / Gream
+    </div>
+    <div class="hero-status"><div class="s-dot"></div> Pre-launch · Srpen 2026</div>
+    <h1 class="hero-title">Gream</h1>
+    <div class="hero-sub-title">Vzdělávací mobilní hra · iOS · Android</div>
+    <p class="hero-desc">Hravé učení pro děti. Gamifikace s reálnými vzdělávacími obsahy. Navrženo pro každodenní 10–15 min. session s rodinou. Launch App Store & Google Play srpen 2026.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('notify-section').scrollIntoView({behavior:'smooth'});gtag('event','notify_intent',{project:'gream'})">Chci být upozorněn →</button>
+      <button class="btn-ghost" onclick="document.getElementById('press').scrollIntoView({behavior:'smooth'})">Press Kit</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">iOS</div><div class="hstat-l">App Store</div></div>
+      <div class="hstat"><div class="hstat-n">Android</div><div class="hstat-l">Google Play</div></div>
+      <div class="hstat"><div class="hstat-n">'26</div><div class="hstat-l">Launch rok</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="page-content">
+
+  <section class="reveal">
+    <div class="cs-eyebrow">O projektu</div>
+    <div class="about-grid">
+      <div>
+        <p class="about-text">Gream je vzdělávací PWA aplikace zaměřená na hravé učení pro děti. Kombinuje gamifikaci s reálnými vzdělávacími obsahy — čtení, počítání, logika — v krátkých, zábavných sessionech navržených pro každodenní rodinné využití.</p>
+        <p class="about-text">Cílem je 10–15 minut denně s dítětem. Žádné reklamy, žádný pay-to-win, žádné energetické systémy. Čistý zážitek s reálnou vzdělávací hodnotou.</p>
+        <p class="about-text">Offline funkčnost díky PWA architektuře. Funguje i bez připojení — ideální pro cestování nebo místa se slabým signálem.</p>
+      </div>
+      <div class="meta-cards">
+        <div class="meta-card"><div class="meta-lbl">Status</div><div class="meta-val">Pre-launch</div></div>
+        <div class="meta-card"><div class="meta-lbl">Platforma</div><div class="meta-val">iOS · Android</div></div>
+        <div class="meta-card"><div class="meta-lbl">Distribuce</div><div class="meta-val">App Store · Play</div></div>
+        <div class="meta-card"><div class="meta-lbl">Cílovka</div><div class="meta-val">Děti & rodiče</div></div>
+        <div class="meta-card"><div class="meta-lbl">Tech</div><div class="meta-val">React Native · PWA</div></div>
+        <div class="meta-card"><div class="meta-lbl">Release</div><div class="meta-val">Srpen 2026</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="reveal">
+    <div class="cs-eyebrow">Preview</div>
+    <h2 class="cs-title">Screenshoty & <em>design.</em></h2>
+    <div class="preview-area">
+      <div class="preview-grid-bg"></div>
+      <div>
+        <div class="preview-letter">G</div>
+        <div class="preview-hint">Screenshoty budou přidány před launchem</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="cs-eyebrow">Klíčové rysy</div>
+    <h2 class="cs-title">Co dělá Gream <em>jiným.</em></h2>
+    <div class="features-list">
+      <div class="feature-item">
+        <div class="fi-num">01</div>
+        <div class="fi-content">
+          <div class="fi-title">Gamifikované učení s denním odměnovým systémem</div>
+          <div class="fi-desc">Každá dokončená session přináší odměnu. Vizuální progress, sbíratelné prvky a milníky motivují bez závislosti.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-num">02</div>
+        <div class="fi-content">
+          <div class="fi-title">Offline funkčnost (PWA)</div>
+          <div class="fi-desc">Aplikace funguje bez internetu. Stáhne si obsah předem a synchronizuje progress až bude připojení k dispozici.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-num">03</div>
+        <div class="fi-content">
+          <div class="fi-title">10–15 min. session navržena pro rodinu</div>
+          <div class="fi-desc">Každá session je krátká a soustředěná. Ideální pro ráno před školou nebo večerní rutinu. Rodiče vidí progress.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-num">04</div>
+        <div class="fi-content">
+          <div class="fi-title">Žádné reklamy, žádný pay-to-win</div>
+          <div class="fi-desc">Čistý zážitek. Model: Freemium s jednorázovým odemčením. Žádné předplatné, žádné reklamy pro děti.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="fi-num">05</div>
+        <div class="fi-content">
+          <div class="fi-title">Reálný vzdělávací obsah</div>
+          <div class="fi-desc">Hry nejsou jen zábava — každá aktivita má konkrétní vzdělávací záměr mapovaný na školní curriculum.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="notify-section" class="reveal">
+    <div class="cs-eyebrow">Upozornění při launch</div>
+    <h2 class="cs-title">Chci být <em>první.</em></h2>
+    <p style="font-size:16px;color:var(--dim);font-weight:300;max-width:480px;margin-bottom:28px;line-height:1.7;">Zadej email a pošleme ti upozornění v den launche. Žádný spam — jen jeden email.</p>
+
+    <form id="notify-form" onsubmit="submitNotify(event)">
+      <div class="notify-form">
+        <input class="n-input" type="email" id="n-email" placeholder="váš@email.cz" required autocomplete="email">
+        <button class="n-btn" type="submit">Upozornit mě →</button>
+      </div>
+      <div class="n-msg" id="n-msg"></div>
+      <p class="n-note">Odhlásit se jedním klikem · Žádný spam</p>
+    </form>
+
+    <div class="store-badges">
+      <a class="store-badge" href="#" onclick="gtag('event','appstore_intent',{project:'gream'})">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12l3 3 5-6"/></svg>
+        <div><div class="sb-lbl">Dostupné na</div><div class="sb-name">App Store</div></div>
+      </a>
+      <a class="store-badge" href="#" onclick="gtag('event','playstore_intent',{project:'gream'})">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <div><div class="sb-lbl">Dostupné na</div><div class="sb-name">Google Play</div></div>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="press" class="reveal">
+    <div class="cs-eyebrow">Press Kit</div>
+    <h2 class="cs-title">Pro <em>média.</em></h2>
+    <div class="press-grid">
+      <div class="press-item"><div><div class="press-name">Logo Gream</div><div class="press-format">SVG · PNG</div></div><div class="press-icon">↓</div></div>
+      <div class="press-item"><div><div class="press-name">Screenshoty</div><div class="press-format">PNG · iOS · Android</div></div><div class="press-icon">↓</div></div>
+      <div class="press-item"><div><div class="press-name">App preview video</div><div class="press-format">MP4 · Brzy</div></div><div class="press-icon">↓</div></div>
+      <div class="press-item"><div><div class="press-name">Factsheet</div><div class="press-format">PDF · CZ · EN</div></div><div class="press-icon">↓</div></div>
+      <div class="press-item"><div><div class="press-name">Feature graphic</div><div class="press-format">PNG · 1024×500</div></div><div class="press-icon">↓</div></div>
+      <div class="press-item"><div><div class="press-name">App icon</div><div class="press-format">PNG · 1024×1024</div></div><div class="press-icon">↓</div></div>
+    </div>
+    <p style="font-size:13px;color:var(--dim);font-weight:300;">Press dotazy: <a href="mailto:press@3rstudio.eu" style="color:var(--teal);text-decoration:none;font-weight:600;">press@3rstudio.eu</a></p>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="cta-strip reveal">
+    <div>
+      <div class="cs-eyebrow">Launch · Srpen 2026</div>
+      <div class="cs-title" style="margin-bottom:8px;">Sleduj <em>Gream.</em></div>
+      <div style="font-size:15px;color:var(--dim);font-weight:300;">Zaregistruj zájem a dostaneš první přístup.</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap;">
+      <button class="btn-primary" onclick="document.getElementById('notify-section').scrollIntoView({behavior:'smooth'})">Upozornit mě →</button>
+      <button class="btn-ghost" onclick="document.getElementById('press').scrollIntoView({behavior:'smooth'})">Press Kit</button>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="reveal">
+    <div class="cs-eyebrow">Další projekty</div>
+    <h2 class="cs-title">Víc od <em>3R Studio.</em></h2>
+    <div class="other-grid">
+      <a class="other-card" href="conflux.html">
+        <div class="oc-letter" style="color:#b8890c">C</div>
+        <div class="oc-name">CONFLUX</div>
+        <div class="oc-type">Narativní karetní hra · PC</div>
+      </a>
+      <a class="other-card" href="#">
+        <div class="oc-letter" style="color:#b8890c">R</div>
+        <div class="oc-name">RECHO</div>
+        <div class="oc-type">Gothic Sci-Fi Action RPG · PC</div>
+      </a>
+      <a class="other-card" href="#">
+        <div class="oc-letter" style="color:#7c3aed">Ψ</div>
+        <div class="oc-name">PULSE</div>
+        <div class="oc-type">AI agent · Experiment</div>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<footer style="border-top:0.5px solid var(--border);padding:28px 80px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);">
+  <a href="3rstudio_v3.html"><img src="logo-dark.png" alt="3R Studio" style="height:22px;"></a>
+  <div style="font-size:11px;color:var(--muted);">© 2026 3R Studio · ČR</div>
+  <a href="3rstudio_v3.html" style="font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color=''">← Zpět na studio</a>
+</footer>
+
+<script>
+const NL_URL = 'https://n8n.3rstudio.eu/webhook/newsletter';
+async function submitNotify(e) {
+  e.preventDefault();
+  const email = document.getElementById('n-email').value;
+  const msg = document.getElementById('n-msg');
+  const btn = e.target.querySelector('.n-btn');
+  btn.textContent = 'Odesílám…'; btn.disabled = true;
+  try {
+    await fetch(NL_URL, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ email, source: 'gream-launch' }) });
+    msg.style.display = 'block';
+    msg.textContent = '✓ Upozornění nastaveno. Dáme vědět při launchi!';
+    document.getElementById('n-email').value = '';
+    gtag('event', 'notify_signup', { project: 'gream' });
+  } catch {
+    msg.style.display = 'block'; msg.style.color = '#dc2626';
+    msg.textContent = 'Chyba — zkus to znovu.';
+  }
+  btn.textContent = 'Upozornit mě →'; btn.disabled = false;
+}
+
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BOT: vyplň description a title -->
+<meta name="description" content="[POPIS PŘÍSPĚVKU — 1–2 věty pro SEO]">
+<title>[TITULEK PŘÍSPĚVKU] — Blog 3R Studio</title>
+
+<!-- BOT: zachovat beze změny -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --yellow: #b8890c; --yellow-fill: #f5c518;
+  --bg: #f8f6f2; --bg2: #f1ede6; --bg3: #e8e3db;
+  --text: #111110; --dim: rgba(17,17,16,0.52); --muted: rgba(17,17,16,0.36);
+  --border: rgba(17,17,16,0.09);
+  --r: 10px; --r-lg: 16px;
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--yellow); border-radius: 2px; }
+
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px; background: rgba(248,246,242,0.92);
+  backdrop-filter: blur(20px); border-bottom: 0.5px solid var(--border); z-index: 100;
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.logo-box { background: var(--yellow-fill); color: #111; font-family: 'Inter', sans-serif; font-weight: 800; font-style: italic; font-size: 14px; letter-spacing: -0.04em; padding: 4px 8px; border-radius: 5px; line-height: 1.1; }
+.logo-studio { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
+.lang-toggle { display: flex; gap: 2px; margin-left: 8px; }
+.lang-btn { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 9px; border-radius: 5px; background: transparent; border: 0.5px solid var(--border); color: var(--muted); cursor: pointer; transition: all 0.2s; }
+.lang-btn:hover { color: var(--text); border-color: rgba(17,17,16,0.2); }
+.lang-btn.active { background: var(--yellow-fill); color: #111; border-color: var(--yellow-fill); }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-lnk { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--dim); text-decoration: none; transition: color 0.2s; }
+.nav-lnk:hover { color: var(--yellow); }
+.nav-lnk.active { color: var(--text); }
+
+.back-strip { padding: 96px 80px 0; display: flex; align-items: center; gap: 12px; }
+.back-lnk {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--dim); text-decoration: none; display: flex; align-items: center; gap: 7px; transition: color 0.2s;
+}
+.back-lnk:hover { color: var(--yellow); }
+.back-lnk svg { transition: transform 0.2s; }
+.back-lnk:hover svg { transform: translateX(-3px); }
+.back-sep { color: var(--muted); font-size: 11px; }
+.back-cur { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; }
+
+.post-header { padding: 36px 80px 56px; max-width: 800px; border-bottom: 0.5px solid var(--border); }
+.post-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+.post-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; }
+.tag-devlog { background: rgba(184,137,12,0.1); color: var(--yellow); border: 0.5px solid rgba(184,137,12,0.28); }
+.tag-theory { background: rgba(124,58,237,0.08); color: #7c3aed; border: 0.5px solid rgba(124,58,237,0.22); }
+.tag-music { background: rgba(8,145,178,0.08); color: #0891b2; border: 0.5px solid rgba(8,145,178,0.22); }
+.tag-essay { background: rgba(17,17,16,0.05); color: var(--dim); border: 0.5px solid var(--border); }
+.tag-ai { background: rgba(217,119,6,0.08); color: #d97706; border: 0.5px solid rgba(217,119,6,0.22); }
+.post-date-big { font-size: 10px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; font-weight: 500; }
+.post-read-time { font-size: 10px; color: var(--muted); letter-spacing: 0.08em; }
+
+.post-h1 {
+  font-family: 'Inter', sans-serif; font-size: clamp(28px, 4.5vw, 56px);
+  font-weight: 800; font-style: italic; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 20px;
+}
+.post-h1 em { font-style: normal; color: var(--yellow); }
+
+.post-lead { font-size: 17px; color: var(--dim); font-weight: 300; line-height: 1.75; max-width: 600px; margin-bottom: 28px; }
+
+.post-author-row { display: flex; align-items: center; gap: 12px; }
+.author-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--bg3); border: 0.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Inter', sans-serif; font-style: italic; font-weight: 800; font-size: 16px; color: var(--yellow);
+}
+.author-info-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.author-info-role { font-size: 11px; color: var(--muted); font-weight: 300; }
+
+.article-wrap { display: grid; grid-template-columns: 1fr 280px; gap: 0; max-width: 1100px; align-items: start; }
+
+.article-body { padding: 60px 80px 80px; max-width: 800px; border-right: 0.5px solid var(--border); }
+.article-body h2 {
+  font-family: 'Inter', sans-serif; font-size: 24px; font-weight: 800; font-style: italic;
+  letter-spacing: -0.02em; margin: 48px 0 16px; line-height: 1.15; color: var(--text);
+}
+.article-body h2:first-child { margin-top: 0; }
+.article-body h3 { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; margin: 32px 0 12px; color: var(--text); }
+.article-body p { font-size: 16px; color: var(--dim); line-height: 1.8; font-weight: 300; margin-bottom: 20px; }
+.article-body p strong { color: var(--text); font-weight: 600; }
+.article-body p a { color: var(--yellow); text-decoration: none; border-bottom: 0.5px solid rgba(184,137,12,0.35); transition: border-color 0.2s; }
+.article-body p a:hover { border-color: var(--yellow); }
+.article-body ul, .article-body ol { padding-left: 24px; margin-bottom: 20px; }
+.article-body li { font-size: 16px; color: var(--dim); line-height: 1.75; font-weight: 300; margin-bottom: 6px; }
+.article-body li::marker { color: var(--yellow); }
+.article-body blockquote {
+  border-left: 2px solid var(--yellow); padding: 16px 24px;
+  margin: 32px 0; background: rgba(184,137,12,0.05); border-radius: 0 var(--r) var(--r) 0;
+}
+.article-body blockquote p {
+  font-family: 'Inter', sans-serif; font-size: 19px; font-style: italic; font-weight: 700;
+  color: var(--text); line-height: 1.5; margin-bottom: 0;
+}
+.article-body pre { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--r); padding: 20px 24px; margin: 24px 0; overflow-x: auto; }
+.article-body code { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px; color: #7c3aed; line-height: 1.7; }
+.article-body p code { background: var(--bg3); border: 0.5px solid var(--border); border-radius: 4px; padding: 2px 7px; font-size: 13px; color: #7c3aed; }
+.article-body hr { border: none; border-top: 0.5px solid var(--border); margin: 48px 0; }
+
+.img-block { background: var(--bg3); border: 0.5px solid var(--border); border-radius: var(--r-lg); aspect-ratio: 16/9; margin: 32px 0; display: flex; align-items: center; justify-content: center; }
+.img-block-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+
+.highlight-box { background: rgba(184,137,12,0.07); border: 0.5px solid rgba(184,137,12,0.2); border-radius: var(--r-lg); padding: 24px 28px; margin: 32px 0; }
+.highlight-box p { margin-bottom: 0; color: var(--text); font-weight: 400; }
+
+.article-sidebar { padding: 60px 40px; position: sticky; top: 80px; align-self: start; }
+.sidebar-section { margin-bottom: 40px; }
+.sidebar-label { font-size: 9px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+.toc-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.toc-list li a { font-size: 12px; color: var(--dim); text-decoration: none; line-height: 1.4; transition: color 0.2s; display: block; }
+.toc-list li a:hover { color: var(--yellow); }
+.toc-list li a.active { color: var(--yellow); font-weight: 600; }
+
+.sidebar-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.sidebar-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; background: var(--bg3); border: 0.5px solid var(--border); color: var(--dim); }
+
+.share-btns { display: flex; flex-direction: column; gap: 8px; }
+.share-btn {
+  display: flex; align-items: center; gap: 9px; padding: 9px 14px;
+  background: #fff; border: 0.5px solid var(--border); border-radius: var(--r);
+  font-size: 11px; font-weight: 600; color: var(--dim); cursor: pointer;
+  transition: all 0.2s; text-decoration: none; letter-spacing: 0.04em;
+}
+.share-btn:hover { border-color: rgba(184,137,12,0.4); color: var(--yellow); }
+
+.related-wrap { border-top: 0.5px solid var(--border); padding: 64px 80px 80px; }
+.related-label { font-size: 10px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+.related-label::before { content: ''; width: 18px; height: 1px; background: var(--border); }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.related-card { background: #fff; border: 0.5px solid var(--border); border-radius: var(--r-lg); padding: 20px; text-decoration: none; color: inherit; transition: border-color 0.25s, transform 0.25s; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.related-card:hover { border-color: rgba(184,137,12,0.35); transform: translateY(-2px); }
+.related-card-tag { font-size: 9px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 10px; display: block; }
+.related-card-title { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; font-style: italic; letter-spacing: -0.01em; line-height: 1.25; margin-bottom: 8px; }
+.related-card-date { font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+.nl-strip { background: var(--bg2); border-top: 0.5px solid var(--border); padding: 64px 80px; display: flex; align-items: center; justify-content: space-between; gap: 48px; }
+.nl-title { font-family: 'Inter', sans-serif; font-size: clamp(22px,2.8vw,34px); font-weight: 800; font-style: italic; letter-spacing: -0.03em; }
+.nl-title em { font-style: normal; color: var(--yellow); }
+.nl-sub { font-size: 13px; color: var(--dim); margin-top: 8px; font-weight: 300; }
+.nl-form { display: flex; gap: 10px; min-width: 340px; }
+.nl-input { flex: 1; background: #fff; border: 0.5px solid var(--border); border-radius: 8px; padding: 12px 16px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.2s; }
+.nl-input::placeholder { color: var(--muted); }
+.nl-input:focus { border-color: rgba(184,137,12,0.45); }
+.nl-btn { background: var(--yellow-fill); color: #111110; padding: 12px 20px; border-radius: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; border: none; transition: background 0.2s; white-space: nowrap; }
+.nl-btn:hover { background: var(--yellow); color: #fff; }
+
+footer { border-top: 0.5px solid var(--border); padding: 28px 80px; display: flex; align-items: center; justify-content: space-between; background: var(--bg); }
+.footer-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.footer-copy { font-size: 11px; color: var(--muted); }
+.footer-lnk { font-size: 11px; color: var(--dim); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; font-weight: 600; }
+.footer-lnk:hover { color: var(--yellow); }
+
+@media (max-width: 1024px) {
+  .article-wrap { grid-template-columns: 1fr; }
+  .article-sidebar { display: none; }
+  .article-body { border-right: none; }
+  .related-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  #nav { padding: 0 40px; }
+  .back-strip { padding: 88px 40px 0; }
+  .post-header { padding: 28px 40px 48px; }
+  .article-body { padding: 48px 40px 60px; }
+  .related-wrap { padding: 48px 40px 60px; }
+  .nl-strip { flex-direction: column; padding: 48px 40px; }
+  .nl-form { min-width: unset; width: 100%; }
+  footer { padding: 24px 40px; }
+}
+@media (max-width: 640px) {
+  #nav { padding: 0 20px; }
+  .back-strip { padding: 80px 24px 0; }
+  .post-header { padding: 20px 24px 36px; }
+  .article-body { padding: 36px 24px 48px; }
+  .related-wrap { padding: 36px 24px 48px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .nl-strip { padding: 40px 24px; }
+  .nl-form { flex-direction: column; }
+  footer { padding: 20px 24px; flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!--
+================================================================
+POKYNY PRO BOTY — JAK VYPLNIT TUTO ŠABLONU
+================================================================
+1. Zkopíruj tento soubor jako: blog-post-[ID].html
+   Příklad: blog-post-conflux-01.html
+
+2. Nahraď všechny výrazy v hranatých závorkách [] vlastním obsahem.
+
+3. Povinné pole:
+   - <title>       → titulek příspěvku
+   - meta description → 1–2 věty pro SEO
+   - post-tag class → tag-devlog | tag-theory | tag-music | tag-essay | tag-ai
+   - post-date-big → datum ve formátu "DD. MM. YYYY"
+   - post-read-time → odhadovaná doba čtení, např. "5 min čtení"
+   - post-h1       → hlavní nadpis (lze použít <em> pro žlutou barvu)
+   - post-lead     → krátký intro odstavec, 2–3 věty
+   - author-avatar → iniciála autora (jedno písmeno)
+   - article-body  → vlastní obsah (viz HTML tagy níže)
+   - GA4 event     → post_id a category ve skriptu na konci
+
+4. Volitelné sekce:
+   - .toc-list     → obsah — vyplň nebo odeber celou .sidebar-section
+   - .related-grid → 3 příbuzné příspěvky — vyplň nebo odeber celou .related-wrap
+   - .img-block    → nahraď <img> tagem jakmile jsou obrázky k dispozici
+
+5. HTML tagy pro tělo článku:
+   <h2>Nadpis sekce</h2>
+   <h3>Podnadpis</h3>
+   <p>Odstavec textu.</p>
+   <ul><li>Odrážka</li></ul>
+   <ol><li>Číslovaný bod</li></ol>
+   <blockquote><p>Citát nebo zvýraznění.</p></blockquote>
+   <pre><code>// kódový blok</code></pre>
+   <div class="img-block"><span class="img-block-label">[Popis obrázku]</span></div>
+   <div class="highlight-box"><p>Zvýrazněný text / tip / upozornění.</p></div>
+   <hr>
+================================================================
+-->
+
+<nav id="nav">
+  <a class="nav-logo" href="3rstudio_v3.html">
+    <span class="logo-box">3R</span>
+    <span class="logo-studio">Studio</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-lnk active" href="blog.html" data-cs="Blog" data-en="Blog">Blog</a>
+    <a class="nav-lnk" href="3rstudio_v3.html" data-cs="← Studio" data-en="← Studio">← Studio</a>
+    <a class="nav-lnk" href="mailto:hello@3rstudio.eu" data-cs="Kontakt" data-en="Contact">Kontakt</a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="cs" onclick="setLang('cs')">CZ</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="back-strip">
+  <a class="back-lnk" href="blog.html">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Blog
+  </a>
+  <span class="back-sep">/</span>
+  <!-- BOT: zkopíruj titulek příspěvku -->
+  <span class="back-cur">[TITULEK PŘÍSPĚVKU]</span>
+</div>
+
+<div class="post-header">
+  <div class="post-meta">
+    <!-- BOT: tag-devlog | tag-theory | tag-music | tag-essay | tag-ai -->
+    <span class="post-tag tag-devlog">[Devlog|Teorie|Hudba|Esej|AI]</span>
+    <!-- BOT: datum, DD. MM. YYYY -->
+    <span class="post-date-big">[DD. MM. YYYY]</span>
+    <!-- BOT: odhadovaná doba čtení -->
+    <span class="post-read-time">· [X min čtení]</span>
+  </div>
+
+  <!-- BOT: hlavní nadpis, lze použít <em> pro žlutou barvu -->
+  <h1 class="post-h1">[TITULEK <em>PŘÍSPĚVKU</em>]</h1>
+
+  <!-- BOT: krátký intro, 2–3 věty -->
+  <p class="post-lead">[KRÁTKÝ INTRO ODSTAVEC — 2–3 věty, přehled o čem příspěvek je.]</p>
+
+  <div class="post-author-row">
+    <div class="author-avatar">R</div>
+    <div>
+      <div class="author-info-name">Roman Pavlorek</div>
+      <div class="author-info-role">Herní designér & zakladatel 3R Studio</div>
+    </div>
+  </div>
+</div>
+
+<div class="article-wrap">
+
+  <aside class="article-sidebar">
+    <!-- BOT: vyplň obsah nebo odeber celou sekci -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">Obsah</div>
+      <ul class="toc-list" id="toc">
+        <li><a href="#sekce-1">[Název sekce 1]</a></li>
+        <li><a href="#sekce-2">[Název sekce 2]</a></li>
+        <li><a href="#sekce-3">[Název sekce 3]</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Tagy</div>
+      <div class="sidebar-tags">
+        <span class="sidebar-tag">[Tag 1]</span>
+        <span class="sidebar-tag">[Tag 2]</span>
+        <span class="sidebar-tag">[Tag 3]</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Sdílet</div>
+      <div class="share-btns">
+        <button class="share-btn" onclick="copyLink()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5.5 8.5l3-3M6.5 4.5H4a2.5 2.5 0 000 5h1M7.5 9.5H10a2.5 2.5 0 000-5H9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Kopírovat odkaz
+        </button>
+        <a class="share-btn" id="share-x" href="#" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Sdílet na X
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <article class="article-body">
+
+    <!--
+    BOT: níže vyplň obsah článku.
+    Každá <h2> by měla mít id="" odpovídající odkazu v .toc-list výše.
+    Příklad: <h2 id="sekce-1">Název sekce 1</h2>
+    -->
+
+    <h2 id="sekce-1">[Název první sekce]</h2>
+
+    <p>[Odstavec textu. Sem patří hlavní myšlenka první sekce. Piš přirozeně, jako by to psal Roman — první osoba, přímé myšlenky, žádný corporate speak.]</p>
+
+    <p>[Druhý odstavec. Můžeš použít <strong>tučné písmo</strong> pro zvýraznění nebo <a href="#">odkaz</a> na relevantní zdroj.]</p>
+
+    <div class="img-block">
+      <span class="img-block-label">[Popis obrázku / screenshotu]</span>
+    </div>
+
+    <h2 id="sekce-2">[Název druhé sekce]</h2>
+
+    <p>[Text druhé sekce.]</p>
+
+    <blockquote>
+      <p>[Citát, klíčová myšlenka nebo zajímavé zjištění.]</p>
+    </blockquote>
+
+    <p>[Pokračování textu po citátu.]</p>
+
+    <ul>
+      <li>[První bod seznamu]</li>
+      <li>[Druhý bod]</li>
+      <li>[Třetí bod]</li>
+    </ul>
+
+    <h2 id="sekce-3">[Název třetí sekce]</h2>
+
+    <p>[Text třetí sekce.]</p>
+
+    <div class="highlight-box">
+      <p>[Zvýrazněný tip, důležitá poznámka nebo shrnutí klíčového bodu.]</p>
+    </div>
+
+    <p>[Závěrečný odstavec.]</p>
+
+    <hr>
+
+    <p style="font-size:14px;color:var(--muted);font-style:italic;">[Volitelná poznámka pod čarou, disclaimer nebo poděkování.]</p>
+
+  </article>
+
+</div>
+
+<!-- RELATED POSTS -->
+<div class="related-wrap">
+  <div class="related-label">Další zápisky</div>
+  <div class="related-grid">
+    <a class="related-card" href="blog-post-[ID].html">
+      <span class="related-card-tag tag-devlog" style="color:var(--yellow);">[Devlog]</span>
+      <div class="related-card-title">[Titulek příbuzného příspěvku]</div>
+      <div class="related-card-date">[DD. MM. YYYY]</div>
+    </a>
+    <a class="related-card" href="blog-post-[ID].html">
+      <span class="related-card-tag tag-theory" style="color:#7c3aed;">[Teorie]</span>
+      <div class="related-card-title">[Titulek příbuzného příspěvku]</div>
+      <div class="related-card-date">[DD. MM. YYYY]</div>
+    </a>
+    <a class="related-card" href="blog-post-[ID].html">
+      <span class="related-card-tag tag-ai" style="color:#d97706;">[AI & Tech]</span>
+      <div class="related-card-title">[Titulek příbuzného příspěvku]</div>
+      <div class="related-card-date">[DD. MM. YYYY]</div>
+    </a>
+  </div>
+</div>
+
+<div class="nl-strip">
+  <div>
+    <div class="nl-title"><em><span data-cs="Nový post?" data-en="New post?">Nový post?</span></em><br><span data-cs="Hned víš." data-en="You'll know.">Hned víš.</span></div>
+    <div class="nl-sub" data-cs="Email při každém novém zápisku. Max 2× týdně." data-en="Email with every new post. Max 2× weekly.">Email při každém novém zápisku. Max 2× týdně.</div>
+  </div>
+  <form id="nl-form" onsubmit="submitNl(event)">
+    <div class="nl-form">
+      <input class="nl-input" type="email" id="nl-email" data-placeholder-cs="váš@email.cz" data-placeholder-en="your@email.com" placeholder="váš@email.cz" required>
+      <button class="nl-btn" type="submit" data-cs="Přihlásit" data-en="Subscribe">Přihlásit</button>
+    </div>
+  </form>
+</div>
+
+<footer>
+  <a href="3rstudio_v3.html" class="footer-logo">
+    <span class="logo-box" style="font-size:12px;padding:3px 7px;">3R</span>
+    <span class="logo-studio" style="font-size:11px;">Studio</span>
+  </a>
+  <div class="footer-copy">© 2026 3R Studio · ČR</div>
+  <a class="footer-lnk" href="blog.html">← Blog</a>
+</footer>
+
+<script>
+/* ===== LANGUAGE ===== */
+const LANG_KEY = '3rs-lang';
+let currentLang = localStorage.getItem(LANG_KEY) || 'cs';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem(LANG_KEY, lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-cs]').forEach(el => {
+    if (el.dataset[lang]) el.textContent = el.dataset[lang];
+  });
+  document.querySelectorAll('[data-placeholder-cs]').forEach(el => {
+    el.placeholder = lang === 'en' ? (el.dataset.placeholderEn || '') : (el.dataset.placeholderCs || '');
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+setLang(currentLang);
+
+/* BOT: vyplň post_id a category před nasazením */
+gtag('event', 'blog_post_view', {
+  post_id: '[blog-post-ID]',
+  category: '[devlog|theory|music|essay|ai]'
+});
+
+const headings = document.querySelectorAll('.article-body h2[id]');
+const tocLinks = document.querySelectorAll('.toc-list a');
+function updateToc() {
+  let active = '';
+  headings.forEach(h => { if (window.scrollY >= h.offsetTop - 120) active = h.id; });
+  tocLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active));
+}
+window.addEventListener('scroll', updateToc, { passive: true });
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).catch(() => {});
+  const btn = document.querySelector('.share-btn');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3 3 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Zkopírováno!';
+  setTimeout(() => { btn.innerHTML = orig; }, 2000);
+}
+
+document.getElementById('share-x').href =
+  'https://twitter.com/intent/tweet?text=' +
+  encodeURIComponent(document.title) + '&url=' +
+  encodeURIComponent(window.location.href);
+
+const NL_URL = 'https://n8n.3rstudio.eu/webhook/newsletter';
+async function submitNl(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.nl-btn');
+  const email = document.getElementById('nl-email').value;
+  btn.textContent = 'Odesílám…'; btn.disabled = true;
+  try {
+    await fetch(NL_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, source: 'blog-post' }) });
+    btn.textContent = '✓ Přihlášen!';
+    document.getElementById('nl-email').value = '';
+  } catch {
+    btn.textContent = 'Chyba — zkus znovu'; btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>

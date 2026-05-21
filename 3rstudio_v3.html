@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="3R Studio — Indie Games & Creative Tech. Nezávislé indie studio z ČR tvořící hry, aplikace a experimenty.">
+<meta property="og:title" content="3R Studio — Indie Games & Creative Tech">
+<meta property="og:description" content="Nezávislé indie studio z ČR. Hry, aplikace a experimenty.">
+<meta property="og:type" content="website">
+<title>3R Studio — Indie Games & Creative Tech</title>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23f5c518'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='16' font-weight='900' font-style='italic' text-anchor='middle' fill='%23111110'%3E3R%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --yellow:      #b8890c;  /* amber — text, icons, borders */
+  --yellow-fill: #f5c518;  /* bright — button/badge fills */
+  --yellow-glow: rgba(245,197,24,0.1);
+  --bg:    #f8f6f2;
+  --bg2:   #f1ede6;
+  --bg3:   #e8e3db;
+  --bg4:   #ddd8cf;
+  --text:  #111110;
+  --dim:   rgba(17,17,16,0.52);
+  --muted: rgba(17,17,16,0.36);
+  --border: rgba(17,17,16,0.09);
+  --r-sm: 6px;
+  --r:    10px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: rgba(184,137,12,0.35); border-radius: 2px; }
+
+/* ===== SPLASH ===== */
+/* ===== NAV ===== */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px;
+  background: rgba(248,246,242,0.88);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 0.5px solid var(--border);
+  z-index: 100; transition: height 0.3s, background 0.3s;
+}
+#nav.scrolled { height: 60px; background: rgba(248,246,242,0.97); }
+
+.nav-logo {
+  cursor: pointer; text-decoration: none; color: var(--text);
+  display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+  user-select: none;
+}
+.logo-box {
+  background: var(--yellow-fill); color: #111;
+  font-family: 'Inter', sans-serif; font-weight: 800; font-style: italic;
+  font-size: 15px; letter-spacing: -0.04em;
+  padding: 5px 9px; border-radius: 5px; line-height: 1.1;
+}
+.logo-studio {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--text);
+}
+
+.nav-center { display: flex; align-items: center; gap: 2px; height: 100%; }
+.nav-item { position: relative; height: 100%; display: flex; align-items: center; }
+
+.nav-link {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+  color: var(--dim); text-decoration: none; text-transform: uppercase;
+  transition: color 0.2s; cursor: pointer;
+  padding: 0 16px; height: 100%;
+  display: flex; align-items: center; gap: 5px; position: relative;
+}
+.nav-link:hover { color: var(--text); }
+.nav-link::after {
+  content: ''; position: absolute; bottom: 0; left: 16px; right: 16px;
+  height: 1.5px; background: var(--yellow);
+  transform: scaleX(0); transition: transform 0.2s; border-radius: 1px;
+}
+.nav-item:hover .nav-link::after { transform: scaleX(1); }
+.chevron { font-size: 8px; color: var(--yellow); transition: transform 0.2s; }
+.nav-item:hover .chevron { transform: rotate(180deg); }
+
+/* Mega menu */
+.mega {
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  min-width: 880px;
+  background: rgba(248,246,242,0.99);
+  backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px);
+  border: 0.5px solid var(--border);
+  border-top: 1.5px solid var(--yellow);
+  border-radius: 0 0 var(--r-lg) var(--r-lg);
+  padding: 24px;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.12);
+}
+.nav-item:hover .mega { opacity: 1; pointer-events: all; visibility: visible; transform: translateX(-50%) translateY(0); }
+.mega::before { content: ''; position: absolute; top: -8px; left: 0; right: 0; height: 8px; }
+
+.mega-col-head {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.3em;
+  color: var(--muted); text-transform: uppercase;
+  padding: 4px 10px 10px; border-bottom: 0.5px solid var(--border); margin-bottom: 4px;
+}
+
+.mega-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: var(--r-sm);
+  cursor: pointer; transition: background 0.15s, border-color 0.15s;
+  border: 0.5px solid transparent; text-decoration: none;
+}
+.mega-item:hover { background: rgba(184,137,12,0.07); border-color: rgba(184,137,12,0.2); }
+
+.mega-letter {
+  width: 30px; height: 30px; flex-shrink: 0;
+  background: var(--bg2); border: 0.5px solid var(--border); border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700;
+  font-size: 13px; color: var(--yellow);
+  transition: background 0.15s, border-color 0.15s;
+}
+.mega-item:hover .mega-letter { background: rgba(184,137,12,0.1); border-color: rgba(184,137,12,0.25); }
+
+.mega-info { flex: 1; min-width: 0; }
+.mega-name { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: -0.01em; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mega-sub { font-size: 10px; color: var(--muted); margin-top: 1px; letter-spacing: 0.02em; }
+
+.mega-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.d-active { background: var(--yellow-fill); animation: blink 1.6s ease-in-out infinite; }
+.d-pre { background: #06b6d4; }
+.d-proto { background: rgba(17,17,16,0.28); }
+.d-dev { background: rgba(17,17,16,0.38); }
+.d-vision { background: rgba(184,137,12,0.45); }
+.d-research { background: #7c3aed; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+.mega-foot {
+  grid-column: 1/-1; padding-top: 16px;
+  border-top: 0.5px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; margin-top: 4px;
+}
+.mega-foot-txt { font-size: 11px; color: var(--dim); }
+.mega-foot-link { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: var(--yellow); text-transform: uppercase; cursor: pointer; }
+
+.nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
+.lang-toggle { display: flex; align-items: center; gap: 2px; background: var(--bg2); border: 0.5px solid var(--border); border-radius: 100px; padding: 3px; }
+.lang-btn { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--dim); padding: 5px 10px; border-radius: 100px; cursor: pointer; transition: all 0.2s; border: none; background: transparent; }
+.lang-btn.active { background: var(--yellow-fill); color: #111; }
+
+.nav-cta {
+  background: var(--yellow-fill); color: #111;
+  padding: 9px 20px; border-radius: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; border: none; transition: opacity 0.2s, transform 0.2s;
+}
+.nav-cta:hover { opacity: 0.82; transform: translateY(-1px); }
+
+.mobile-toggle { display: none; background: none; border: none; color: var(--text); cursor: pointer; padding: 4px; font-size: 22px; }
+
+/* ===== HERO ===== */
+#hero {
+  height: 100vh; min-height: 680px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 0 120px; position: relative; overflow: hidden;
+}
+#hero-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.6; }
+
+.hero-content { position: relative; z-index: 2; max-width: 860px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+.hero-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.35em;
+  color: var(--yellow); text-transform: uppercase;
+  margin-bottom: 28px; display: flex; align-items: center; gap: 14px;
+}
+.hero-eyebrow::before,
+.hero-eyebrow::after { content: ''; width: 28px; height: 1px; background: var(--yellow); flex-shrink: 0; }
+
+.hero-wordmark {
+  display: flex; align-items: center; gap: clamp(12px, 1.4vw, 20px);
+  margin-bottom: 36px; position: relative; z-index: 2;
+}
+.hw-box {
+  background: var(--yellow-fill); color: #111;
+  font-family: 'Inter', sans-serif; font-weight: 800; font-style: italic;
+  font-size: clamp(54px, 8vw, 104px); letter-spacing: -0.045em;
+  padding: clamp(8px, 1vw, 14px) clamp(14px, 1.8vw, 24px);
+  border-radius: clamp(8px, 1vw, 13px); line-height: 1;
+}
+.hw-studio {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(26px, 3.8vw, 56px); font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--text);
+}
+
+.hero-sub {
+  font-size: 17px; color: var(--dim); line-height: 1.75;
+  max-width: 520px; margin-bottom: 44px; font-weight: 300; text-align: center;
+}
+
+.hero-actions {
+  display: flex; gap: 12px; align-items: center; justify-content: center;
+}
+
+.btn-primary {
+  background: var(--yellow-fill); color: #111;
+  padding: 14px 32px; border-radius: 8px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; border: none; transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary:hover { opacity: 0.84; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,197,24,0.3); }
+
+.btn-secondary {
+  background: transparent; color: var(--text);
+  padding: 14px 32px; border-radius: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; border: 0.5px solid rgba(17,17,16,0.18);
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-secondary:hover { border-color: var(--yellow); color: var(--yellow); }
+
+.hero-scroll { display: none; }
+@keyframes slideX { 0%{transform:translateX(-100%)} 100%{transform:translateX(380%)} }
+
+/* ===== SHARED ===== */
+.divider { height: 1px; background: linear-gradient(to right, transparent, rgba(184,137,12,0.25), transparent); }
+
+.sec-pad { padding: 100px 120px; }
+.sec-head { margin-bottom: 52px; display: flex; align-items: flex-end; justify-content: space-between; }
+
+.eyebrow {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.32em;
+  color: var(--yellow); text-transform: uppercase;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ''; width: 18px; height: 1px; background: var(--yellow); }
+
+.sec-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(30px, 3.5vw, 48px); font-weight: 800;
+  line-height: 1.02; letter-spacing: -0.035em;
+}
+.sec-title em { font-style: italic; color: var(--yellow); }
+
+.lnk-all {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.15em;
+  color: var(--dim); text-transform: uppercase; cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  border: none; background: none; padding-bottom: 3px;
+  border-bottom: 0.5px solid rgba(17,17,16,0.15);
+  transition: color 0.2s, border-color 0.2s;
+}
+.lnk-all:hover { color: var(--yellow); border-color: var(--yellow); }
+
+/* ===== FEATURED / CAROUSEL ===== */
+#featured { padding: 100px 120px 0; }
+
+.carousel-outer {
+  position: relative; overflow: hidden;
+  border-radius: var(--r-xl);
+  border: 0.5px solid rgba(255,255,255,0.06);
+}
+.carousel-track {
+  display: flex;
+  transition: transform 0.65s cubic-bezier(0.25,1,0.5,1);
+  height: 500px;
+}
+.carousel-slide {
+  flex: 0 0 100%; width: 100%;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  background: #0f0f0f; text-decoration: none; cursor: pointer;
+}
+
+.feat-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #120f00 0%, #0a0a0a 65%); z-index: 0; }
+.feat-grid-bg {
+  position: absolute; inset: 0; z-index: 1;
+  background-image: linear-gradient(rgba(245,197,24,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(245,197,24,0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+.feat-glow {
+  position: absolute; width: 500px; height: 500px; z-index: 1;
+  background: radial-gradient(circle, rgba(245,197,24,0.1) 0%, transparent 70%);
+  top: -120px; right: -120px; transition: transform 0.6s;
+}
+.feat-letter {
+  position: absolute; bottom: -24px; right: -12px; z-index: 1;
+  font-family: 'Inter', sans-serif; font-size: 320px; font-style: italic; font-weight: 800;
+  color: rgba(245,197,24,0.048); line-height: 1; pointer-events: none; letter-spacing: -0.05em;
+}
+
+.feat-arrow {
+  position: absolute; top: 24px; right: 24px;
+  width: 40px; height: 40px; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: rgba(255,255,255,0.5); z-index: 5;
+  background: rgba(0,0,0,0.45); backdrop-filter: blur(8px);
+  transition: all 0.3s;
+}
+.carousel-slide:hover .feat-arrow { border-color: var(--yellow-fill); color: var(--yellow-fill); transform: rotate(45deg); }
+
+.feat-launch-badge {
+  position: absolute; top: 24px; left: 24px; z-index: 5;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  background: var(--yellow-fill); color: #111; padding: 5px 12px; border-radius: 100px;
+}
+
+.feat-body {
+  position: relative; z-index: 2; padding: 40px 48px 80px;
+  background: linear-gradient(to top, rgba(10,10,10,0.98) 0%, rgba(10,10,10,0.6) 65%, transparent 100%);
+}
+.feat-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--yellow-fill); background: rgba(245,197,24,0.1);
+  border: 0.5px solid rgba(245,197,24,0.28); padding: 5px 12px; border-radius: 100px;
+  margin-bottom: 16px;
+}
+.status-dot { width: 4px; height: 4px; background: var(--yellow-fill); border-radius: 50%; animation: blink 1.5s ease-in-out infinite; }
+
+.feat-title-text { font-family: 'Inter', sans-serif; font-size: clamp(42px, 5vw, 72px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 10px; color: #f5f5f0; }
+.feat-type-txt { font-size: 11px; color: rgba(245,245,240,0.55); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; margin-bottom: 14px; }
+.feat-desc-txt { font-size: 14px; color: rgba(245,245,240,0.6); line-height: 1.65; font-weight: 300; max-width: 600px; }
+
+/* Carousel controls */
+.carousel-btn {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 46px; height: 46px; z-index: 10;
+  background: rgba(10,10,10,0.55); backdrop-filter: blur(10px);
+  border: 0.5px solid rgba(255,255,255,0.12); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.7); font-size: 20px;
+  cursor: pointer; transition: all 0.2s;
+}
+.carousel-btn:hover { background: rgba(245,197,24,0.18); border-color: var(--yellow-fill); color: var(--yellow-fill); }
+.carousel-btn.prev { left: 20px; }
+.carousel-btn.next { right: 20px; }
+
+.carousel-dots {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 8px; z-index: 10; align-items: center;
+}
+.carousel-dot {
+  width: 6px; height: 6px; border-radius: 3px;
+  background: rgba(255,255,255,0.3); border: none;
+  cursor: pointer; transition: all 0.3s; padding: 0;
+}
+.carousel-dot.active { background: var(--yellow-fill); width: 22px; }
+
+/* ===== PROJECTS GRID ===== */
+#projects { padding: 100px 120px 0; }
+
+.filter-bar { display: flex; gap: 6px; margin-bottom: 32px; flex-wrap: wrap; }
+.f-btn {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--dim); background: transparent;
+  border: 0.5px solid var(--border); padding: 7px 16px; border-radius: 100px;
+  cursor: pointer; transition: all 0.2s;
+}
+.f-btn:hover { border-color: rgba(184,137,12,0.32); color: var(--text); }
+.f-btn.active { background: var(--yellow-fill); color: #111; border-color: var(--yellow-fill); }
+
+.proj-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+.proj-card {
+  background: #fff; border: 0.5px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border-radius: var(--r-lg); padding: 22px;
+  cursor: pointer; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  text-decoration: none; display: flex; flex-direction: column; gap: 10px; color: var(--text);
+}
+.proj-card:hover { border-color: rgba(184,137,12,0.38); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+.proj-card.vision { border-style: dashed; border-color: rgba(184,137,12,0.22); background: rgba(184,137,12,0.02); }
+
+.pc-top { display: flex; align-items: center; justify-content: space-between; }
+.pc-letter {
+  width: 44px; height: 44px; background: var(--bg2); border: 0.5px solid var(--border);
+  border-radius: var(--r); display: flex; align-items: center; justify-content: center;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 18px; color: var(--yellow);
+  transition: background 0.2s, border-color 0.2s;
+}
+.proj-card:hover .pc-letter { background: rgba(184,137,12,0.1); border-color: rgba(184,137,12,0.3); }
+.vision .pc-letter { color: rgba(184,137,12,0.55); }
+
+.pc-status { font-size: 9px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; display: flex; align-items: center; gap: 4px; }
+.ps-active { color: var(--yellow); }
+.ps-pre { color: #0891b2; }
+.ps-proto { color: rgba(17,17,16,0.4); }
+.ps-dev { color: rgba(17,17,16,0.45); }
+.ps-vision { color: rgba(184,137,12,0.55); }
+.ps-research { color: #7c3aed; }
+
+.pc-name { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+.pc-type { font-size: 10px; color: var(--dim); letter-spacing: 0.06em; font-weight: 400; }
+.pc-desc { font-size: 11px; color: rgba(17,17,16,0.45); line-height: 1.6; font-weight: 300; flex: 1; }
+
+.pc-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 0.5px solid var(--border); margin-top: auto; }
+.pc-platforms { display: flex; gap: 4px; flex-wrap: wrap; }
+.pc-plat { font-size: 8px; font-weight: 600; letter-spacing: 0.12em; color: var(--muted); background: rgba(17,17,16,0.04); border: 0.5px solid rgba(17,17,16,0.08); padding: 3px 7px; border-radius: 100px; text-transform: uppercase; }
+.pc-arr { font-size: 13px; color: rgba(17,17,16,0.22); transition: all 0.2s; }
+.proj-card:hover .pc-arr { color: var(--yellow); transform: translate(2px,-2px); }
+
+/* ===== ROADMAP ===== */
+#roadmap { padding: 100px 120px 0; }
+
+.roadmap-wrap { position: relative; padding: 56px 0 0; }
+.roadmap-line { position: absolute; top: 20px; left: 0; right: 0; height: 1px; background: var(--border); }
+.roadmap-progress { position: absolute; top: 20px; left: 0; width: 25%; height: 1px; background: linear-gradient(to right, var(--yellow), rgba(184,137,12,0.2)); }
+
+.roadmap-items { display: grid; grid-template-columns: repeat(5, 1fr); position: relative; }
+.rm-item { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+.rm-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid var(--border); background: var(--bg);
+  margin-bottom: 20px; z-index: 1;
+  position: relative; top: -54px; margin-bottom: -44px;
+}
+.rm-item.done .rm-dot { background: var(--yellow); border-color: var(--yellow); box-shadow: 0 0 10px rgba(184,137,12,0.3); }
+.rm-item.now .rm-dot { background: var(--bg); border-color: var(--yellow); animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{box-shadow:0 0 0 0 rgba(184,137,12,0.4)} 50%{box-shadow:0 0 0 8px rgba(184,137,12,0)} }
+
+.rm-date { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.rm-item.done .rm-date, .rm-item.now .rm-date { color: var(--yellow); }
+
+.rm-events { display: flex; flex-direction: column; gap: 6px; max-width: 130px; }
+.rm-event { font-size: 11px; color: var(--muted); line-height: 1.5; font-weight: 300; }
+.rm-item.done .rm-event { color: var(--dim); }
+.rm-item.now .rm-event { color: rgba(17,17,16,0.6); }
+
+/* ===== ABOUT ===== */
+#about {
+  margin-top: 100px;
+  padding: 100px 120px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+  border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border);
+  background: var(--bg2);
+}
+.about-body { font-size: 17px; color: var(--dim); line-height: 1.8; margin-bottom: 32px; font-weight: 300; }
+.about-cards { display: flex; flex-direction: column; gap: 14px; }
+.about-card {
+  background: #fff; border: 0.5px solid var(--border);
+  border-radius: var(--r-lg); padding: 22px 26px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.about-card:hover { border-color: rgba(184,137,12,0.3); box-shadow: 0 4px 14px rgba(0,0,0,0.07); }
+.about-card-n { font-family: 'Inter', sans-serif; font-style: italic; font-weight: 800; font-size: 22px; color: rgba(184,137,12,0.55); margin-bottom: 7px; letter-spacing: -0.03em; }
+.about-card-t { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 5px; letter-spacing: -0.01em; }
+.about-card-d { font-size: 13px; color: var(--dim); line-height: 1.65; font-weight: 300; }
+
+/* ===== COMMUNITY ===== */
+#community { padding: 100px 120px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 900px; margin: 0 auto; }
+
+.comm-card {
+  background: #fff; border: 0.5px solid var(--border);
+  border-radius: var(--r-xl); padding: 32px;
+  cursor: pointer; position: relative; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+.comm-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: var(--yellow-fill); transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s;
+}
+.comm-card:hover { border-color: rgba(184,137,12,0.28); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+.comm-card:hover::after { transform: scaleX(1); }
+
+.comm-icon {
+  width: 44px; height: 44px; border: 0.5px solid var(--border); border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 22px; color: var(--yellow); background: rgba(184,137,12,0.06);
+  transition: background 0.25s, border-color 0.25s;
+}
+.comm-card:hover .comm-icon { background: rgba(184,137,12,0.12); border-color: rgba(184,137,12,0.28); }
+
+.comm-n { font-size: 10px; font-weight: 600; letter-spacing: 0.18em; color: rgba(184,137,12,0.5); margin-bottom: 7px; }
+.comm-title { font-family: 'Inter', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.035em; margin-bottom: 10px; }
+.comm-title em { font-style: italic; color: var(--yellow); }
+.comm-desc { font-size: 13px; color: var(--dim); line-height: 1.7; font-weight: 300; margin-bottom: 22px; }
+.comm-lnk { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: var(--yellow); text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+
+/* ===== ARCADE ===== */
+#arcade { padding: 100px 120px; border-top: 0.5px solid var(--border); }
+
+.arcade-header { text-align: center; margin-bottom: 48px; }
+.arcade-header .eyebrow { justify-content: center; }
+.arcade-header .eyebrow::before { display: none; }
+.arcade-header .sec-title { text-align: center; }
+.arcade-sub { font-size: 15px; color: var(--dim); line-height: 1.72; font-weight: 300; max-width: 500px; margin: 0 auto; }
+
+.arcade-stage { max-width: 500px; margin: 0 auto; }
+
+/* Portrait game window */
+.arcade-frame-wrap {
+  aspect-ratio: unset !important;
+  height: clamp(480px, 66vh, 700px);
+  max-width: 460px;
+  margin-left: auto; margin-right: auto;
+}
+
+/* Fullscreen + store row */
+.arcade-actions {
+  display: flex; gap: 8px; margin-top: 14px; justify-content: center; flex-wrap: wrap;
+}
+.arcade-fs-btn {
+  background: var(--bg2); color: var(--dim);
+  border: 0.5px solid var(--border); border-radius: 8px;
+  padding: 9px 16px; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer;
+  font-family: 'Inter', sans-serif; transition: border-color 0.14s, color 0.14s;
+}
+.arcade-fs-btn:hover { border-color: rgba(184,137,12,0.4); color: var(--text); }
+.arcade-store-btn {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--text); color: var(--bg);
+  border-radius: 8px; padding: 9px 16px; text-decoration: none;
+  transition: opacity 0.14s;
+}
+.arcade-store-btn:hover { opacity: 0.78; }
+.arcade-store-btn-texts { display: flex; flex-direction: column; gap: 1px; }
+.arcade-store-btn-sub { font-size: 8px; font-weight: 400; letter-spacing: 0.07em; text-transform: uppercase; opacity: 0.6; }
+.arcade-store-btn-name { font-size: 13px; font-weight: 700; letter-spacing: -0.01em; }
+
+.arcade-frame-wrap {
+  background: var(--bg2); border: 0.5px solid var(--border);
+  border-radius: var(--r-xl); overflow: hidden; aspect-ratio: 16/9;
+  position: relative; display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.3s; margin-bottom: 16px;
+}
+.arcade-frame-wrap:hover { border-color: rgba(184,137,12,0.4); }
+
+/* Gate — shown before game starts */
+.arcade-gate {
+  position: absolute; inset: 0; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 0; background: var(--bg2); padding: 40px; cursor: pointer;
+}
+.arcade-gate-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--yellow-fill); display: flex; align-items: center; justify-content: center;
+  font-size: 24px; color: #111; margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(245,197,24,0.35); transition: transform 0.3s;
+}
+.arcade-gate:hover .arcade-gate-icon { transform: scale(1.06); }
+.arcade-gate-title { font-family: 'Inter', sans-serif; font-size: clamp(18px, 2.5vw, 26px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; text-align: center; }
+.arcade-gate-sub { font-size: 13px; color: var(--dim); font-weight: 300; max-width: 380px; text-align: center; line-height: 1.65; margin-bottom: 24px; }
+.arcade-gate-form { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 340px; }
+.ag-input {
+  width: 100%; background: #fff; border: 0.5px solid var(--border); border-radius: 8px;
+  padding: 11px 14px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text);
+  outline: none; transition: border-color 0.2s;
+}
+.ag-input::placeholder { color: var(--muted); }
+.ag-input:focus { border-color: rgba(184,137,12,0.45); }
+.ag-btn {
+  background: var(--yellow-fill); color: #111; padding: 12px; border-radius: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer; border: none; transition: opacity 0.2s, transform 0.2s; margin-top: 4px;
+}
+.ag-btn:hover { opacity: 0.84; transform: translateY(-1px); }
+.ag-coming {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--yellow); background: rgba(184,137,12,0.1); border: 0.5px solid rgba(184,137,12,0.22);
+  padding: 4px 14px; border-radius: 100px; margin-top: 14px; display: none;
+}
+.arcade-gate.hidden { display: none; }
+
+/* iframe shown when playing */
+.arcade-frame-wrap iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: none; z-index: 3;
+}
+.arcade-frame-wrap.playing iframe { display: block; }
+.arcade-frame-wrap.playing .arcade-gate { display: none; }
+
+/* Scores leaderboard */
+.arcade-scores {
+  background: #fff; border: 0.5px solid var(--border); border-radius: var(--r-lg);
+  overflow: hidden;
+}
+.scores-head {
+  padding: 14px 20px; border-bottom: 0.5px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.scores-head-title { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--yellow); }
+.scores-head-label { font-size: 10px; color: var(--muted); font-weight: 500; letter-spacing: 0.05em; }
+.scores-list { min-height: 56px; }
+.score-row {
+  display: grid; grid-template-columns: 28px 1fr auto;
+  align-items: center; gap: 10px;
+  padding: 11px 20px; border-bottom: 0.5px solid var(--border); font-size: 13px;
+}
+.score-row:last-child { border-bottom: none; }
+.score-rank { font-size: 10px; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; }
+.score-rank.gold   { color: var(--yellow-fill); }
+.score-rank.silver { color: rgba(17,17,16,0.45); }
+.score-rank.bronze { color: rgba(180,110,30,0.6); }
+.score-name { font-weight: 500; color: var(--text); }
+.score-val  { font-family: 'Inter', sans-serif; font-weight: 800; font-style: italic; letter-spacing: -0.03em; color: var(--yellow); }
+.score-empty { padding: 20px; font-size: 12px; color: var(--muted); font-weight: 300; font-style: italic; text-align: center; }
+
+/* ===== NEWSLETTER ===== */
+#newsletter {
+  background: var(--bg2); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border);
+  padding: 72px 120px; display: flex; align-items: center; justify-content: space-between; gap: 48px;
+}
+.nl-title { font-family: 'Inter', sans-serif; font-size: clamp(26px, 3vw, 40px); font-weight: 800; line-height: 1.05; letter-spacing: -0.038em; margin-top: 10px; }
+.nl-title em { font-style: italic; color: var(--yellow); }
+.nl-sub { font-size: 13px; color: var(--dim); margin-top: 10px; font-weight: 300; line-height: 1.6; max-width: 380px; }
+
+.nl-form { display: flex; gap: 10px; min-width: 380px; flex-direction: column; }
+.nl-row { display: flex; gap: 10px; }
+.nl-input {
+  flex: 1; background: #fff; border: 0.5px solid var(--border); border-radius: 8px;
+  padding: 13px 16px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text);
+  outline: none; transition: border-color 0.2s;
+}
+.nl-input::placeholder { color: var(--muted); }
+.nl-input:focus { border-color: rgba(184,137,12,0.45); }
+.nl-btn {
+  background: var(--yellow-fill); color: #111; padding: 13px 22px; border-radius: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; border: none; transition: opacity 0.2s, transform 0.2s; white-space: nowrap;
+}
+.nl-btn:hover { opacity: 0.82; transform: translateY(-1px); }
+.nl-msg { font-size: 12px; color: var(--yellow); display: none; }
+.nl-note { font-size: 11px; color: var(--muted); font-weight: 300; }
+
+/* ===== CONTACT ===== */
+#contact { padding: 72px 120px; display: flex; align-items: center; justify-content: space-between; gap: 48px; }
+.contact-t { font-family: 'Inter', sans-serif; font-size: clamp(30px, 3.5vw, 50px); font-weight: 800; line-height: 1.0; letter-spacing: -0.04em; margin-top: 10px; }
+.contact-t em { font-style: italic; color: var(--yellow); }
+.contact-items { display: flex; flex-direction: column; gap: 10px; min-width: 320px; }
+.ci {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; background: #fff; border: 0.5px solid var(--border);
+  border-radius: var(--r); cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit;
+}
+.ci:hover { border-color: rgba(184,137,12,0.32); box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.ci-lbl { font-size: 9px; letter-spacing: 0.25em; color: var(--muted); text-transform: uppercase; font-weight: 600; margin-bottom: 3px; }
+.ci-val { font-size: 13px; font-weight: 500; color: var(--text); }
+.ci-arr { color: var(--yellow); font-size: 16px; transition: transform 0.2s; }
+.ci:hover .ci-arr { transform: translate(3px,-3px); }
+
+/* ===== FOOTER ===== */
+#footer { border-top: 0.5px solid var(--border); padding: 32px 120px; display: flex; align-items: center; justify-content: space-between; }
+.footer-logo { display: flex; align-items: center; text-decoration: none; }
+.footer-links { display: flex; gap: 24px; }
+.footer-lnk { font-size: 11px; color: var(--muted); text-decoration: none; letter-spacing: 0.07em; text-transform: uppercase; transition: color 0.2s; cursor: pointer; }
+.footer-lnk:hover { color: var(--yellow); }
+.footer-copy { font-size: 11px; color: var(--muted); letter-spacing: 0.03em; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1200px) {
+  #nav { padding: 0 40px; }
+  .nav-center { display: none; }
+  .mobile-toggle { display: block; }
+  #hero { padding: 0 60px; }
+  #featured, #projects, #roadmap, #about, #community, #arcade, #newsletter, #contact, #footer { padding-left: 60px; padding-right: 60px; }
+  .proj-grid { grid-template-columns: repeat(3, 1fr); }
+  #about { grid-template-columns: 1fr; }
+  #community { grid-template-columns: 1fr 1fr; }
+  #hero { padding: 0 60px; }
+}
+@media (max-width: 900px) {
+  .carousel-track { height: 420px; }
+  .feat-body { padding: 28px 32px 70px; }
+  .proj-grid { grid-template-columns: repeat(2, 1fr); }
+  .roadmap-items { grid-template-columns: repeat(3, 1fr); }
+  .roadmap-line, .roadmap-progress { display: none; }
+  #newsletter { flex-direction: column; }
+  .nl-form { min-width: unset; width: 100%; }
+  #contact { flex-direction: column; align-items: flex-start; }
+  .contact-items { min-width: unset; width: 100%; }
+}
+@media (max-width: 640px) {
+  #hero, #featured, #projects, #roadmap, #about, #community, #arcade, #newsletter, #contact, #footer { padding-left: 20px; padding-right: 20px; }
+  #nav { padding: 0 20px; }
+  .proj-grid { grid-template-columns: 1fr 1fr; }
+  #community { grid-template-columns: 1fr; }
+  .hero-stats { gap: 28px; font-size: 90%; }
+  .roadmap-items { grid-template-columns: repeat(2, 1fr); }
+  .carousel-track { height: 380px; }
+  .feat-body { padding: 20px 24px 60px; }
+  .feat-title-text { font-size: 36px; }
+  .nl-row { flex-direction: column; }
+  #footer { flex-direction: column; gap: 16px; text-align: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+}
+
+/* ===== COOKIE BAR ===== */
+#cookie-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 10001;
+  background: var(--bg2); border-top: 1px solid var(--border);
+  padding: 14px 24px; display: none; align-items: center; gap: 16px;
+  flex-wrap: wrap; justify-content: space-between;
+}
+.cookie-text { font-size: 13px; color: var(--dim); line-height: 1.5; flex: 1; min-width: 200px; }
+.cookie-text a { color: var(--yellow); text-decoration: underline; text-underline-offset: 2px; }
+.cookie-btns { display: flex; gap: 8px; flex-shrink: 0; }
+.cookie-btn-accept {
+  background: var(--yellow-fill); color: #111;
+  border: none; border-radius: 6px; padding: 8px 18px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; transition: opacity 0.15s;
+}
+.cookie-btn-accept:hover { opacity: 0.82; }
+.cookie-btn-reject {
+  background: transparent; color: var(--dim);
+  border: 0.5px solid var(--border); border-radius: 6px; padding: 8px 18px;
+  font-size: 12px; font-weight: 600; cursor: pointer; transition: border-color 0.15s, color 0.15s;
+}
+.cookie-btn-reject:hover { border-color: var(--text); color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- COOKIE BAR -->
+<div id="cookie-bar" role="region" aria-label="Cookie consent">
+  <p class="cookie-text">
+    <span data-cs="Tento web používá analytické cookies (Google Analytics)." data-en="This site uses analytics cookies (Google Analytics).">Tento web používá analytické cookies (Google Analytics).</span>
+  </p>
+  <div class="cookie-btns">
+    <button class="cookie-btn-accept" onclick="cookieConsent('yes')" data-cs="Přijmout" data-en="Accept">Přijmout</button>
+    <button class="cookie-btn-reject" onclick="cookieConsent('no')" data-cs="Odmítnout" data-en="Decline">Odmítnout</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="3rstudio_v3.html">
+    <span class="logo-box">3R</span>
+    <span class="logo-studio">Studio</span>
+  </a>
+
+  <div class="nav-center">
+    <div class="nav-item">
+      <span class="nav-link has-drop">
+        <span data-cs="Projekty" data-en="Projects">Projekty</span>
+        <span class="chevron">▾</span>
+      </span>
+      <div class="mega">
+        <div>
+          <div class="mega-col-head" data-cs="PC Hry" data-en="PC Games">PC Hry</div>
+          <a class="mega-item" href="conflux.html">
+            <div class="mega-letter">C</div>
+            <div class="mega-info">
+              <div class="mega-name">CONFLUX</div>
+              <div class="mega-sub" data-cs="Karetní hra · Steam" data-en="Card Game · Steam">Karetní hra · Steam</div>
+            </div>
+            <div class="mega-dot d-active"></div>
+          </a>
+          <a class="mega-item" href="#">
+            <div class="mega-letter">R</div>
+            <div class="mega-info">
+              <div class="mega-name">RECHO</div>
+              <div class="mega-sub" data-cs="Action RPG · PC" data-en="Action RPG · PC">Action RPG · PC</div>
+            </div>
+            <div class="mega-dot d-proto"></div>
+          </a>
+          <a class="mega-item" href="#">
+            <div class="mega-letter">T</div>
+            <div class="mega-info">
+              <div class="mega-name">Threshold</div>
+              <div class="mega-sub" data-cs="Strategie · PC" data-en="Strategy · PC">Strategie · PC</div>
+            </div>
+            <div class="mega-dot d-proto"></div>
+          </a>
+        </div>
+        <div>
+          <div class="mega-col-head" data-cs="Mobile" data-en="Mobile">Mobile</div>
+          <a class="mega-item" href="gream.html">
+            <div class="mega-letter">G</div>
+            <div class="mega-info">
+              <div class="mega-name">Gream</div>
+              <div class="mega-sub" data-cs="Vzdělávání · iOS/Android" data-en="Education · iOS/Android">Vzdělávání · iOS/Android</div>
+            </div>
+            <div class="mega-dot d-pre"></div>
+          </a>
+          <a class="mega-item" href="#">
+            <div class="mega-letter">B</div>
+            <div class="mega-info">
+              <div class="mega-name">Blind Roll</div>
+              <div class="mega-sub" data-cs="Labyrint · Mobile" data-en="Maze · Mobile">Labyrint · Mobile</div>
+            </div>
+            <div class="mega-dot d-dev"></div>
+          </a>
+          <a class="mega-item" href="#">
+            <div class="mega-letter">1</div>
+            <div class="mega-info">
+              <div class="mega-name">The 1% Focus</div>
+              <div class="mega-sub" data-cs="Výzva · Mobile" data-en="Challenge · Mobile">Výzva · Mobile</div>
+            </div>
+            <div class="mega-dot d-dev"></div>
+          </a>
+          <a class="mega-item" href="#">
+            <div class="mega-letter">N</div>
+            <div class="mega-info">
+              <div class="mega-name">Thread the Needle</div>
+              <div class="mega-sub" data-cs="Reflex · Mobile" data-en="Reflex · Mobile">Reflex · Mobile</div>
+            </div>
+            <div class="mega-dot d-dev"></div>
+          </a>
+          <a class="mega-item" href="#">
+            <div class="mega-letter">∞</div>
+            <div class="mega-info">
+              <div class="mega-name">100-Year Canvas</div>
+              <div class="mega-sub" data-cs="Pixel experiment" data-en="Pixel experiment">Pixel experiment</div>
+            </div>
+            <div class="mega-dot d-dev"></div>
+          </a>
+          <a class="mega-item" href="#">
+            <div class="mega-letter">E</div>
+            <div class="mega-info">
+              <div class="mega-name">Exactly</div>
+              <div class="mega-sub" data-cs="Timer · Mobile" data-en="Timer · Mobile">Timer · Mobile</div>
+            </div>
+            <div class="mega-dot d-dev"></div>
+          </a>
+        </div>
+        <div>
+          <div class="mega-col-head" data-cs="Experimenty" data-en="Experiments">Experimenty</div>
+          <a class="mega-item" href="#">
+            <div class="mega-letter">Ψ</div>
+            <div class="mega-info">
+              <div class="mega-name">PULSE</div>
+              <div class="mega-sub" data-cs="AI agent · Research" data-en="AI agent · Research">AI agent · Research</div>
+            </div>
+            <div class="mega-dot d-research"></div>
+          </a>
+        </div>
+        <div>
+          <div class="mega-col-head" data-cs="Vize" data-en="Vision">Vize</div>
+          <a class="mega-item" href="#">
+            <div class="mega-letter" style="color:rgba(184,137,12,0.5)">▲</div>
+            <div class="mega-info">
+              <div class="mega-name">3Cue</div>
+              <div class="mega-sub" data-cs="AI platforma · 2027" data-en="AI platform · 2027">AI platforma · 2027</div>
+            </div>
+            <div class="mega-dot d-vision"></div>
+          </a>
+        </div>
+
+        <div class="mega-foot">
+          <span class="mega-foot-txt" data-cs="11 projektů ve vývoji" data-en="11 projects in development">11 projektů ve vývoji</span>
+          <span class="mega-foot-link" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
+            <span data-cs="Všechny →" data-en="All →">Všechny →</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <span class="nav-link" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})" data-cs="Studio" data-en="Studio">Studio</span>
+    </div>
+    <div class="nav-item">
+      <span class="nav-link" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})" data-cs="Komunita" data-en="Community">Komunita</span>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" href="blog.html" data-cs="Blog" data-en="Blog">Blog</a>
+    </div>
+  </div>
+
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="cs" onclick="setLang('cs')">CZ</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" data-cs="Kontakt" data-en="Contact">Kontakt</button>
+    <button class="mobile-toggle" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow" data-cs="Indie Games & Creative Tech" data-en="Indie Games & Creative Tech">Indie Games & Creative Tech</div>
+    <div class="hero-wordmark">
+      <span class="hw-box">3R</span>
+      <span class="hw-studio">Studio</span>
+    </div>
+    <p class="hero-sub" data-cs="Nezávislé indie studio z ČR. Jeden člověk, automatizace a hodně zvědavosti." data-en="Independent indie studio from Czech Republic. One person, automation and a lot of curiosity.">
+      Nezávislé indie studio z ČR. Jeden člověk, automatizace a hodně zvědavosti.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})" data-cs="Naše projekty →" data-en="Our projects →">Naše projekty →</button>
+      <button class="btn-secondary" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})" data-cs="O studiu" data-en="About us">O studiu</button>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FEATURED CAROUSEL -->
+<section id="featured">
+  <div class="sec-head">
+    <div>
+      <div class="eyebrow" data-cs="Launch · Srpen 2026" data-en="Launch · August 2026">Launch · Srpen 2026</div>
+      <h2 class="sec-title"><span data-cs="Přicházejí" data-en="Coming">Přicházejí</span> <em><span data-cs="brzy." data-en="soon.">brzy.</span></em></h2>
+    </div>
+  </div>
+  <div class="carousel-outer">
+    <div class="carousel-track" id="carousel-track">
+
+      <!-- Slide 1: CONFLUX -->
+      <a class="carousel-slide" href="conflux.html">
+        <div class="feat-bg"></div>
+        <div class="feat-grid-bg"></div>
+        <div class="feat-glow"></div>
+        <div class="feat-letter">C</div>
+        <div class="feat-arrow">↗</div>
+        <div class="feat-launch-badge" data-cs="Itch.io · Srpen 2026" data-en="Itch.io · August 2026">Itch.io · Srpen 2026</div>
+        <div class="feat-body">
+          <div class="feat-status"><div class="status-dot"></div><span data-cs="Aktivní vývoj" data-en="Active development">Aktivní vývoj</span></div>
+          <div class="feat-title-text">CONFLUX</div>
+          <div class="feat-type-txt" data-cs="Narativní karetní hra · PC · Steam" data-en="Narrative card game · PC · Steam">Narativní karetní hra · PC · Steam</div>
+          <div class="feat-desc-txt" data-cs="Každé rozhodnutí mění tok dění. Karetní mechanika potkává hluboký narativ inspirovaný klasickými text adventures." data-en="Every decision changes the flow. Card mechanics meet deep narrative inspired by classic text adventures.">Každé rozhodnutí mění tok dění. Karetní mechanika potkává hluboký narativ inspirovaný klasickými text adventures.</div>
+        </div>
+      </a>
+
+      <!-- Slide 2: Gream -->
+      <a class="carousel-slide" href="gream.html">
+        <div class="feat-bg" style="background: linear-gradient(135deg, #0a1a10 0%, #0a0a0a 65%);"></div>
+        <div class="feat-grid-bg"></div>
+        <div class="feat-glow" style="background: radial-gradient(circle, rgba(6,182,212,0.09) 0%, transparent 70%);"></div>
+        <div class="feat-letter" style="color:rgba(6,182,212,0.048)">G</div>
+        <div class="feat-arrow">↗</div>
+        <div class="feat-launch-badge" style="background:#06b6d4; color:#fff;" data-cs="App Store · Srpen 2026" data-en="App Store · August 2026">App Store · Srpen 2026</div>
+        <div class="feat-body">
+          <div class="feat-status" style="color:#06b6d4; background:rgba(6,182,212,0.08); border-color:rgba(6,182,212,0.25)">
+            <div class="status-dot" style="background:#06b6d4; animation:none"></div>
+            <span data-cs="Pre-launch" data-en="Pre-launch">Pre-launch</span>
+          </div>
+          <div class="feat-title-text">Gream</div>
+          <div class="feat-type-txt" data-cs="Vzdělávací mobilní hra · iOS · Android" data-en="Educational mobile game · iOS · Android">Vzdělávací mobilní hra · iOS · Android</div>
+          <div class="feat-desc-txt" data-cs="Hravé učení pro děti. Gamifikace s reálnými vzdělávacími obsahy. Navrženo pro každodenní 10–15 min. session s rodinou." data-en="Playful learning for children. Gamification with real educational content. Designed for daily 10–15 min. family sessions.">Hravé učení pro děti. Gamifikace s reálnými vzdělávacími obsahy. Navrženo pro každodenní 10–15 min. session s rodinou.</div>
+        </div>
+      </a>
+
+    </div>
+    <button class="carousel-btn prev" id="carousel-prev" aria-label="Předchozí">‹</button>
+    <button class="carousel-btn next" id="carousel-next" aria-label="Další">›</button>
+    <div class="carousel-dots" id="carousel-dots">
+      <button class="carousel-dot active" data-idx="0" aria-label="Slide 1"></button>
+      <button class="carousel-dot" data-idx="1" aria-label="Slide 2"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ALL PROJECTS -->
+<section id="projects" style="padding-top:80px; padding-bottom:0; padding-left:120px; padding-right:120px;">
+  <div class="sec-head">
+    <div>
+      <div class="eyebrow" data-cs="Showcase" data-en="Showcase">Showcase</div>
+      <h2 class="sec-title"><span data-cs="Všechny" data-en="All">Všechny</span> <em><span data-cs="projekty." data-en="projects.">projekty.</span></em></h2>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="f-btn active" data-filter="all" data-cs="Vše" data-en="All">Vše</button>
+    <button class="f-btn" data-filter="pc" data-cs="PC Hry" data-en="PC Games">PC Hry</button>
+    <button class="f-btn" data-filter="mobile" data-cs="Mobile" data-en="Mobile">Mobile</button>
+    <button class="f-btn" data-filter="experiment" data-cs="Experimenty" data-en="Experiments">Experimenty</button>
+    <button class="f-btn" data-filter="vision" data-cs="Vize" data-en="Vision">Vize</button>
+  </div>
+
+  <div class="proj-grid" id="proj-grid"></div>
+</section>
+
+<div class="divider" style="margin-top:80px;"></div>
+
+<!-- ROADMAP -->
+<section id="roadmap" style="padding-top:100px;padding-bottom:0;padding-left:120px;padding-right:120px;">
+  <div class="sec-head">
+    <div>
+      <div class="eyebrow" data-cs="Časová osa" data-en="Timeline">Časová osa</div>
+      <h2 class="sec-title"><span data-cs="Cesta" data-en="The">Cesta</span> <em><span data-cs="vpřed." data-en="ahead.">vpřed.</span></em></h2>
+    </div>
+  </div>
+  <div class="roadmap-wrap">
+    <div class="roadmap-line"></div>
+    <div class="roadmap-progress"></div>
+    <div class="roadmap-items">
+      <div class="rm-item done">
+        <div class="rm-dot"></div>
+        <div class="rm-date" data-cs="Červen '26" data-en="June '26">Červen '26</div>
+        <div class="rm-events">
+          <div class="rm-event" data-cs="Pavler launch" data-en="Pavler launch">Pavler launch</div>
+          <div class="rm-event" data-cs="n8n + AI tým" data-en="n8n + AI team">n8n + AI tým</div>
+          <div class="rm-event" data-cs="VPS + domény" data-en="VPS + domains">VPS + domény</div>
+        </div>
+      </div>
+      <div class="rm-item now">
+        <div class="rm-dot"></div>
+        <div class="rm-date" data-cs="Červenec '26" data-en="July '26">Červenec '26</div>
+        <div class="rm-events">
+          <div class="rm-event" data-cs="Weby live" data-en="Sites live">Weby live</div>
+          <div class="rm-event" data-cs="QA agenti" data-en="QA agents">QA agenti</div>
+          <div class="rm-event" data-cs="Překlady" data-en="Translations">Překlady</div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot"></div>
+        <div class="rm-date" data-cs="Srpen '26" data-en="August '26">Srpen '26</div>
+        <div class="rm-events">
+          <div class="rm-event" data-cs="Gream launch" data-en="Gream launch">Gream launch</div>
+          <div class="rm-event" data-cs="CONFLUX itch.io" data-en="CONFLUX itch.io">CONFLUX itch.io</div>
+          <div class="rm-event" data-cs="Album release" data-en="Album release">Album release</div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot"></div>
+        <div class="rm-date" data-cs="Q4 '26" data-en="Q4 '26">Q4 '26</div>
+        <div class="rm-events">
+          <div class="rm-event" data-cs="RECHO vývoj" data-en="RECHO dev">RECHO vývoj</div>
+          <div class="rm-event" data-cs="Steam setup" data-en="Steam setup">Steam setup</div>
+          <div class="rm-event" data-cs="Mobile apps" data-en="Mobile apps">Mobile apps</div>
+        </div>
+      </div>
+      <div class="rm-item">
+        <div class="rm-dot"></div>
+        <div class="rm-date" data-cs="2027+" data-en="2027+">2027+</div>
+        <div class="rm-events">
+          <div class="rm-event" data-cs="3Cue MVP" data-en="3Cue MVP">3Cue MVP</div>
+          <div class="rm-event" data-cs="Fundraising" data-en="Fundraising">Fundraising</div>
+          <div class="rm-event" data-cs="Expanze" data-en="Expansion">Expanze</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <div class="eyebrow" data-cs="O 3R Studiu" data-en="About 3R Studio">O 3R Studiu</div>
+    <h2 class="sec-title" style="margin-bottom:24px;"><span data-cs="Tvoříme světy," data-en="We build worlds,">Tvoříme světy,</span><br><em><span data-cs="které přetrvají." data-en="that endure.">které přetrvají.</span></em></h2>
+    <p class="about-body" data-cs="3R Studio vzniklo z jednoho přesvědčení — nejlepší hry a aplikace tvoří lidé, kteří věří v příběh za nimi. Tři písmena za názvem nejsou jen iniciály. Jsou to tři životy, na které chceme být hrdí — a každý projekt je krok k tomu zanechat něco, co přetrvá." data-en="3R Studio was built on one belief — the best games and apps are made by people who believe in the story behind them. The three letters aren't just initials. They are three lives we want to be proud of — and every project is a step toward leaving something that endures.">
+      3R Studio vzniklo z jednoho přesvědčení — nejlepší hry a aplikace tvoří lidé, kteří věří v příběh za nimi. Tři písmena za názvem nejsou jen iniciály. Jsou to tři životy, na které chceme být hrdí — a každý projekt je krok k tomu zanechat něco, co přetrvá.
+    </p>
+    <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" data-cs="Napsat nám →" data-en="Get in touch →">Napsat nám →</button>
+  </div>
+  <div class="about-cards">
+    <div class="about-card">
+      <div class="about-card-n">01</div>
+      <div class="about-card-t" data-cs="Indie přístup" data-en="Indie approach">Indie přístup</div>
+      <div class="about-card-d" data-cs="Žádné kompromisy v kreativitě. Každý projekt je autorský a nese vlastní DNA — od mechaniky po příběh." data-en="No creative compromises. Every project is authored and carries its own DNA — from mechanics to narrative.">Žádné kompromisy v kreativitě. Každý projekt je autorský a nese vlastní DNA — od mechaniky po příběh.</div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-n">02</div>
+      <div class="about-card-t" data-cs="Tech & příběh" data-en="Tech & story">Tech & příběh</div>
+      <div class="about-card-d" data-cs="Kombinujeme AI workflow, herní design a storytelling. Technologie je nástroj — příběh je cíl." data-en="We combine AI workflows, game design and storytelling. Technology is the tool — story is the goal.">Kombinujeme AI workflow, herní design a storytelling. Technologie je nástroj — příběh je cíl.</div>
+    </div>
+    <div class="about-card">
+      <div class="about-card-n">03</div>
+      <div class="about-card-t" data-cs="Odkaz" data-en="Legacy">Odkaz</div>
+      <div class="about-card-d" data-cs="Každý projekt je zároveň pro sebe i pro ty, kteří přijdou po nás. Tvoříme věci, na které budeme hrdí — i za dvacet let." data-en="Every project is both for ourselves and for those who come after us. We build things we'll be proud of — even in twenty years.">Každý projekt je zároveň pro sebe i pro ty, kteří přijdou po nás. Tvoříme věci, na které budeme hrdí — i za dvacet let.</div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section id="community">
+  <div class="comm-card">
+    <div class="comm-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+    </div>
+    <div class="comm-n">— 01</div>
+    <div class="comm-title"><span data-cs="Pro" data-en="For the">Pro</span> <em><span data-cs="komunitu" data-en="community">komunitu</span></em></div>
+    <div class="comm-desc" data-cs="Sleduj vývoj projektů, zapoj se do diskuzí a buď první, kdo vyzkouší nové věci." data-en="Follow project development, join discussions and be the first to try new things.">Sleduj vývoj projektů, zapoj se do diskuzí a buď první, kdo vyzkouší nové věci.</div>
+    <div class="comm-lnk"><span data-cs="Discord & novinky →" data-en="Discord & news →">Discord & novinky →</span></div>
+  </div>
+  <a class="comm-card" href="#contact" style="text-decoration:none;color:inherit;">
+    <div class="comm-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+        <line x1="2" y1="20" x2="22" y2="20"/>
+      </svg>
+    </div>
+    <div class="comm-n">— 02</div>
+    <div class="comm-title"><span data-cs="Pro" data-en="For">Pro</span> <em><span data-cs="investory" data-en="investors">investory</span></em></div>
+    <div class="comm-desc" data-cs="Zájem o indie gaming a kreativní tech? Pokud tě tato oblast zajímá, rádi si promluvíme." data-en="Interested in indie gaming and creative tech? If this space excites you, let's talk.">Zájem o indie gaming a kreativní tech? Pokud tě tato oblast zajímá, rádi si promluvíme.</div>
+    <div class="comm-lnk"><span data-cs="Napsat →" data-en="Get in touch →">Napsat →</span></div>
+  </a>
+</section>
+
+<!-- ARCADE / MINI HRA -->
+<!--
+  BOT / ROMAN: Až bude hra připravena, nastav data-game-src na cestu k HTML5 hře.
+  Hra může posílat skóre zpět pomocí: window.parent.postMessage({type:'score',nick:'...',score:123}, '*')
+  Gate formulář sbírá přezdívku + email a odesílá na n8n webhook.
+-->
+<section id="arcade">
+  <div class="arcade-header">
+    <div class="eyebrow" data-cs="Vyzkoušej hned" data-en="Play now">Vyzkoušej hned</div>
+    <h2 class="sec-title" style="margin-bottom:16px;"><span data-cs="Mini hra" data-en="Mini game">Mini hra</span> <em><span data-cs="přímo zde." data-en="right here.">přímo zde.</span></em></h2>
+    <p class="arcade-sub" data-cs="Žádné stahování, žádná registrace. Hraj, získej high score — a nech nám email." data-en="No download, no registration. Play, get a high score — and leave us your email.">Žádné stahování, žádná registrace. Hraj, získej high score — a nech nám email.</p>
+  </div>
+
+  <div class="arcade-stage">
+    <div class="arcade-frame-wrap" id="arcade-wrap" data-game-src="clicker/index.html" data-game-name="3r-clicker">
+      <iframe id="arcade-iframe" title="3R Studio mini hra" allowfullscreen></iframe>
+
+      <div class="arcade-gate" id="arcade-gate">
+        <div class="arcade-gate-icon" onclick="document.getElementById('arcade-gate-form').requestSubmit()">▶</div>
+        <div class="arcade-gate-title" data-cs="Připraven/a hrát?" data-en="Ready to play?">Připraven/a hrát?</div>
+        <p class="arcade-gate-sub" data-cs="Zadej přezdívku a hraj. Email je volitelný — dostaneš nové hry jako první." data-en="Enter a nickname and play. Email is optional — get new games first.">Zadej přezdívku a hraj. Email je volitelný — dostaneš nové hry jako první.</p>
+        <form class="arcade-gate-form" id="arcade-gate-form" onsubmit="startGame(event)">
+          <input class="ag-input" type="text" id="ag-nick" placeholder="Přezdívka / Nickname" maxlength="24" required autocomplete="nickname">
+          <input class="ag-input" type="email" id="ag-email" placeholder="Email (volitelné)" autocomplete="email">
+          <button class="ag-btn" type="submit" data-cs="Hrát →" data-en="Play →">Hrát →</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="arcade-actions">
+      <a class="arcade-store-btn" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="19" viewBox="0 0 814 1000" fill="currentColor"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 420.3 8.1 250.1 8.1 172.5c0-145.3 95.1-221.5 188.5-221.5 75 0 116.8 50.1 157.8 50.1 43.3 0 93.7-52.5 167.2-52.5 26.4 0 108.2 2.6 168.1 97.5zm-164-97.5c-8.4 39.5-31.1 83.1-64.7 112.3-32.7 28.7-68.7 49.3-105.9 49.3-5.8 0-11.6-.6-16.8-1.3-.6-5.1-.6-10.3-.6-15.4 0-48.7 22-96.1 54.1-125.6 31.5-28.7 92.3-49.9 133.9-50.5v31.2z"/></svg>
+        <div class="arcade-store-btn-texts">
+          <span class="arcade-store-btn-sub">Download on the</span>
+          <span class="arcade-store-btn-name">App Store</span>
+        </div>
+      </a>
+      <a class="arcade-store-btn" href="#" target="_blank" rel="noopener">
+        <svg width="16" height="18" viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.6 1.4 247.2-247v-5.8L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c17.1-9.9 17.1-25.8-.1-34.9l-1.2-.9zM85.5 452.9L325.3 277.5l-60.1-60.1L85.5 452.9z"/></svg>
+        <div class="arcade-store-btn-texts">
+          <span class="arcade-store-btn-sub">Get it on</span>
+          <span class="arcade-store-btn-name">Google Play</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="newsletter-left">
+    <div class="eyebrow" data-cs="Newsletter" data-en="Newsletter">Newsletter</div>
+    <div class="nl-title"><span data-cs="Zůstaň" data-en="Stay">Zůstaň</span> <em><span data-cs="v obraze." data-en="informed.">v obraze.</span></em></div>
+    <p class="nl-sub" data-cs="Devlogy, launch oznámení, beta přístupy. Bez spamu — max 2× měsíčně." data-en="Devlogs, launch announcements, beta access. No spam — max 2× monthly.">Devlogy, launch oznámení, beta přístupy. Bez spamu — max 2× měsíčně.</p>
+  </div>
+  <div>
+    <form class="nl-form" id="nl-form" onsubmit="submitNewsletter(event)">
+      <div class="nl-row">
+        <input class="nl-input" type="email" id="nl-email" placeholder="váš@email.cz" required autocomplete="email">
+        <button class="nl-btn" type="submit" data-cs="Přihlásit" data-en="Subscribe">Přihlásit</button>
+      </div>
+      <div class="nl-msg" id="nl-msg"></div>
+      <p class="nl-note" data-cs="Odhlásit se lze kdykoliv jedním klikem." data-en="Unsubscribe anytime with one click.">Odhlásit se lze kdykoliv jedním klikem.</p>
+    </form>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div>
+    <div class="eyebrow" data-cs="Kontakt" data-en="Contact">Kontakt</div>
+    <div class="contact-t"><span data-cs="Pojďme tvořit" data-en="Let's create">Pojďme tvořit</span><br><em><span data-cs="spolu." data-en="together.">spolu.</span></em></div>
+  </div>
+  <div class="contact-items">
+    <a class="ci" href="https://3rstudio.eu">
+      <div><div class="ci-lbl" data-cs="Web" data-en="Web">Web</div><div class="ci-val">3rstudio.eu</div></div>
+      <span class="ci-arr">↗</span>
+    </a>
+    <a class="ci" href="mailto:info@3rstudio.eu">
+      <div><div class="ci-lbl" data-cs="Email" data-en="Email">Email</div><div class="ci-val">info@3rstudio.eu</div></div>
+      <span class="ci-arr">↗</span>
+    </a>
+    <a class="ci" href="romanpavlorek_v4.html">
+      <div><div class="ci-lbl" data-cs="Osobní web" data-en="Personal site">Osobní web</div><div class="ci-val">romanpavlorek.eu</div></div>
+      <span class="ci-arr">↗</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <a href="3rstudio_v3.html" class="footer-logo" style="gap:8px;">
+    <span class="logo-box" style="font-size:13px;padding:4px 8px;">3R</span>
+    <span class="logo-studio">Studio</span>
+  </a>
+  <div class="footer-links">
+    <a class="footer-lnk" href="#projects" data-cs="Projekty" data-en="Projects">Projekty</a>
+    <a class="footer-lnk" href="blog.html" data-cs="Blog" data-en="Blog">Blog</a>
+    <a class="footer-lnk" href="#community" data-cs="Komunita" data-en="Community">Komunita</a>
+    <a class="footer-lnk" href="#contact" data-cs="Kontakt" data-en="Contact">Kontakt</a>
+  </div>
+  <div class="footer-copy">© 2026 3R Studio · ČR</div>
+</footer>
+
+<script>
+/* ===== LANGUAGE ===== */
+const LANG_KEY = '3rs-lang';
+let currentLang = localStorage.getItem(LANG_KEY) || 'cs';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem(LANG_KEY, lang);
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-cs]').forEach(el => {
+    if (el.dataset[lang]) el.textContent = el.dataset[lang];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  renderProjects(currentFilter);
+  const iframe = document.getElementById('arcade-iframe');
+  if (iframe?.contentWindow && iframe.src) iframe.contentWindow.postMessage({ type: 'setLang', lang }, '*');
+}
+
+/* ===== PROJECTS DATA ===== */
+const PROJECTS = [
+  { id: 'conflux', filter: 'pc', letter: 'C', href: 'conflux.html', name: 'CONFLUX', type: { cs: 'Narativní karetní hra', en: 'Narrative Card Game' }, status: { cs: 'Aktivní vývoj', en: 'Active Dev' }, statusClass: 'ps-active', desc: { cs: '283 příběhových uzlů s větvícím příběhem. Každé rozhodnutí mění tok dění.', en: '283 story nodes with branching narrative. Every decision changes the flow.' }, platforms: ['PC', 'Steam', 'itch.io'] },
+  { id: 'gream', filter: 'mobile', letter: 'G', href: 'gream.html', name: 'Gream', type: { cs: 'Vzdělávací mobilní hra', en: 'Educational Mobile Game' }, status: { cs: 'Pre-launch', en: 'Pre-launch' }, statusClass: 'ps-pre', desc: { cs: 'Hravé učení pro děti. Gamifikace s reálnými vzdělávacími obsahy.', en: 'Playful learning for children. Gamification with real educational content.' }, platforms: ['iOS', 'Android'] },
+  { id: 'recho', filter: 'pc', letter: 'R', href: '#', name: 'RECHO', type: { cs: 'Gothic Sci-Fi Action RPG', en: 'Gothic Sci-Fi Action RPG' }, status: { cs: 'Raný vývoj', en: 'Early Dev' }, statusClass: 'ps-proto', desc: { cs: 'Audio jako mechanika. Tuner + Elders. GDD v2.0 hotov, vývoj pokračuje.', en: 'Audio as mechanic. Tuner + Elders. GDD v2.0 complete, development ongoing.' }, platforms: ['PC'] },
+  { id: 'threshold', filter: 'pc', letter: 'T', href: '#', name: 'Threshold', type: { cs: 'Tahová geopolitická strategie', en: 'Turn-based Geopolitical Strategy' }, status: { cs: 'Prototyp v0.1', en: 'Prototype v0.1' }, statusClass: 'ps-proto', desc: { cs: 'Diplomacie, ekonomika, vojenství. Každé rozhodnutí má dlouhodobé geopolitické následky.', en: 'Diplomacy, economy, military. Every decision has long-term geopolitical consequences.' }, platforms: ['PC'] },
+  { id: 'blindroll', filter: 'mobile', letter: 'B', href: '#', name: 'Blind Roll', type: { cs: 'Haptický labyrint', en: 'Haptic Maze' }, status: { cs: 'Ve vývoji', en: 'In Dev' }, statusClass: 'ps-dev', desc: { cs: 'Navigace labyrintem hmatem a zvukem. Premium 25 Kč.', en: 'Navigate a maze by touch and sound. Premium 25 CZK.' }, platforms: ['iOS', 'Android'] },
+  { id: 'focus', filter: 'mobile', letter: '1', href: '#', name: 'The 1% Focus', type: { cs: 'Sociální výzva', en: 'Social Challenge' }, status: { cs: 'Ve vývoji', en: 'In Dev' }, statusClass: 'ps-dev', desc: { cs: 'Každý den o 1 % lepší. Sleduj, sdílej, inspiruj ostatní.', en: 'Get 1% better every day. Track, share, inspire others.' }, platforms: ['iOS', 'Android'] },
+  { id: 'thread', filter: 'mobile', letter: 'N', href: '#', name: 'Thread the Needle', type: { cs: 'Precision reflex hra', en: 'Precision Reflex Game' }, status: { cs: 'Ve vývoji', en: 'In Dev' }, statusClass: 'ps-dev', desc: { cs: 'Proplouvej obtížemi na milimetry přesně. Free + no-ads unlock 25 Kč.', en: 'Navigate obstacles with millimeter precision. Free + no-ads unlock 25 CZK.' }, platforms: ['iOS', 'Android'] },
+  { id: 'canvas', filter: 'mobile', letter: '∞', href: '#', name: '100-Year Canvas', type: { cs: 'Sociální pixel experiment', en: 'Social Pixel Experiment' }, status: { cs: 'Ve vývoji', en: 'In Dev' }, statusClass: 'ps-dev', desc: { cs: 'Globální plátno pixelů. Každý přidá svůj kousek do společného obrazu.', en: 'Global pixel canvas. Everyone adds their piece to a shared image.' }, platforms: ['iOS', 'Android'] },
+  { id: 'exactly', filter: 'mobile', letter: 'E', href: '#', name: 'Exactly', type: { cs: 'Timer intuition hra', en: 'Timer Intuition Game' }, status: { cs: 'Ve vývoji', en: 'In Dev' }, statusClass: 'ps-dev', desc: { cs: 'Zastaví čas přesně na cíl bez sledování displeje. Freemium.', en: 'Stop the timer exactly on target without watching the display. Freemium.' }, platforms: ['iOS', 'Android'] },
+  { id: 'pulse', filter: 'experiment', letter: 'Ψ', href: '#', name: 'PULSE', type: { cs: 'AI agent · Experiment', en: 'AI Agent · Experiment' }, status: { cs: 'Výzkum', en: 'Research' }, statusClass: 'ps-research', desc: { cs: 'Mind loop, mood vektor, BUILD mód, perzistentní paměť. Výzkum limitů LLM agentů.', en: 'Mind loop, mood vector, BUILD mode, persistent memory. Research into LLM agent limits.' }, platforms: ['Experiment'] },
+  { id: '3cue', filter: 'vision', letter: '▲', href: '#', name: '3Cue', type: { cs: 'AI platforma · Vize', en: 'AI Platform · Vision' }, status: { cs: 'Vize · 2027', en: 'Vision · 2027' }, statusClass: 'ps-vision', desc: { cs: 'Platforma kde kdokoliv — bez technických znalostí — přijde s problémem a odejde s výsledkem.', en: 'Platform where anyone — without technical knowledge — comes with a problem and leaves with a result.' }, platforms: ['Web', 'B2B'], isVision: true }
+];
+
+let currentFilter = 'all';
+
+function renderProjects(filter) {
+  currentFilter = filter;
+  const grid = document.getElementById('proj-grid');
+  const filtered = filter === 'all' ? PROJECTS : PROJECTS.filter(p => p.filter === filter);
+  grid.innerHTML = filtered.map(p => `
+    <a class="proj-card${p.isVision ? ' vision' : ''}" href="${p.href}">
+      <div class="pc-top">
+        <div class="pc-letter">${p.letter}</div>
+        <div class="pc-status ${p.statusClass}"><span>●</span> ${p.status[currentLang]}</div>
+      </div>
+      <div class="pc-name">${p.name}</div>
+      <div class="pc-type">${p.type[currentLang]}</div>
+      <div class="pc-desc">${p.desc[currentLang]}</div>
+      <div class="pc-foot">
+        <div class="pc-platforms">${p.platforms.map(pl => `<span class="pc-plat">${pl}</span>`).join('')}</div>
+        <span class="pc-arr">↗</span>
+      </div>
+    </a>
+  `).join('');
+  document.querySelectorAll('.f-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === filter);
+  });
+}
+
+document.querySelectorAll('.f-btn').forEach(btn => {
+  btn.addEventListener('click', () => renderProjects(btn.dataset.filter));
+});
+
+/* ===== NEWSLETTER ===== */
+const NEWSLETTER_URL = 'https://n8n.3rstudio.eu/webhook/newsletter';
+
+async function submitNewsletter(e) {
+  e.preventDefault();
+  const email = document.getElementById('nl-email').value;
+  const msg = document.getElementById('nl-msg');
+  const btn = e.target.querySelector('.nl-btn');
+  btn.textContent = currentLang === 'cs' ? 'Odesílám…' : 'Sending…';
+  btn.disabled = true;
+  try {
+    await fetch(NEWSLETTER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, lang: currentLang, source: '3rstudio' }) });
+    msg.style.display = 'block';
+    msg.textContent = currentLang === 'cs' ? '✓ Přihlášení úspěšné.' : '✓ Subscribed successfully.';
+    document.getElementById('nl-email').value = '';
+  } catch {
+    msg.style.display = 'block';
+    msg.style.color = '#dc2626';
+    msg.textContent = currentLang === 'cs' ? 'Chyba — zkus to znovu.' : 'Error — please try again.';
+  }
+  btn.textContent = currentLang === 'cs' ? 'Přihlásit' : 'Subscribe';
+  btn.disabled = false;
+}
+
+/* ===== NAV SCROLL ===== */
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+/* ===== SCROLL ANIMATIONS ===== */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.about-card, .comm-card, .rm-item').forEach(el => {
+  el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+  observer.observe(el);
+});
+
+/* ===== HERO CANVAS (light mode — subtle dark particles) ===== */
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [], mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+
+window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+
+function resizeCanvas() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+
+function initParticles() {
+  particles = Array.from({ length: 55 }, () => ({
+    x: Math.random() * W, y: Math.random() * H,
+    r: Math.random() * 1.2 + 0.3,
+    vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.22,
+    o: Math.random() * 0.2 + 0.04,
+    pulse: Math.random() * Math.PI * 2,
+    amber: Math.random() > 0.7
+  }));
+}
+
+function drawCanvas() {
+  ctx.clearRect(0, 0, W, H);
+  const t = Date.now() * 0.0003;
+  const gs = 80;
+
+  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = 'rgba(17,17,16,0.04)';
+  for (let x = 0; x < W; x += gs) {
+    ctx.beginPath(); ctx.moveTo(x + Math.sin(t + x * 0.01) * 1.5, 0); ctx.lineTo(x + Math.sin(t + x * 0.01) * 1.5, H); ctx.stroke();
+  }
+  for (let y = 0; y < H; y += gs) {
+    ctx.beginPath(); ctx.moveTo(0, y + Math.cos(t + y * 0.01) * 1.5); ctx.lineTo(W, y + Math.cos(t + y * 0.01) * 1.5); ctx.stroke();
+  }
+
+  const grd = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 260);
+  grd.addColorStop(0, 'rgba(184,137,12,0.055)'); grd.addColorStop(1, 'transparent');
+  ctx.fillStyle = grd; ctx.fillRect(0, 0, W, H);
+
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.pulse += 0.018;
+    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+    const b = Math.sin(p.pulse) * 0.25 + 0.75;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r * b, 0, Math.PI * 2);
+    ctx.fillStyle = p.amber ? `rgba(184,137,12,${p.o * b})` : `rgba(17,17,16,${p.o * b * 0.5})`;
+    ctx.fill();
+  });
+
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 95) {
+        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(184,137,12,${0.035 * (1 - d / 95)})`; ctx.lineWidth = 0.5; ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawCanvas);
+}
+
+resizeCanvas(); initParticles(); drawCanvas();
+window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
+
+/* ===== COUNTER ANIMATION ===== */
+function animateCount(el, target, duration) {
+  const start = performance.now();
+  const isDecade = target >= 1000 || String(target).includes("'");
+  if (isDecade) return; // skip non-numeric
+  el.textContent = '0';
+  function step(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(ease * target);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(step);
+}
+
+const statObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const nums = e.target.querySelectorAll('.stat-num');
+    nums.forEach(n => {
+      const val = parseInt(n.textContent);
+      if (!isNaN(val)) animateCount(n, val, 1400);
+    });
+    statObserver.unobserve(e.target);
+  });
+}, { threshold: 0.6 });
+
+/* ===== ARCADE ===== */
+const SCORES_KEY = '3rs-scores';
+
+function getScores() {
+  try { return JSON.parse(localStorage.getItem(SCORES_KEY)) || []; } catch(e) { return []; }
+}
+
+function saveScore(nick, score) {
+  const scores = getScores();
+  scores.push({ nick, score, date: Date.now() });
+  scores.sort((a, b) => b.score - a.score);
+  localStorage.setItem(SCORES_KEY, JSON.stringify(scores.slice(0, 10)));
+  renderScores();
+}
+
+function renderScores() {
+  const list = document.getElementById('scores-list');
+  if (!list) return;
+  const scores = getScores();
+  const medals = ['🥇','🥈','🥉'];
+  if (!scores.length) {
+    list.innerHTML = `<div class="score-empty" data-cs="Zatím žádné skóre — buď první!" data-en="No scores yet — be the first!">Zatím žádné skóre — buď první!</div>`;
+    return;
+  }
+  list.innerHTML = scores.map((s, i) => `
+    <div class="score-row">
+      <span class="score-rank">${medals[i] || i + 1}</span>
+      <span class="score-nick">${s.nick.replace(/</g,'&lt;')}</span>
+      <span class="score-pts">${s.score.toLocaleString()}</span>
+    </div>`).join('');
+}
+
+function startGame(e) {
+  if (e) e.preventDefault();
+  const nick  = (document.getElementById('ag-nick')?.value  || '').trim();
+  const email = (document.getElementById('ag-email')?.value || '').trim();
+  if (!nick) { document.getElementById('ag-nick')?.focus(); return; }
+
+  const wrap     = document.getElementById('arcade-wrap');
+  const src      = wrap?.dataset.gameSrc || '';
+  const gameName = wrap?.dataset.gameName || '3r-clicker';
+  if (!src) return;
+
+  fetch('https://n8n.3rstudio.eu/webhook/arcade-lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nick, email, game: gameName, ts: Date.now() }),
+  }).catch(() => {});
+  gtag('event', 'arcade_play', { game: gameName, has_email: !!email });
+
+  const iframe = document.getElementById('arcade-iframe');
+  if (iframe) {
+    try {
+      const url = new URL(src, location.href);
+      url.searchParams.set('nick', nick);
+      url.searchParams.set('lang', currentLang);
+      iframe.src = url.toString();
+    } catch(_) { iframe.src = src; }
+  }
+  wrap.classList.add('playing');
+}
+
+// Receive scores posted by the game iframe
+window.addEventListener('message', function(ev) {
+  const wrap = document.getElementById('arcade-wrap');
+  if (!wrap?.classList.contains('playing')) return;
+  if (!ev.data || ev.data.type !== 'score') return;
+  const nick = ev.data.nick || wrap.dataset.playerNick || 'Anon';
+  const score = parseInt(ev.data.score, 10);
+  if (isNaN(score) || score < 0) return;
+  saveScore(nick, score);
+  gtag('event', 'arcade_score', { score, nick });
+});
+
+// Render scores on page load
+renderScores();
+
+/* ===== GA4 CUSTOM EVENTS ===== */
+// Fired when user clicks a project card
+document.addEventListener('click', e => {
+  const card = e.target.closest('.proj-card');
+  if (card) {
+    const name = card.querySelector('.pc-name');
+    if (name) gtag('event', 'project_click', { project: name.textContent.toLowerCase() });
+  }
+  const feat = e.target.closest('.carousel-slide');
+  if (feat) {
+    const title = feat.querySelector('.feat-title-text');
+    if (title) gtag('event', 'featured_click', { project: title.textContent.toLowerCase() });
+  }
+});
+
+// Newsletter sign intent
+document.getElementById('nl-email')?.addEventListener('focus', () => {
+  gtag('event', 'newsletter_intent', { source: '3rstudio' });
+});
+
+/* ===== FEATURED CAROUSEL ===== */
+(function() {
+  const track = document.getElementById('carousel-track');
+  if (!track) return;
+  const slides = track.querySelectorAll('.carousel-slide');
+  const dots = document.querySelectorAll('.carousel-dot');
+  let current = 0;
+  let autoTimer;
+
+  function goTo(idx) {
+    current = ((idx % slides.length) + slides.length) % slides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  document.getElementById('carousel-prev')?.addEventListener('click', e => { e.preventDefault(); goTo(current - 1); startAuto(); });
+  document.getElementById('carousel-next')?.addEventListener('click', e => { e.preventDefault(); goTo(current + 1); startAuto(); });
+  dots.forEach((d, i) => d.addEventListener('click', e => { e.preventDefault(); goTo(i); startAuto(); }));
+
+  startAuto();
+})();
+
+/* ===== COOKIE BAR ===== */
+(function() {
+  function getCookie(name) { return document.cookie.split('; ').find(r => r.startsWith(name + '=')) || ''; }
+  if (!getCookie('cookie-consent')) document.getElementById('cookie-bar').style.display = 'flex';
+})();
+function cookieConsent(choice) {
+  document.cookie = 'cookie-consent=' + choice + '; max-age=' + (365*24*3600) + '; path=/; SameSite=Lax';
+  document.getElementById('cookie-bar').style.display = 'none';
+}
+
+/* ===== INIT ===== */
+setLang(currentLang);
+renderProjects('all');
+</script>
+</body>
+</html>

@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>3R Clicker</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23f5c518'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='16' font-weight='900' font-style='italic' text-anchor='middle' fill='%23111110'%3E3R%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:     #0f0f0e;
+  --bg2:    #1a1a19;
+  --bg3:    #242423;
+  --y:      #f5c518;
+  --text:   #f5f5f0;
+  --dim:    rgba(245,245,240,0.52);
+  --muted:  rgba(245,245,240,0.28);
+  --border: rgba(255,255,255,0.07);
+  --r:      10px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html,body { height:100%; background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; overflow:hidden; user-select:none; }
+#g { display:flex; flex-direction:column; height:100vh; }
+
+/* Header */
+#hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 20px; flex-shrink:0;
+  background:var(--bg2); border-bottom:0.5px solid var(--border);
+}
+.logo { font-size:17px; font-weight:800; font-style:italic; letter-spacing:-0.04em; color:var(--y); }
+.logo span { font-style:normal; font-weight:600; font-size:11px; letter-spacing:0.04em; color:var(--muted); margin-left:5px; }
+#stats { display:flex; gap:18px; }
+.stat { text-align:center; }
+.stat-val { font-size:13px; font-weight:800; color:var(--y); line-height:1; }
+.stat-lbl { font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-top:2px; }
+
+/* Boost bar */
+#boost-bar {
+  display:none; flex-shrink:0;
+  background:var(--y); color:#111;
+  text-align:center; font-weight:800; font-size:12px;
+  padding:5px 16px; letter-spacing:0.08em;
+}
+#boost-bar.active { display:block; animation:bpulse 0.65s ease-in-out infinite alternate; }
+@keyframes bpulse { from{opacity:.88} to{opacity:1} }
+
+/* Play area */
+#play { flex:1; display:flex; flex-direction:column; min-height:0; position:relative; }
+
+/* Grid */
+#grid-wrap { flex:1; overflow:hidden; position:relative; }
+#grid {
+  font-family:'Courier New',monospace; font-size:8px; line-height:1.5;
+  letter-spacing:0.03em; color:rgba(245,197,24,0.35);
+  white-space:pre; pointer-events:none; transition:opacity 0.3s;
+  display:block;
+}
+#grid.shipping { opacity:0; }
+
+/* Ship animation */
+#ship-anim {
+  position:absolute; inset:0; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; opacity:0; pointer-events:none;
+}
+#ship-anim.show { animation:shipPop 1.55s ease forwards; }
+#ship-emoji { font-size:70px; }
+#ship-proj-name {
+  font-size:17px; font-weight:800; font-style:italic; color:var(--y);
+  margin-top:10px; letter-spacing:0.01em; text-align:center;
+  text-shadow:0 0 28px rgba(245,197,24,0.45); max-width:88%;
+}
+#ship-proj-type {
+  font-size:10px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase;
+  color:var(--dim); margin-top:5px;
+}
+@keyframes shipPop {
+  0%   { transform:scale(0.4); opacity:0; }
+  28%  { transform:scale(1.1);  opacity:1; }
+  68%  { transform:scale(1);    opacity:1; }
+  100% { transform:scale(0.6);  opacity:0; }
+}
+
+/* Toolbar */
+#toolbar {
+  display:flex; gap:6px; padding:8px 10px; flex-shrink:0;
+  background:var(--bg2); border-top:0.5px solid var(--border);
+}
+.tool-btn {
+  flex:1; height:36px; background:transparent; color:var(--muted);
+  border:0.5px solid var(--border); border-radius:8px; cursor:pointer;
+  font-family:'Inter',sans-serif; font-weight:700; font-size:11px;
+  letter-spacing:0.12em; text-transform:uppercase; position:relative;
+  transition:border-color 0.14s, color 0.14s;
+}
+.tool-btn:hover { border-color:rgba(245,197,24,0.28); color:var(--dim); }
+.tool-btn.lit { border-color:rgba(245,197,24,0.55); color:var(--y); }
+.tbadge {
+  position:absolute; top:-7px; right:-5px;
+  background:var(--y); color:#111; font-size:8px; font-weight:800;
+  min-width:15px; height:15px; padding:0 3px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* Click button */
+#btn-click {
+  flex-shrink:0; height:64px; width:100%; background:var(--y); color:#111;
+  border:none; cursor:pointer; font-family:'Inter',sans-serif;
+  font-weight:800; font-style:italic; font-size:17px; letter-spacing:0.01em;
+  transition:background 0.2s, opacity 0.07s;
+}
+#btn-click.boosted { background:linear-gradient(90deg,var(--y),#ff9a00); }
+#btn-click:active:not(:disabled) { opacity:0.82; }
+#btn-click:disabled { opacity:0.35; cursor:not-allowed; }
+#btn-click .sub { display:block; font-size:10px; font-style:normal; font-weight:600; letter-spacing:0.14em; opacity:0.6; margin-top:1px; }
+
+/* Pop */
+.pop {
+  position:fixed; pointer-events:none; z-index:9999;
+  font-size:13px; font-weight:800; color:var(--y);
+  transform:translateX(-50%); animation:popUp 0.7s ease forwards;
+}
+@keyframes popUp {
+  0%   { opacity:1; transform:translateX(-50%) translateY(0); }
+  100% { opacity:0; transform:translateX(-50%) translateY(-56px); }
+}
+
+/* Overlay (covers play area, not header) */
+#overlay {
+  position:absolute; inset:0; z-index:50;
+  background:rgba(15,15,14,0.9);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center;
+}
+#overlay.hidden { display:none; }
+#overlay-panel {
+  background:var(--bg2); border:0.5px solid rgba(255,255,255,0.11);
+  border-radius:16px; width:min(500px,94%); max-height:80vh;
+  overflow-y:auto; padding:20px 18px;
+  box-shadow:0 24px 64px rgba(0,0,0,0.6);
+}
+#overlay-panel::-webkit-scrollbar { width:2px; }
+#overlay-panel::-webkit-scrollbar-thumb { background:rgba(245,197,24,0.18); }
+.ov-hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  padding-bottom:14px; margin-bottom:4px;
+  border-bottom:0.5px solid var(--border);
+}
+.ov-title { font-size:14px; font-weight:800; font-style:italic; letter-spacing:-0.02em; }
+.ov-close {
+  background:none; border:0.5px solid var(--border); color:var(--muted);
+  cursor:pointer; border-radius:6px; padding:4px 12px;
+  font-size:11px; font-family:'Inter',sans-serif; font-weight:700;
+  letter-spacing:0.06em; transition:color 0.12s, border-color 0.12s;
+}
+.ov-close:hover { color:var(--text); border-color:rgba(255,255,255,0.2); }
+
+/* Shop section label */
+.shop-sec { font-size:9px; font-weight:700; letter-spacing:0.26em; text-transform:uppercase; color:var(--muted); margin:16px 0 8px; }
+.shop-sec:first-child { margin-top:8px; }
+
+/* Item card */
+.gen {
+  display:flex; align-items:center; gap:10px;
+  background:var(--bg3); border:0.5px solid var(--border);
+  border-radius:var(--r); padding:10px 12px; margin-bottom:6px;
+  cursor:pointer; transition:border-color 0.14s, background 0.14s;
+}
+.gen:hover:not(.broke):not(.bought) { background:#2c2c2b; border-color:rgba(245,197,24,0.24); }
+.gen.can-buy { border-color:rgba(245,197,24,0.42); }
+.gen.broke { opacity:0.36; cursor:not-allowed; }
+.gen.bought { opacity:0.32; cursor:default; }
+.gen-icon { font-size:22px; flex-shrink:0; line-height:1; }
+.gen-info { flex:1; min-width:0; }
+.gen-name { font-size:12px; font-weight:700; }
+.gen-desc { font-size:10px; color:var(--muted); margin-top:1px; line-height:1.35; }
+.gen-rate { font-size:10px; color:var(--dim); margin-top:2px; }
+.gen-right { text-align:right; flex-shrink:0; }
+.gen-owned { font-size:18px; font-weight:800; line-height:1; }
+.gen-cost { font-size:11px; font-weight:700; margin-top:2px; }
+.gen-cost.ok { color:var(--y); }
+.gen-cost.no { color:var(--muted); }
+
+/* Difficulty indicator */
+.diff-info {
+  font-size:10px; color:var(--muted); text-align:center;
+  padding:6px; margin-bottom:4px; font-style:italic;
+}
+.diff-info strong { color:var(--y); }
+
+/* Project cards */
+.proj-card {
+  display:flex; align-items:center; gap:8px;
+  padding:8px 10px; border-radius:8px;
+  background:var(--bg3); border:0.5px solid var(--border); margin-bottom:5px;
+}
+.proj-card.real { border-color:rgba(245,197,24,0.22); }
+.proj-badge {
+  font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+  padding:2px 6px; border-radius:3px; flex-shrink:0;
+}
+.badge-game  { background:rgba(245,197,24,0.12); color:var(--y); }
+.badge-music { background:rgba(167,139,250,0.12); color:#a78bfa; }
+.badge-art   { background:rgba(251,146,60,0.12);  color:#fb923c; }
+.proj-link {
+  font-size:11px; color:var(--muted); text-decoration:none;
+  border:0.5px solid var(--border); border-radius:4px;
+  padding:2px 8px; flex-shrink:0; margin-left:auto;
+  transition:color 0.12s, border-color 0.12s;
+}
+.proj-link:hover { color:var(--y); border-color:rgba(245,197,24,0.35); }
+.proj-empty { font-size:11px; color:var(--muted); text-align:center; padding:18px 0; font-style:italic; }
+
+/* Leaderboard */
+.lb-table { margin-top:4px; }
+.lb-row {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 10px; border-radius:8px;
+  background:var(--bg3); border:0.5px solid var(--border); margin-bottom:5px;
+}
+.lb-row.lb-me { border-color:rgba(245,197,24,0.4); background:rgba(245,197,24,0.06); }
+.lb-rank { font-size:14px; flex-shrink:0; min-width:30px; text-align:center; font-weight:800; color:var(--muted); }
+.lb-name { flex:1; font-size:12px; font-weight:700; }
+.lb-score { font-size:13px; font-weight:800; color:var(--y); flex-shrink:0; }
+.lb-prompt {
+  background:var(--bg3); border:0.5px solid rgba(245,197,24,0.22);
+  border-radius:10px; padding:14px; margin-bottom:14px;
+}
+.lb-prompt-label { font-size:12px; color:var(--dim); margin-bottom:10px; line-height:1.5; }
+.lb-row-input { display:flex; gap:8px; }
+.lb-input {
+  flex:1; background:var(--bg); border:0.5px solid rgba(245,197,24,0.3);
+  border-radius:8px; color:var(--text); font-family:'Inter',sans-serif;
+  font-size:13px; padding:8px 12px; outline:none;
+}
+.lb-input:focus { border-color:rgba(245,197,24,0.65); }
+.lb-submit {
+  background:var(--y); color:#111; border:none; cursor:pointer;
+  font-family:'Inter',sans-serif; font-weight:800; font-size:13px;
+  padding:8px 18px; border-radius:8px; transition:opacity 0.1s;
+}
+.lb-submit:hover { opacity:0.88; }
+.lb-footer {
+  font-size:10px; color:var(--muted); text-align:center; margin-top:12px;
+  line-height:1.6;
+}
+.lb-footer strong { color:var(--y); }
+.lb-empty { font-size:11px; color:var(--muted); text-align:center; padding:18px 0; font-style:italic; }
+
+/* Real complete modal */
+#real-complete-modal {
+  position:fixed; inset:0; z-index:200;
+  background:rgba(15,15,14,0.93);
+  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  display:flex; align-items:center; justify-content:center;
+}
+#real-complete-modal.hidden { display:none; }
+#real-complete-box {
+  background:var(--bg2); border:0.5px solid rgba(245,197,24,0.38);
+  border-radius:20px; padding:36px 28px; max-width:400px; width:92%;
+  text-align:center; box-shadow:0 32px 80px rgba(0,0,0,0.7);
+}
+.rc-emoji { font-size:64px; margin-bottom:16px; animation:rcBounce 0.6s ease; }
+@keyframes rcBounce {
+  0%   { transform:scale(0.5); opacity:0; }
+  70%  { transform:scale(1.12); }
+  100% { transform:scale(1); opacity:1; }
+}
+.rc-title { font-size:18px; font-weight:800; font-style:italic; color:var(--y); margin-bottom:10px; }
+.rc-msg { font-size:13px; color:var(--dim); line-height:1.65; margin-bottom:26px; }
+.rc-btns { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+.rc-btn {
+  background:transparent; border:0.5px solid var(--border); color:var(--muted);
+  cursor:pointer; border-radius:8px; padding:10px 20px;
+  font-size:12px; font-family:'Inter',sans-serif; font-weight:700;
+  letter-spacing:0.06em; transition:color 0.12s, border-color 0.12s;
+}
+.rc-btn:hover { color:var(--text); border-color:rgba(255,255,255,0.2); }
+.rc-btn.primary { background:var(--y); color:#111; border-color:var(--y); font-style:italic; }
+.rc-btn.primary:hover { opacity:0.88; }
+
+/* Intro modal */
+#intro-modal {
+  position:fixed; inset:0; z-index:300;
+  background:rgba(15,15,14,0.96);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  display:flex; align-items:center; justify-content:center;
+}
+#intro-modal.hidden { display:none; }
+#intro-box {
+  background:var(--bg2); border:0.5px solid rgba(245,197,24,0.3);
+  border-radius:20px; padding:32px 28px; max-width:420px; width:92%;
+  box-shadow:0 32px 80px rgba(0,0,0,0.7);
+}
+.intro-logo { font-size:22px; font-weight:800; font-style:italic; color:var(--y); letter-spacing:-0.04em; margin-bottom:6px; }
+.intro-sub { font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:22px; }
+.intro-steps { list-style:none; margin-bottom:24px; }
+.intro-steps li {
+  display:flex; gap:12px; align-items:flex-start;
+  padding:9px 0; border-bottom:0.5px solid var(--border);
+  font-size:12px; color:var(--dim); line-height:1.55;
+}
+.intro-steps li:last-child { border-bottom:none; }
+.intro-step-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.intro-steps strong { color:var(--text); font-weight:700; }
+.intro-start {
+  width:100%; height:48px; background:var(--y); color:#111;
+  border:none; cursor:pointer; border-radius:10px;
+  font-family:'Inter',sans-serif; font-weight:800; font-style:italic;
+  font-size:16px; letter-spacing:0.01em; transition:opacity 0.1s;
+}
+.intro-start:hover { opacity:0.88; }
+
+/* Notification */
+#notif {
+  position:fixed; top:58px; left:50%; transform:translateX(-50%);
+  background:var(--y); color:#111; padding:7px 18px; border-radius:8px;
+  font-size:13px; font-weight:700; opacity:0; pointer-events:none;
+  transition:opacity 0.22s; z-index:600; white-space:nowrap;
+}
+</style>
+</head>
+<body>
+<div id="g">
+  <header id="hdr">
+    <div class="logo">3R<span>clicker</span></div>
+    <div id="stats">
+      <div class="stat"><div class="stat-val" id="s-lines">0</div><div class="stat-lbl" data-t="stat_lines">Řádků</div></div>
+      <div class="stat"><div class="stat-val" id="s-ips">0/s</div><div class="stat-lbl">Auto</div></div>
+      <div class="stat"><div class="stat-val" id="s-cp">×1</div><div class="stat-lbl" data-t="stat_click">Klik</div></div>
+      <div class="stat"><div class="stat-val" id="s-proj">0</div><div class="stat-lbl" data-t="stat_projects">Projektů</div></div>
+      <div class="stat"><div class="stat-val" id="s-hs">0</div><div class="stat-lbl">High Score</div></div>
+    </div>
+  </header>
+  <div id="boost-bar">🚀 BOOST <span id="b-mult"></span>× — <span id="b-timer"></span>s <span data-t="boost_left">zbývá</span></div>
+
+  <div id="play">
+    <div id="grid-wrap">
+      <pre id="grid"></pre>
+      <div id="ship-anim">
+        <div id="ship-emoji">💾</div>
+        <div id="ship-proj-name"></div>
+        <div id="ship-proj-type"></div>
+      </div>
+    </div>
+
+    <div id="toolbar">
+      <button class="tool-btn" id="tbtn-shop" onclick="openOverlay('shop')">
+        ⌨️ Shop
+        <span class="tbadge" id="shop-badge" style="display:none"></span>
+      </button>
+      <button class="tool-btn" id="tbtn-proj" onclick="openOverlay('projects')">
+        <span data-t="btn_projects">📁 Projekty</span>
+        <span class="tbadge" id="proj-badge" style="display:none"></span>
+      </button>
+      <button class="tool-btn" id="tbtn-lb" onclick="openOverlay('leaderboard')">
+        🏆 TOP 10
+        <span class="tbadge" id="lb-badge" style="display:none"></span>
+      </button>
+    </div>
+
+    <button id="btn-click" tabindex="-1" onclick="handleClick(event)">
+      <span data-t="btn_code">KÓDOVAT</span>
+      <span class="sub" id="btn-sub">+1 řádek za klik</span>
+    </button>
+
+    <div id="overlay" class="hidden">
+      <div id="overlay-panel">
+        <div class="ov-hdr">
+          <div class="ov-title" id="ov-title"></div>
+          <button class="ov-close" onclick="closeOverlay()" data-t="close_btn">ESC / Zavřít</button>
+        </div>
+        <div id="ov-content"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Intro modal -->
+<div id="intro-modal" class="hidden">
+  <div id="intro-box">
+    <div class="intro-logo">3R Clicker</div>
+    <div class="intro-sub" data-t="intro_sub">idle hra o tvorbě</div>
+    <ul class="intro-steps">
+      <li>
+        <span class="intro-step-icon">⌨️</span>
+        <span data-t-html="intro_s1">Klikej na <strong>KÓDOVAT</strong> — každý klik vyplní část obrazovky kódem. Lze i <strong>mezerníkem</strong>.</span>
+      </li>
+      <li>
+        <span class="intro-step-icon">💾</span>
+        <span data-t-html="intro_s2">Jakmile je obrazovka plná, <strong>vydáš projekt</strong>! Nejdřív reálné projekty 2026, pak fiktivní.</span>
+      </li>
+      <li>
+        <span class="intro-step-icon">🛒</span>
+        <span data-t-html="intro_s3">V shopu nakupuj <strong>generátory</strong> (kódují za tebe) a <strong>upgrady kliku</strong> (víc řádků na klik).</span>
+      </li>
+      <li>
+        <span class="intro-step-icon">📈</span>
+        <span data-t-html="intro_s4">Každý vydaný projekt je <strong>těžší než předchozí</strong> — čím déle hraješ, tím delší cesta k dalšímu.</span>
+      </li>
+      <li>
+        <span class="intro-step-icon">🏆</span>
+        <span data-t-html="intro_s5">High Score = <strong>celkový počet řádků</strong>. Vydej všech 5 reálných projektů 2026 a bojuj o TOP 10!</span>
+      </li>
+    </ul>
+    <button class="intro-start" onclick="closeIntro()" data-t="intro_start">Začít kódovat →</button>
+  </div>
+</div>
+
+<!-- Real-complete modal (fixed, above everything) -->
+<div id="real-complete-modal" class="hidden">
+  <div id="real-complete-box">
+    <div class="rc-emoji">🎉</div>
+    <div class="rc-title" data-t="rc_title">Všechny projekty 2026 hotové!</div>
+    <div class="rc-msg" data-t-html="rc_msg">Právě dokončil všechny projekty k roku 2026!<br>Ale nekončíme — uvidíme, s čím přijdeš. Bojuj o TOP 10!</div>
+    <div class="rc-btns">
+      <button class="rc-btn" onclick="closeRealCompleteModal(false)" data-t="rc_continue">Pokračovat →</button>
+      <button class="rc-btn primary" onclick="closeRealCompleteModal(true)" data-t="rc_top10">🏆 Bojuj o TOP 10!</button>
+    </div>
+  </div>
+</div>
+
+<div id="notif"></div>
+
+<script>
+const SAVE_KEY   = '3r-clicker-v5';
+const LB_KEY     = '3r-clicker-lb';
+const PLAYER_KEY = '3r-clicker-player';
+
+// true when running inside an iframe (3R Studio / personal web embed)
+const IS_EMBEDDED = window.self !== window.top;
+
+// ── Localisation ──
+const _urlP = new URLSearchParams(location.search);
+let lang = _urlP.get('lang') || (navigator.language.startsWith('en') ? 'en' : 'cs');
+
+const T = {
+  cs: {
+    stat_lines:'Řádků', stat_click:'Klik', stat_projects:'Projektů',
+    boost_left:'s zbývá',
+    btn_projects:'📁 Projekty', btn_code:'KÓDOVAT',
+    close_btn:'ESC / Zavřít',
+    ov_shop:'SHOP', ov_projects:'VYDANÉ PROJEKTY', ov_lb:'🏆 TOP 10 LEADERBOARD',
+    diff_text:'Obtížnost', diff_suffix:'každý projekt trvá déle než předchozí',
+    sec_gens:'Generátory', sec_upgrades:'Upgrady kliku',
+    bought:'koupeno', unit:' ř.',
+    proj_empty:'Zatím nic vydáno… zakóduj první projekt!',
+    proj_real_title:'Tvoje projekty 2026', proj_fict_title:'Fiktivní projekty',
+    badge_game:'hra', badge_music:'hudba', badge_art:'art',
+    lb_top10:'Tvůj výkon se dostal do TOP 10!<br>Zadej jméno a zapiš se do historie:',
+    lb_server_prompt:'Zapiš se do žebříčku — zadej jméno:',
+    lb_name_ph:'Tvoje jméno…',
+    lb_empty:'Žádné skóre zatím — buď první!',
+    lb_hs:'High Score:', lb_score:'Tvůj score:', lb_lines:'řádků',
+    lb_loading:'Načítám žebříček…', lb_coming:'Server žebříček brzy — připravuje se.',
+    lb_srv_empty:'Žebříček je zatím prázdný — buď první!',
+    ship_game:'NOVÁ HRA', ship_music:'HUDBA', ship_art:'ARTWORK',
+    notify_shipped:'vydáno!', notify_upgrade:'aktivováno!',
+    per_click:'za klik', line1:'řádek', lineN:'řádků', boost_for:'na',
+    intro_sub:'idle hra o tvorbě',
+    intro_s1:'Klikej na <strong>KÓDOVAT</strong> — každý klik vyplní část obrazovky kódem. Lze i <strong>mezerníkem</strong>.',
+    intro_s2:'Jakmile je obrazovka plná, <strong>vydáš projekt</strong>! Nejdřív reálné projekty 2026, pak fiktivní.',
+    intro_s3:'V shopu nakupuj <strong>generátory</strong> (kódují za tebe) a <strong>upgrady kliku</strong> (víc řádků na klik).',
+    intro_s4:'Každý vydaný projekt je <strong>těžší než předchozí</strong> — čím déle hraješ, tím delší cesta k dalšímu.',
+    intro_s5:'High Score = <strong>celkový počet řádků</strong>. Vydej všech 5 reálných projektů 2026 a bojuj o TOP 10!',
+    intro_start:'Začít kódovat →',
+    rc_title:'Všechny projekty 2026 hotové!',
+    rc_msg:'Právě dokončil všechny projekty k roku 2026!<br>Ale nekončíme — uvidíme, s čím přijdeš. Bojuj o TOP 10!',
+    rc_continue:'Pokračovat →', rc_top10:'🏆 Bojuj o TOP 10!',
+    ms_100:'Prvních 100 řádků!', ms_500:'500 řádků!', ms_1k:'1 000 řádků!',
+    ms_5k:'5 000 řádků!', ms_10k:'10 000 řádků!', ms_50k:'50 000 řádků!',
+    ms_100k:'100 000 řádků!', ms_500k:'PŮLMILION ŘÁDKŮ!!!',
+    g_coffee_name:'Káva',             g_coffee_desc:'Bez kafe to nejde.',
+    g_todo_name:'To-do list',         g_todo_desc:'Aspoň víš co dělat.',
+    g_so_name:'Stack Overflow',       g_so_desc:'Odpověď na každý problém.',
+    g_script_name:'Automat',          g_script_desc:'Skript, co dělá za tebe.',
+    g_junior_name:'Junior dev',       g_junior_desc:'Čerstvý ze školy, ale šikovný.',
+    g_ai_name:'AI asistent',          g_ai_desc:'Copilot na plný úvazek.',
+    g_team_name:'Celý tým',           g_team_desc:'Indie studio s lidmi.',
+    g_studio_name:'Produkční studio', g_studio_desc:'Továrna na hry a hudbu.',
+    u_kb1_name:'Lepší klávesnice', u_kb2_name:'Mechanická klavka',
+    u_kb3_name:'Makro setup',      u_kb4_name:'Ergonomická myš',
+    u_kb5_name:'10-finger speed',  u_kb6_name:'Verbální programátor',
+    u_kb7_name:'Neural shortcut',  u_kb8_name:'BCI implant',
+  },
+  en: {
+    stat_lines:'Lines', stat_click:'Click', stat_projects:'Projects',
+    boost_left:'s left',
+    btn_projects:'📁 Projects', btn_code:'CODE',
+    close_btn:'ESC / Close',
+    ov_shop:'SHOP', ov_projects:'SHIPPED PROJECTS', ov_lb:'🏆 TOP 10 LEADERBOARD',
+    diff_text:'Difficulty', diff_suffix:'each project takes longer than the last',
+    sec_gens:'Generators', sec_upgrades:'Click Upgrades',
+    bought:'bought', unit:' l.',
+    proj_empty:'Nothing shipped yet… code your first project!',
+    proj_real_title:'Your 2026 projects', proj_fict_title:'Fictional projects',
+    badge_game:'game', badge_music:'music', badge_art:'art',
+    lb_top10:'Your score made it into the TOP 10!<br>Enter your name to be remembered:',
+    lb_server_prompt:'Enter the leaderboard — set your name:',
+    lb_name_ph:'Your name…',
+    lb_empty:'No scores yet — be the first!',
+    lb_hs:'High Score:', lb_score:'Your score:', lb_lines:'lines',
+    lb_loading:'Loading leaderboard…', lb_coming:'Server leaderboard coming soon.',
+    lb_srv_empty:'Leaderboard is empty — be the first!',
+    ship_game:'NEW GAME', ship_music:'MUSIC', ship_art:'ARTWORK',
+    notify_shipped:'shipped!', notify_upgrade:'activated!',
+    per_click:'per click', line1:'line', lineN:'lines', boost_for:'for',
+    intro_sub:'idle game about creating',
+    intro_s1:'Click <strong>CODE</strong> — each click fills part of the screen with code. <strong>Spacebar</strong> works too.',
+    intro_s2:'Once the screen is full, you <strong>ship a project</strong>! First real 2026 projects, then fictional ones.',
+    intro_s3:'In the shop, buy <strong>generators</strong> (code for you) and <strong>click upgrades</strong> (more lines per click).',
+    intro_s4:'Each shipped project is <strong>harder than the last</strong> — the longer you play, the longer the road ahead.',
+    intro_s5:'High Score = <strong>total line count</strong>. Ship all 5 real 2026 projects and fight for TOP 10!',
+    intro_start:'Start coding →',
+    rc_title:'All 2026 projects done!',
+    rc_msg:"You just completed all 2026 projects!<br>But we're not done — let's see what you come up with. Fight for TOP 10!",
+    rc_continue:'Continue →', rc_top10:'🏆 Fight for TOP 10!',
+    ms_100:'First 100 lines!', ms_500:'500 lines!', ms_1k:'1,000 lines!',
+    ms_5k:'5,000 lines!', ms_10k:'10,000 lines!', ms_50k:'50,000 lines!',
+    ms_100k:'100,000 lines!', ms_500k:'HALF MILLION LINES!!!',
+    g_coffee_name:'Coffee',             g_coffee_desc:"Can't code without coffee.",
+    g_todo_name:'To-do list',           g_todo_desc:'At least you know what to do.',
+    g_so_name:'Stack Overflow',         g_so_desc:'Answer to every problem.',
+    g_script_name:'Automation',         g_script_desc:'A script that works for you.',
+    g_junior_name:'Junior dev',         g_junior_desc:'Fresh from school, but talented.',
+    g_ai_name:'AI assistant',           g_ai_desc:'Full-time copilot.',
+    g_team_name:'Whole team',           g_team_desc:'Indie studio with people.',
+    g_studio_name:'Production studio',  g_studio_desc:'Factory for games and music.',
+    u_kb1_name:'Better keyboard',   u_kb2_name:'Mechanical keyboard',
+    u_kb3_name:'Macro setup',       u_kb4_name:'Ergonomic mouse',
+    u_kb5_name:'10-finger speed',   u_kb6_name:'Voice coder',
+    u_kb7_name:'Neural shortcut',   u_kb8_name:'BCI implant',
+  }
+};
+
+function t(key) { return (T[lang] && T[lang][key] != null) ? T[lang][key] : (T.cs[key] ?? key); }
+
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t(el.dataset.t); });
+  document.querySelectorAll('[data-t-html]').forEach(el => { el.innerHTML = t(el.dataset.tHtml); });
+  if (overlayMode === 'shop') {
+    document.getElementById('ov-title').textContent = t('ov_shop');
+    renderOvShop();
+  } else if (overlayMode === 'projects') {
+    document.getElementById('ov-title').textContent = t('ov_projects');
+    renderOvProjects();
+  } else if (overlayMode === 'leaderboard') {
+    document.getElementById('ov-title').textContent = t('ov_lb');
+    renderOvLeaderboard();
+  }
+}
+
+window.addEventListener('message', e => {
+  if (e.data?.type === 'setLang' && (e.data.lang === 'cs' || e.data.lang === 'en')) {
+    lang = e.data.lang;
+    applyLang();
+  }
+});
+
+// ── Server leaderboard — agent: vyplň URL až budou webhooky připraveny ──
+const LB_SUBMIT_URL = ''; // POST { name, score, game, ts } → uloží skóre
+const LB_FETCH_URL  = ''; // GET                            → vrátí [{name, score}, ...]
+
+let COLS = 0, ROWS = 0, TOTAL = 0;
+const CHARS = '01{}()=>+[];/*#!?_|@~\\^&%$'.split('');
+
+// Each project takes BASE_FILL_DIVIDER * diffMult() seconds from generators,
+// regardless of how many generators you own (fill divider scales with CPS so
+// faster production = higher requirement = same wall-clock time).
+// Clicking always needs BASE_CLICKS_PER_FILL * diffMult() clicks.
+const BASE_CLICKS_PER_FILL = 600;
+const BASE_FILL_DIVIDER    = 180;   // seconds per project at any CPS level
+const DIFFICULTY_RATE      = 0.12;  // +12% harder per shipped project
+
+function diffMult()    { return 1 + G.gamesShipped * DIFFICULTY_RATE; }
+function effectiveCPF(){ return BASE_CLICKS_PER_FILL * diffMult(); }
+// CPS-normalised: fillPct += (cps*dt) / (BASE * diffMult * cps) = dt / (BASE * diffMult)
+function effectiveFD() { return BASE_FILL_DIVIDER * diffMult() * Math.max(getCPS(), 0.001); }
+
+// ── Tvoje skutečné projekty 2026 — uprav jména a linky ──
+const REAL_PROJECTS = [
+  { id:'r1', type:'game',  icon:'🎮', name:'3R Hra 2026 — Alpha',    desc:'Tvůj hlavní herní projekt roku 2026', link:'#' },
+  { id:'r2', type:'music', icon:'🎵', name:'3R Music EP Vol.1',       desc:'Hudební debut roku 2026',             link:'#' },
+  { id:'r3', type:'art',   icon:'🎨', name:'Art Collection 2026',     desc:'Série digitálních artworků',          link:'#' },
+  { id:'r4', type:'game',  icon:'🎮', name:'3R Hra 2026 — Beta',      desc:'Druhý herní projekt roku 2026',       link:'#' },
+  { id:'r5', type:'music', icon:'🎵', name:'Game OST 2026',           desc:'Soundtracky ke hrám roku 2026',       link:'#' },
+];
+
+// ── Fiktivní projekty (20) — cyklují po dokončení reálných ──
+const FICT_PROJECTS = [
+  { id:'g1', type:'game',  icon:'🎮', name:'Pixel Runner',       desc:'Endless runner',          link:'#' },
+  { id:'g2', type:'game',  icon:'🎮', name:'Tower Block',        desc:'Puzzle builder',          link:'#' },
+  { id:'g3', type:'game',  icon:'🎮', name:'Neon Drift',         desc:'Racing prototyp',         link:'#' },
+  { id:'g4', type:'game',  icon:'🎮', name:'Echo Chamber',       desc:'Rhythm puzzle',           link:'#' },
+  { id:'g5', type:'game',  icon:'🎮', name:'Shadow Protocol',    desc:'Stealth akce',            link:'#' },
+  { id:'g6', type:'game',  icon:'🎮', name:'Orbit Defense',      desc:'Tower defense',           link:'#' },
+  { id:'g7', type:'game',  icon:'🎮', name:'Void Walker',        desc:'Roguelike adventure',     link:'#' },
+  { id:'m1', type:'music', icon:'🎵', name:'Lo-Fi Sessions',     desc:'Coding EP',               link:'#' },
+  { id:'m2', type:'music', icon:'🎵', name:'Synthwave Vol.1',    desc:'Elektronická hudba',      link:'#' },
+  { id:'m3', type:'music', icon:'🎵', name:'Game OST Bundle',    desc:'Originální soundtracky',  link:'#' },
+  { id:'m4', type:'music', icon:'🎵', name:'Ambient Sessions',   desc:'Atmospheric tracks',      link:'#' },
+  { id:'m5', type:'music', icon:'🎵', name:'Chiptune Archive',   desc:'8-bit nostalgie',         link:'#' },
+  { id:'m6', type:'music', icon:'🎵', name:'Dark Synth EP',      desc:'Kinematická elektronika', link:'#' },
+  { id:'a1', type:'art',   icon:'🎨', name:'Abstract Vol.1',     desc:'Digitální artworky',      link:'#' },
+  { id:'a2', type:'art',   icon:'🎨', name:'Character Designs',  desc:'Concept art série',       link:'#' },
+  { id:'a3', type:'art',   icon:'🎨', name:'Motion Studies',     desc:'Animované smyčky',        link:'#' },
+  { id:'a4', type:'art',   icon:'🎨', name:'Abstract Vol.2',     desc:'Motion artworky',         link:'#' },
+  { id:'a5', type:'art',   icon:'🎨', name:'Landscape Series',   desc:'Digitální krajiny',       link:'#' },
+  { id:'a6', type:'art',   icon:'🎨', name:'Pixel Portraits',    desc:'Pixel art postavy',       link:'#' },
+  { id:'a7', type:'art',   icon:'🎨', name:'Glitch Visions',     desc:'Glitch art serie',        link:'#' },
+];
+const CYCLE_SUFFIXES = [' 2', ' III', ' Returns', ' Remastered', ' Legacy', ' Forever'];
+
+const MILESTONES = [
+  { at:100,    mult:2, dur:15, label:'ms_100'  },
+  { at:500,    mult:2, dur:18, label:'ms_500'  },
+  { at:1000,   mult:2, dur:20, label:'ms_1k'   },
+  { at:5000,   mult:3, dur:22, label:'ms_5k'   },
+  { at:10000,  mult:3, dur:25, label:'ms_10k'  },
+  { at:50000,  mult:5, dur:28, label:'ms_50k'  },
+  { at:100000, mult:5, dur:30, label:'ms_100k' },
+  { at:500000, mult:8, dur:35, label:'ms_500k' },
+];
+
+const GENS = [
+  { id:'coffee', name:'Káva',             icon:'☕', desc:'Bez kafe to nejde.',             cost:15,       cps:0.3  },
+  { id:'todo',   name:'To-do list',       icon:'📋', desc:'Aspoň víš co dělat.',             cost:100,      cps:1    },
+  { id:'so',     name:'Stack Overflow',   icon:'🔍', desc:'Odpověď na každý problém.',       cost:750,      cps:3.5  },
+  { id:'script', name:'Automat',          icon:'⚙️', desc:'Skript, co dělá za tebe.',        cost:5500,     cps:11   },
+  { id:'junior', name:'Junior dev',       icon:'👷', desc:'Čerstvý ze školy, ale šikovný.',  cost:35000,    cps:30   },
+  { id:'ai',     name:'AI asistent',      icon:'🧠', desc:'Copilot na plný úvazek.',         cost:220000,   cps:85   },
+  { id:'team',   name:'Celý tým',         icon:'🚀', desc:'Indie studio s lidmi.',            cost:1400000,  cps:260  },
+  { id:'studio', name:'Produkční studio', icon:'🏢', desc:'Továrna na hry a hudbu.',          cost:10000000, cps:900  },
+];
+
+const UPGRADES = [
+  { id:'kb1', name:'Lepší klávesnice',     icon:'⌨️', desc:'+2 za klik',    bonus:2,   cost:250      },
+  { id:'kb2', name:'Mechanická klavka',    icon:'⌨️', desc:'+5 za klik',    bonus:5,   cost:1200     },
+  { id:'kb3', name:'Makro setup',          icon:'🖱️', desc:'+12 za klik',   bonus:12,  cost:7000     },
+  { id:'kb4', name:'Ergonomická myš',      icon:'🖱️', desc:'+28 za klik',   bonus:28,  cost:40000    },
+  { id:'kb5', name:'10-finger speed',      icon:'🤲', desc:'+65 za klik',   bonus:65,  cost:200000   },
+  { id:'kb6', name:'Verbální programátor', icon:'🎤', desc:'+180 za klik',  bonus:180, cost:1000000  },
+  { id:'kb7', name:'Neural shortcut',      icon:'⚡', desc:'+500 za klik',  bonus:500, cost:6000000  },
+  { id:'kb8', name:'BCI implant',          icon:'🧬', desc:'+1500 za klik', bonus:1500,cost:30000000 },
+];
+
+let G = {
+  lines:0, totalLines:0, gamesShipped:0, clickPower:1,
+  owned:                  Object.fromEntries(GENS.map(g=>[g.id,0])),
+  bought:                 Object.fromEntries(UPGRADES.map(u=>[u.id,false])),
+  cells:                  [],
+  filled:                 0,
+  fillPct:                0,
+  projectIndex:           0,
+  shippedProjects:        [],
+  boostUntil:             0,
+  boostMult:              1,
+  milestonesHit:          [],
+  shippedRealIds:         [],
+  realCompletedPopupShown:false,
+};
+
+let sessionPlayerName = ''; // jméno pro embedded sezení (nepersistuje)
+let shipping = false, overlayMode = null;
+const emptyPool = [];
+let gridDirty = false, lastShopRender = 0, lastRaf = 0;
+
+/* ── Helpers ── */
+function fmt(n) {
+  n = Math.floor(n);
+  if (n < 1000) return n.toString();
+  if (n < 1e6)  return (n/1e3).toFixed(1).replace(/\.0$/,'')+'K';
+  if (n < 1e9)  return (n/1e6).toFixed(1).replace(/\.0$/,'')+'M';
+  return (n/1e9).toFixed(1).replace(/\.0$/,'')+'B';
+}
+function getCost(gen) { return Math.ceil(gen.cost * Math.pow(1.15, G.owned[gen.id])); }
+function getCPS()     { return GENS.reduce((s,g)=>s+g.cps*G.owned[g.id], 0); }
+function boostActive(){ return Date.now() < G.boostUntil; }
+function boostMult()  { return boostActive() ? G.boostMult : 1; }
+function isOverlayOpen() { return overlayMode !== null; }
+
+/* ── Dynamic grid sizing ── */
+function getCharSize() {
+  const pre = document.createElement('pre');
+  pre.style.cssText =
+    'position:absolute;top:-9999px;left:-9999px;visibility:hidden;pointer-events:none;' +
+    "font-family:'Courier New',monospace;font-size:8px;line-height:1.5;letter-spacing:0.03em;white-space:pre";
+  const row = 'X'.repeat(80);
+  pre.textContent = row + '\n' + row + '\n' + row + '\n' + row;
+  document.body.appendChild(pre);
+  const r = pre.getBoundingClientRect();
+  document.body.removeChild(pre);
+  return { w: r.width / 80, h: r.height / 4 };
+}
+
+function initGrid() {
+  if (shipping) return;
+  const wrap = document.getElementById('grid-wrap');
+  const ww = wrap.clientWidth, wh = wrap.clientHeight;
+  if (!ww || !wh) return;
+
+  const { w: cw, h: ch } = getCharSize();
+  COLS  = Math.floor(ww / cw) + 1;
+  ROWS  = Math.floor(wh / ch) + 1;
+  TOTAL = COLS * ROWS;
+
+  const target = Math.floor(Math.min(G.fillPct, 1) * TOTAL);
+  G.cells  = new Array(TOTAL).fill('');
+  G.filled = 0;
+  const idx = Array.from({length: TOTAL}, (_, i) => i);
+  for (let i = 0; i < target; i++) {
+    const j = i + Math.floor(Math.random() * (TOTAL - i));
+    [idx[i], idx[j]] = [idx[j], idx[i]];
+    G.cells[idx[i]] = CHARS[Math.floor(Math.random() * CHARS.length)];
+    G.filled++;
+  }
+  rebuildPool();
+  renderGrid();
+  gridDirty = false;
+}
+
+/* ── Fill cells ── */
+function rebuildPool() {
+  emptyPool.length = 0;
+  for (let i = 0; i < TOTAL; i++) if (!G.cells[i]) emptyPool.push(i);
+}
+function fillCells(n) {
+  if (shipping) return false;
+  n = Math.min(n, emptyPool.length);
+  for (let i = 0; i < n; i++) {
+    const pick = Math.floor(Math.random() * emptyPool.length);
+    G.cells[emptyPool[pick]] = CHARS[Math.floor(Math.random() * CHARS.length)];
+    emptyPool.splice(pick, 1);
+    G.filled++;
+  }
+  return emptyPool.length === 0;
+}
+
+/* ── Milestones ── */
+function checkMilestones() {
+  for (const m of MILESTONES) {
+    if (!G.milestonesHit.includes(m.at) && G.totalLines >= m.at) {
+      G.milestonesHit.push(m.at);
+      G.boostUntil = Date.now() + m.dur * 1000;
+      G.boostMult  = m.mult;
+      notify('🚀 ' + t(m.label) + ' — ' + m.mult + '× boost ' + t('boost_for') + ' ' + m.dur + 's!');
+    }
+  }
+}
+
+/* ── Next project picker ── */
+function getNextProject() {
+  if (G.shippedRealIds.length < REAL_PROJECTS.length) {
+    const proj = { ...REAL_PROJECTS[G.shippedRealIds.length], real: true };
+    G.shippedRealIds.push(proj.id);
+    return proj;
+  }
+  const baseIdx = G.projectIndex % FICT_PROJECTS.length;
+  const cycle   = Math.floor(G.projectIndex / FICT_PROJECTS.length);
+  const base    = FICT_PROJECTS[baseIdx];
+  const suffix  = cycle === 0 ? '' : (CYCLE_SUFFIXES[cycle - 1] || ` Vol.${cycle + 1}`);
+  G.projectIndex++;
+  return { ...base, name: base.name + suffix, real: false };
+}
+
+/* ── Ship project ── */
+function shipGame() {
+  if (shipping) return;
+  shipping = true;
+  G.gamesShipped++;
+
+  const proj = getNextProject();
+  const justCompletedAllReal = proj.real && G.shippedRealIds.length === REAL_PROJECTS.length;
+
+  G.shippedProjects.unshift({ ...proj });
+  if (G.shippedProjects.length > 40) G.shippedProjects.pop();
+
+  document.getElementById('ship-emoji').textContent     = proj.icon;
+  document.getElementById('ship-proj-name').textContent = proj.name;
+  document.getElementById('ship-proj-type').textContent = t('ship_' + proj.type);
+
+  document.getElementById('grid').classList.add('shipping');
+  document.getElementById('ship-anim').classList.add('show');
+
+  setTimeout(() => {
+    G.cells.fill(''); G.filled = 0; rebuildPool();
+    const carry = Math.floor(Math.min(G.fillPct, 1) * TOTAL);
+    if (carry > 0) fillCells(carry);
+    renderGrid();
+    document.getElementById('grid').classList.remove('shipping');
+    document.getElementById('ship-anim').classList.remove('show');
+    shipping = false;
+    notify(proj.icon + ' ' + proj.name + ' ' + t('notify_shipped'));
+    if (overlayMode === 'projects') renderOvProjects();
+    lastRaf = 0;
+    requestAnimationFrame(gameLoop);
+
+    if (justCompletedAllReal && !G.realCompletedPopupShown) {
+      G.realCompletedPopupShown = true;
+      showRealCompleteModal();
+    } else {
+      checkLeaderboard();
+    }
+  }, 1600);
+}
+
+/* ── Click ── */
+function showClickPop(x, y, amount) {
+  const pop = document.createElement('div');
+  pop.className   = 'pop';
+  pop.textContent = '+' + amount;
+  pop.style.left  = x + 'px';
+  // offset upward so it starts above the click point and clears the button
+  pop.style.top   = Math.max(y - 40, 60) + 'px';
+  document.body.appendChild(pop);
+  setTimeout(() => pop.remove(), 720);
+}
+
+function handleClick(e) {
+  if (isOverlayOpen()) return;
+  const bm    = boostMult();
+  const power = G.clickPower * bm;
+
+  G.lines      += power;
+  G.totalLines += power;
+
+  showClickPop(e.clientX, e.clientY, Math.ceil(power));
+  checkMilestones();
+
+  // During ship animation: clicks register (lines count) but don't advance fill
+  if (shipping) return;
+
+  G.fillPct += power / effectiveCPF();
+  const target = Math.floor(Math.min(G.fillPct, 1) * TOTAL);
+  if (target > G.filled) { fillCells(target - G.filled); gridDirty = true; }
+  if (G.fillPct >= 1) { G.fillPct -= 1; shipGame(); return; }
+}
+
+/* ── Buy (from overlay) ── */
+function buyGen(id) {
+  const gen = GENS.find(g=>g.id===id);
+  const cost = getCost(gen);
+  if (G.lines < cost) return;
+  G.lines -= cost;
+  G.owned[id]++;
+  renderOvShop();
+}
+function buyUpgrade(id) {
+  const upg = UPGRADES.find(u=>u.id===id);
+  if (G.bought[id] || G.lines < upg.cost) return;
+  G.lines -= upg.cost;
+  G.bought[id]  = true;
+  G.clickPower += upg.bonus;
+  notify('⌨️ ' + t('u_'+upg.id+'_name') + ' ' + t('notify_upgrade'));
+  renderOvShop();
+}
+
+/* ── Overlay ── */
+function openOverlay(type) {
+  overlayMode = type;
+  document.getElementById('overlay').classList.remove('hidden');
+  document.getElementById('btn-click').disabled = true;
+  if (type === 'shop') {
+    document.getElementById('ov-title').textContent = t('ov_shop');
+    renderOvShop();
+  } else if (type === 'projects') {
+    document.getElementById('ov-title').textContent = t('ov_projects');
+    renderOvProjects();
+  } else if (type === 'leaderboard') {
+    document.getElementById('ov-title').textContent = t('ov_lb');
+    renderOvLeaderboard();
+  }
+}
+function closeOverlay() {
+  overlayMode = null;
+  document.getElementById('overlay').classList.add('hidden');
+  document.getElementById('btn-click').disabled = false;
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && isOverlayOpen()) { closeOverlay(); return; }
+  if (e.key === ' ' || e.key === 'Spacebar') {
+    e.preventDefault();
+    if (e.repeat || isOverlayOpen()) return; // block hold-repeat
+    const btn  = document.getElementById('btn-click');
+    const rect = btn.getBoundingClientRect();
+    handleClick({ clientX: rect.left + rect.width / 2, clientY: rect.top + 12 });
+  }
+});
+
+/* ── Render shop ── */
+function renderOvShop() {
+  const dm = diffMult();
+  const html = [];
+
+  if (G.gamesShipped > 0) {
+    html.push(`<div class="diff-info" id="shop-diff">${t('diff_text')}: <strong>×${dm.toFixed(2)}</strong> — ${t('diff_suffix')}</div>`);
+  }
+
+  html.push(`<div class="shop-sec">${t('sec_gens')}</div>`);
+  GENS.forEach(gen => {
+    const cost = getCost(gen), can = G.lines >= cost, own = G.owned[gen.id];
+    const gname = t('g_'+gen.id+'_name'), gdesc = t('g_'+gen.id+'_desc');
+    html.push(
+      `<div class="gen ${can?'can-buy':'broke'}" data-gen="${gen.id}" onclick="buyGen('${gen.id}')">` +
+      `<div class="gen-icon">${gen.icon}</div>` +
+      `<div class="gen-info"><div class="gen-name">${gname}</div>` +
+      `<div class="gen-desc">${gdesc}</div>` +
+      `<div class="gen-rate">${own>0?'+'+fmt(gen.cps*own)+'/s':''}</div></div>` +
+      `<div class="gen-right"><div class="gen-owned">${own}</div>` +
+      `<div class="gen-cost ${can?'ok':'no'}">${fmt(cost)}${t('unit')}</div></div></div>`
+    );
+  });
+
+  html.push(`<div class="shop-sec">${t('sec_upgrades')}</div>`);
+  UPGRADES.forEach(upg => {
+    const bought = G.bought[upg.id], can = !bought && G.lines >= upg.cost;
+    const uname = t('u_'+upg.id+'_name'), udesc = '+' + upg.bonus + ' ' + t('per_click');
+    html.push(
+      `<div class="gen ${bought?'bought':can?'can-buy':'broke'}" data-upg="${upg.id}" ${bought?'':'onclick="buyUpgrade(\''+upg.id+'\')"'}>` +
+      `<div class="gen-icon">${upg.icon}</div>` +
+      `<div class="gen-info"><div class="gen-name">${uname}</div>` +
+      `<div class="gen-desc">${udesc}</div></div>` +
+      `<div class="gen-right"><div class="gen-owned">${bought?'✓':''}</div>` +
+      `<div class="gen-cost ${bought||can?'ok':'no'}">${bought?t('bought'):fmt(upg.cost)+t('unit')}</div></div></div>`
+    );
+  });
+
+  document.getElementById('ov-content').innerHTML = html.join('');
+}
+
+// Updates only CSS classes + text nodes in existing shop DOM — no element recreation
+function updateShopAffordability() {
+  if (overlayMode !== 'shop') return;
+  GENS.forEach(gen => {
+    const el = document.querySelector(`[data-gen="${gen.id}"]`);
+    if (!el) return;
+    const cost = getCost(gen), can = G.lines >= cost, own = G.owned[gen.id];
+    el.className = `gen ${can?'can-buy':'broke'}`;
+    el.querySelector('.gen-cost').className = `gen-cost ${can?'ok':'no'}`;
+    el.querySelector('.gen-cost').textContent = fmt(cost) + t('unit');
+    el.querySelector('.gen-rate').textContent = own > 0 ? '+'+fmt(gen.cps*own)+'/s' : '';
+  });
+  UPGRADES.forEach(upg => {
+    const el = document.querySelector(`[data-upg="${upg.id}"]`);
+    if (!el) return;
+    const bought = G.bought[upg.id], can = !bought && G.lines >= upg.cost;
+    el.className = `gen ${bought?'bought':can?'can-buy':'broke'}`;
+    el.querySelector('.gen-cost').className = `gen-cost ${bought||can?'ok':'no'}`;
+  });
+  const di = document.getElementById('shop-diff');
+  if (di) di.querySelector('strong').textContent = '×' + diffMult().toFixed(2);
+}
+
+/* ── Render projects ── */
+function renderProjCard(p) {
+  const lbl = t('badge_' + p.type);
+  return `<div class="proj-card${p.real?' real':''}">` +
+    `<span style="font-size:18px;flex-shrink:0">${p.icon}</span>` +
+    `<div style="flex:1;min-width:0">` +
+      `<div style="font-size:12px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.name}</div>` +
+      `<div style="font-size:10px;color:var(--muted);margin-top:1px">${p.desc}</div>` +
+    `</div>` +
+    `<span class="proj-badge badge-${p.type}">${lbl}</span>` +
+    (p.link && p.link!=='#' ? `<a href="${p.link}" target="_blank" class="proj-link">↗</a>` : '') +
+  `</div>`;
+}
+
+function renderOvProjects() {
+  if (!G.shippedProjects.length) {
+    document.getElementById('ov-content').innerHTML = `<div class="proj-empty">${t('proj_empty')}</div>`;
+    return;
+  }
+  const real = G.shippedProjects.filter(p => p.real);
+  const fict = G.shippedProjects.filter(p => !p.real);
+  let html = '';
+  if (real.length) {
+    html += `<div class="shop-sec">${t('proj_real_title')} (${real.length}/${REAL_PROJECTS.length})</div>`;
+    html += real.map(renderProjCard).join('');
+  }
+  if (fict.length) {
+    html += `<div class="shop-sec">${t('proj_fict_title')}</div>`;
+    html += fict.map(renderProjCard).join('');
+  }
+  document.getElementById('ov-content').innerHTML = html;
+}
+
+/* ── Leaderboard ── */
+function getPlayerName()  { return IS_EMBEDDED ? sessionPlayerName : (localStorage.getItem(PLAYER_KEY) || ''); }
+function setPlayerName(n) { if (IS_EMBEDDED) sessionPlayerName = n.trim(); else localStorage.setItem(PLAYER_KEY, n.trim()); }
+
+function loadLeaderboard() {
+  try { return JSON.parse(localStorage.getItem(LB_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveLeaderboard(lb) { localStorage.setItem(LB_KEY, JSON.stringify(lb)); }
+
+function qualifiesForLeaderboard(score) {
+  const lb = loadLeaderboard();
+  return lb.length < 10 || score > lb[lb.length - 1].score;
+}
+
+function updateLeaderboardEntry(name, score) {
+  const lb = loadLeaderboard();
+  const idx = lb.findIndex(e => e.name === name);
+  if (idx >= 0) {
+    if (score <= lb[idx].score) return false;
+    lb[idx].score = score;
+  } else {
+    lb.push({ name, score });
+  }
+  lb.sort((a, b) => b.score - a.score);
+  if (lb.length > 10) lb.length = 10;
+  saveLeaderboard(lb);
+  return true;
+}
+
+function postScoreToParent() {
+  try {
+    const name = getPlayerName();
+    if (name && IS_EMBEDDED) {
+      window.parent.postMessage({ type: 'score', nick: name, score: Math.floor(G.totalLines) }, '*');
+    }
+  } catch(_) {}
+}
+
+/* ── Server leaderboard (agent: doplň LB_SUBMIT_URL + LB_FETCH_URL) ── */
+async function submitServerScore(name, score) {
+  if (!LB_SUBMIT_URL) return;
+  try {
+    await fetch(LB_SUBMIT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, score, game: '3r-clicker', ts: Date.now() }),
+    });
+  } catch(_) {}
+}
+
+async function fetchServerLeaderboard() {
+  if (!LB_FETCH_URL) return null;
+  try {
+    const res = await fetch(LB_FETCH_URL);
+    if (!res.ok) return null;
+    return await res.json(); // očekává [{name, score}, ...]
+  } catch(_) { return null; }
+}
+
+function checkLeaderboard() {
+  const score = Math.floor(G.totalLines);
+  const name  = getPlayerName();
+
+  if (IS_EMBEDDED) {
+    if (name) {
+      submitServerScore(name, score);
+      postScoreToParent();
+      if (overlayMode === 'leaderboard') renderOvLeaderboard();
+    } else if (score > 0) {
+      openOverlay('leaderboard');
+    }
+    return;
+  }
+
+  if (!qualifiesForLeaderboard(score)) return;
+  if (name) {
+    updateLeaderboardEntry(name, score);
+    postScoreToParent();
+    if (overlayMode === 'leaderboard') renderOvLeaderboard();
+  } else {
+    openOverlay('leaderboard');
+  }
+}
+
+function submitLeaderboardName() {
+  const inp = document.getElementById('lb-name-input');
+  const name = inp ? inp.value.trim() : '';
+  if (!name) return;
+  setPlayerName(name);
+  if (IS_EMBEDDED) {
+    submitServerScore(name, Math.floor(G.totalLines));
+    postScoreToParent();
+  } else {
+    updateLeaderboardEntry(name, Math.floor(G.totalLines));
+  }
+  renderOvLeaderboard();
+}
+
+function renderOvLeaderboard() {
+  if (IS_EMBEDDED) { _renderOvLeaderboardServer(); return; }
+
+  const lb      = loadLeaderboard();
+  const myName  = getPlayerName();
+  const myScore = Math.floor(G.totalLines);
+  const qualifies = qualifiesForLeaderboard(myScore);
+  let html = '';
+
+  if (qualifies && !myName) {
+    html += `<div class="lb-prompt">` +
+      `<div class="lb-prompt-label">${t('lb_top10')}</div>` +
+      `<div class="lb-row-input">` +
+        `<input class="lb-input" id="lb-name-input" type="text" placeholder="${t('lb_name_ph')}" maxlength="20" autocomplete="off" onkeydown="if(event.key==='Enter')submitLeaderboardName()">` +
+        `<button class="lb-submit" onclick="submitLeaderboardName()">OK</button>` +
+      `</div></div>`;
+  }
+  if (lb.length === 0) {
+    html += `<div class="lb-empty">${t('lb_empty')}</div>`;
+  } else {
+    html += '<div class="lb-table">';
+    lb.forEach((entry, i) => {
+      const isMe = myName && entry.name === myName;
+      const rank = i===0 ? '🥇' : i===1 ? '🥈' : i===2 ? '🥉' : `#${i+1}`;
+      html += `<div class="lb-row${isMe?' lb-me':''}"><span class="lb-rank">${rank}</span><span class="lb-name">${entry.name}</span><span class="lb-score">${fmt(entry.score)}</span></div>`;
+    });
+    html += '</div>';
+  }
+  html += `<div class="lb-footer">${t('lb_hs')} <strong>${fmt(myScore)}</strong> ${t('lb_lines')}` +
+    (myName ? ` · <strong style="color:var(--dim)">${myName}</strong>` : '') + `</div>`;
+
+  document.getElementById('ov-content').innerHTML = html;
+  const inp = document.getElementById('lb-name-input');
+  if (inp) setTimeout(() => inp.focus(), 50);
+}
+
+async function _renderOvLeaderboardServer() {
+  const myName  = getPlayerName();
+  const myScore = Math.floor(G.totalLines);
+  const el = document.getElementById('ov-content');
+  let html = '';
+
+  if (!myName) {
+    html += `<div class="lb-prompt">` +
+      `<div class="lb-prompt-label">${t('lb_server_prompt')}</div>` +
+      `<div class="lb-row-input">` +
+        `<input class="lb-input" id="lb-name-input" type="text" placeholder="${t('lb_name_ph')}" maxlength="20" autocomplete="off" onkeydown="if(event.key==='Enter')submitLeaderboardName()">` +
+        `<button class="lb-submit" onclick="submitLeaderboardName()">OK</button>` +
+      `</div></div>`;
+  }
+  html += LB_FETCH_URL
+    ? `<div id="lb-server-rows"><div class="lb-empty">${t('lb_loading')}</div></div>`
+    : `<div id="lb-server-rows"><div class="lb-empty">${t('lb_coming')}</div></div>`;
+  html += `<div class="lb-footer">${t('lb_score')} <strong>${fmt(myScore)}</strong> ${t('lb_lines')}` +
+    (myName ? ` · <strong style="color:var(--dim)">${myName}</strong>` : '') + `</div>`;
+
+  el.innerHTML = html;
+  const inp = document.getElementById('lb-name-input');
+  if (inp) setTimeout(() => inp.focus(), 50);
+
+  if (!LB_FETCH_URL) return;
+  const entries = await fetchServerLeaderboard();
+  const rowsEl = document.getElementById('lb-server-rows');
+  if (!rowsEl) return;
+  if (!entries || !entries.length) { rowsEl.innerHTML = `<div class="lb-empty">${t('lb_srv_empty')}</div>`; return; }
+  let lbHtml = '<div class="lb-table">';
+  entries.slice(0, 10).forEach((entry, i) => {
+    const isMe = myName && entry.name === myName;
+    const rank = i===0 ? '🥇' : i===1 ? '🥈' : i===2 ? '🥉' : `#${i+1}`;
+    lbHtml += `<div class="lb-row${isMe?' lb-me':''}"><span class="lb-rank">${rank}</span><span class="lb-name">${entry.name}</span><span class="lb-score">${fmt(entry.score)}</span></div>`;
+  });
+  lbHtml += '</div>';
+  rowsEl.outerHTML = lbHtml;
+}
+
+/* ── Real complete modal ── */
+function showRealCompleteModal() {
+  document.getElementById('real-complete-modal').classList.remove('hidden');
+}
+function closeRealCompleteModal(openLb) {
+  document.getElementById('real-complete-modal').classList.add('hidden');
+  if (openLb) openOverlay('leaderboard');
+  else checkLeaderboard();
+}
+
+/* ── Intro modal ── */
+function showIntroIfNeeded() {
+  if (IS_EMBEDDED || !localStorage.getItem('3r-clicker-intro')) {
+    document.getElementById('intro-modal').classList.remove('hidden');
+  }
+}
+function closeIntro() {
+  if (!IS_EMBEDDED) localStorage.setItem('3r-clicker-intro', '1');
+  document.getElementById('intro-modal').classList.add('hidden');
+}
+
+/* ── Notification ── */
+let notifTimer;
+function notify(msg) {
+  const el = document.getElementById('notif');
+  el.textContent = msg; el.style.opacity = '1';
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(() => { el.style.opacity='0'; }, 2500);
+}
+
+/* ── Render grid ── */
+function renderGrid() {
+  let s = '';
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) s += G.cells[r*COLS+c] || ' ';
+    if (r < ROWS-1) s += '\n';
+  }
+  document.getElementById('grid').textContent = s;
+}
+
+/* ── Render stats + toolbar badges ── */
+function renderStats() {
+  const cps = getCPS();
+  const bm  = boostMult();
+  const ba  = boostActive();
+  const now = Date.now();
+
+  document.getElementById('s-lines').textContent = fmt(G.lines);
+  document.getElementById('s-hs').textContent    = fmt(G.totalLines);
+  document.getElementById('s-ips').textContent   = fmt(cps * bm) + '/s';
+  document.getElementById('s-cp').textContent    = '×' + (G.clickPower * bm);
+  document.getElementById('s-proj').textContent  = G.gamesShipped;
+
+  const bar = document.getElementById('boost-bar');
+  if (ba) {
+    bar.classList.add('active');
+    document.getElementById('b-mult').textContent  = G.boostMult;
+    document.getElementById('b-timer').textContent = Math.ceil((G.boostUntil - now) / 1000);
+    document.getElementById('btn-click').classList.add('boosted');
+  } else {
+    bar.classList.remove('active');
+    document.getElementById('btn-click').classList.remove('boosted');
+  }
+
+  const pw = G.clickPower * bm;
+  document.getElementById('btn-sub').textContent = '+' + pw + ' ' + (pw===1?t('line1'):t('lineN')) + ' ' + t('per_click');
+
+  let affordable = 0;
+  GENS.forEach(g => { if (G.lines >= getCost(g)) affordable++; });
+  UPGRADES.forEach(u => { if (!G.bought[u.id] && G.lines >= u.cost) affordable++; });
+  const sb = document.getElementById('shop-badge');
+  sb.style.display = affordable > 0 ? 'flex' : 'none';
+  if (affordable > 0) sb.textContent = affordable;
+  document.getElementById('tbtn-shop').classList.toggle('lit', affordable > 0);
+
+  const pc = G.shippedProjects.length;
+  const pb = document.getElementById('proj-badge');
+  pb.style.display = pc > 0 ? 'flex' : 'none';
+  if (pc > 0) pb.textContent = pc;
+  document.getElementById('tbtn-proj').classList.toggle('lit', pc > 0);
+
+  // Leaderboard badge
+  let lbBadgeVal = '';
+  if (!IS_EMBEDDED) {
+    const lb = loadLeaderboard();
+    const myName = getPlayerName();
+    if (myName) {
+      const rank = lb.findIndex(e => e.name === myName);
+      if (rank >= 0) lbBadgeVal = rank === 0 ? '🥇' : `#${rank+1}`;
+    } else if (qualifiesForLeaderboard(Math.floor(G.totalLines)) && lb.length > 0) {
+      lbBadgeVal = '!';
+    }
+  }
+  const lbb = document.getElementById('lb-badge');
+  lbb.style.display = lbBadgeVal ? 'flex' : 'none';
+  if (lbBadgeVal) lbb.textContent = lbBadgeVal;
+  document.getElementById('tbtn-lb').classList.toggle('lit', !!lbBadgeVal);
+}
+
+/* ── Game loop (rAF) ── */
+function gameLoop(ts) {
+  if (!lastRaf) lastRaf = ts;
+  const dt = Math.min((ts - lastRaf) / 1000, 0.1);
+  lastRaf = ts;
+
+  if (!shipping) {
+    const bm  = boostMult();
+    const cps = getCPS() * bm;
+    if (cps > 0) {
+      const earned = cps * dt;
+      G.lines      += earned;
+      G.totalLines += earned;
+      checkMilestones();
+
+      if (!isOverlayOpen()) {
+        G.fillPct += earned / effectiveFD();
+
+        const target = Math.floor(Math.min(G.fillPct, 1) * TOTAL);
+        if (target > G.filled) { fillCells(target - G.filled); gridDirty = true; }
+
+        if (G.fillPct >= 1) { G.fillPct -= 1; shipGame(); return; }
+      }
+    }
+  }
+
+  renderStats();
+  if (gridDirty) { renderGrid(); gridDirty = false; }
+  if (ts - lastShopRender > 300) {
+    updateShopAffordability();
+    lastShopRender = ts;
+  }
+
+  requestAnimationFrame(gameLoop);
+}
+
+/* ── Save / Load ── */
+function save() {
+  if (IS_EMBEDDED) return; // embedded: žádná persistence — každý návštěvník začíná znovu
+  const d = {
+    lines:G.lines, totalLines:G.totalLines, gamesShipped:G.gamesShipped,
+    clickPower:G.clickPower, owned:G.owned, bought:G.bought,
+    fillPct:G.fillPct, projectIndex:G.projectIndex,
+    shippedProjects:G.shippedProjects, boostUntil:G.boostUntil,
+    boostMult:G.boostMult, milestonesHit:G.milestonesHit,
+    shippedRealIds:G.shippedRealIds, realCompletedPopupShown:G.realCompletedPopupShown,
+  };
+  localStorage.setItem(SAVE_KEY, JSON.stringify(d));
+}
+function load() {
+  if (IS_EMBEDDED) return; // embedded: vždy čerstvý start
+  try {
+    const d = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
+    if (!d) return;
+    G.lines                   = d.lines                   || 0;
+    G.totalLines              = d.totalLines              || 0;
+    G.gamesShipped            = d.gamesShipped            || 0;
+    G.clickPower              = d.clickPower              || 1;
+    G.owned                   = { ...G.owned,  ...(d.owned  || {}) };
+    G.bought                  = { ...G.bought, ...(d.bought || {}) };
+    G.fillPct                 = d.fillPct                 || 0;
+    G.projectIndex            = d.projectIndex            || 0;
+    G.shippedProjects         = d.shippedProjects         || [];
+    G.boostUntil              = d.boostUntil              || 0;
+    G.boostMult               = d.boostMult               || 1;
+    G.milestonesHit           = d.milestonesHit           || [];
+    G.shippedRealIds          = d.shippedRealIds          || [];
+    G.realCompletedPopupShown = d.realCompletedPopupShown || false;
+  } catch(e) {}
+}
+
+/* ── Init ── */
+load();
+if (IS_EMBEDDED) {
+  const urlNick = _urlP.get('nick');
+  if (urlNick) setPlayerName(urlNick.trim().slice(0, 20));
+}
+applyLang();
+initGrid();
+showIntroIfNeeded();
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(initGrid, 150);
+});
+if (!IS_EMBEDDED) {
+  setInterval(save, 30000);
+  window.addEventListener('beforeunload', save);
+}
+requestAnimationFrame(gameLoop);
+</script>
+</body>
+</html>
