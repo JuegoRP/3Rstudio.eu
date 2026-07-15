@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Gream — Vzdělávací mobilní hra pro děti. Hravé učení s gamifikací. iOS & Android. 3R Studio.">
+<meta name="description" content="Gream — kvízová hra pro celou rodinu. Objevuj svět venku, líhni a vychovej mazlíčka, souboj se ostatními. Otázky od snadných po expertní. Bezpečné i pro děti. Android, App Store brzy. 3R Studio.">
 <meta property="og:title" content="Gream — 3R Studio">
-<meta property="og:description" content="Vzdělávací mobilní hra pro děti. Launch srpen 2026 App Store & Google Play.">
+<meta property="og:description" content="Kvízová hra pro celou rodinu — venku, se sbíratelným mazlíčkem a souboji. Bezpečné i pro děti. Google Play srpen 2026, App Store brzy.">
 <title>Gream — 3R Studio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23f5c518'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='16' font-weight='900' font-style='italic' text-anchor='middle' fill='%23111110'%3E3R%3C/text%3E%3C/svg%3E">
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H8MKHHNS5G"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
+  gtag('config', 'G-H8MKHHNS5G');
   gtag('event', 'project_view', { project: 'gream' });
 </script>
 
@@ -42,6 +43,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   padding: 0 48px; background: rgba(248,246,242,0.92);
   backdrop-filter: blur(20px); border-bottom: 0.5px solid var(--border); z-index: 100;
 }
+.lang-btn{font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--dim);padding:5px 10px;border-radius:100px;cursor:pointer;border:none;background:transparent;transition:all .2s;}
+.lang-btn:hover{color:var(--text);}
+.lang-btn.active{background:var(--teal);color:#fff;}
+.nav-lang{display:flex;gap:2px;}
 .nav-back {
   display: flex; align-items: center; gap: 8px;
   font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
@@ -51,7 +56,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 .nav-back svg { transition: transform 0.2s; }
 .nav-back:hover svg { transform: translateX(-3px); }
 .nav-logo { display: flex; align-items: center; text-decoration: none; }
-.nav-logo img { height: 26px; }
+.nav-logo img { height: 36px; }
 
 #hero {
   min-height: 88vh; display: flex; flex-direction: column; justify-content: flex-end;
@@ -151,6 +156,34 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 .preview-letter { font-family: 'Inter', sans-serif; font-size: 120px; font-style: italic; font-weight: 800; color: rgba(8,145,178,0.12); line-height: 1; margin-bottom: 16px; text-align: center; }
 .preview-hint { font-size: 12px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; font-weight: 500; text-align: center; }
 
+/* ── preview gallery (přidáno) ── */
+.shot-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:18px; }
+.shot { margin:0; border-radius:var(--r-lg); overflow:hidden; border:0.5px solid var(--border); background:var(--bg2); aspect-ratio:16/10; }
+.shot img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
+.shot:hover img { transform:scale(1.06); }
+.world-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:18px; }
+.world { margin:0; position:relative; border-radius:var(--r-lg); overflow:hidden; border:0.5px solid var(--border); aspect-ratio:2/3; }
+.world img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
+.world:hover img { transform:scale(1.06); }
+.world figcaption { position:absolute; left:0; right:0; bottom:0; padding:12px 10px 9px; font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#fff; background:linear-gradient(transparent, rgba(0,0,0,.78)); }
+.gream-hero { position:relative; border-radius:var(--r-xl); overflow:hidden; border:0.5px solid var(--border); margin-bottom:12px; aspect-ratio:16/9; background:var(--bg2); }
+.gream-hero img.bg { width:100%; height:100%; object-fit:cover; display:block; }
+.gream-hero img.pet { position:absolute; right:5%; bottom:0; width:min(210px,34%); height:auto; filter:drop-shadow(0 10px 26px rgba(0,0,0,.3)); }
+.shot-note { text-align:center; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); margin:0 0 80px; font-weight:500; }
+
+.gg-how{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;margin-bottom:34px;}
+.gg-egg{text-align:center;}
+.gg-egg img{width:150px;height:auto;image-rendering:pixelated;filter:drop-shadow(0 12px 24px rgba(8,145,178,.20));}
+.gg-egg-cap{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-top:8px;}
+.gg-steps{display:flex;flex-direction:column;gap:16px;}
+.gg-step{display:flex;gap:14px;align-items:flex-start;}
+.gg-n{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.gg-step b{display:block;font-size:15px;font-weight:800;margin-bottom:2px;}
+.gg-step p{font-size:13px;line-height:1.5;color:var(--dim);font-weight:300;margin:0;}
+.gg-sub{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 14px;}
+@media(max-width:640px){.gg-how{grid-template-columns:1fr;}}
+@media(max-width:640px){ .shot-grid{grid-template-columns:repeat(2,1fr);} .world-grid{grid-template-columns:repeat(2,1fr);} }
+
 .notify-form { display: flex; gap: 10px; max-width: 480px; margin-bottom: 12px; }
 .n-input {
   flex: 1; background: #fff; border: 0.5px solid var(--border); border-radius: 8px;
@@ -176,6 +209,8 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 .store-badge:hover { border-color: rgba(8,145,178,0.35); }
+.store-badge.soon { opacity: .5; cursor: default; }
+.store-badge.soon:hover { border-color: var(--border); }
 .store-badge svg { color: var(--teal); }
 .sb-lbl { font-size: 9px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; }
 .sb-name { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; color: var(--text); }
@@ -230,7 +265,13 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     3R Studio
   </a>
-  <a class="nav-logo" href="index.html"><img src="logo-dark.png" alt="3R Studio"></a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="nav-lang">
+      <button class="lang-btn active" data-lang="cs" onclick="setLang('cs')">CZ</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="nav-logo" href="index.html"><img src="logo.svg" alt="3R Studio"></a>
+  </div>
 </nav>
 
 <section id="hero">
@@ -239,20 +280,19 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   <div class="hero-letter">G</div>
   <div class="hero-content">
     <div class="hero-breadcrumb">
-      <a href="index.html">3R Studio</a> / Projekty / Gream
+      <a href="index.html">3R Studio</a> / <span data-cs="Projekty" data-en="Projects">Projekty</span> / Gream
     </div>
-    <div class="hero-status"><div class="s-dot"></div> Pre-launch · Srpen 2026</div>
+    <div class="hero-status"><div class="s-dot"></div> <span data-cs="Pre-launch · Srpen 2026" data-en="Pre-launch · August 2026">Pre-launch · Srpen 2026</span></div>
     <h1 class="hero-title">Gream</h1>
-    <div class="hero-sub-title">Vzdělávací mobilní hra · iOS · Android</div>
-    <p class="hero-desc">Hravé učení pro děti. Gamifikace s reálnými vzdělávacími obsahy. Navrženo pro každodenní 10–15 min. session s rodinou. Launch App Store & Google Play srpen 2026.</p>
+    <div class="hero-sub-title" data-cs="Kvíz venku · pro celou rodinu · Android (iOS brzy)" data-en="Outdoor quiz · for the whole family · Android (iOS soon)">Kvíz venku · pro celou rodinu · Android (iOS brzy)</div>
+    <p class="hero-desc" data-cs="Kvíz, který tě dostane ven. Objevuj reálná místa kolem sebe, odpovídej na otázky od snadných po expertní, líhni a vychovej vlastního mazlíčka a měř síly s ostatními v časových soubojích. Zábava pro každý věk — a bezpečná i pro děti. Google Play srpen 2026, App Store brzy." data-en="A quiz that gets you outside. Explore real places around you, answer questions from easy to expert, hatch and raise your own pet, and go head-to-head with others in timed battles. Fun for every age — and safe for kids. Google Play August 2026, App Store soon.">Kvíz, který tě dostane ven. Objevuj reálná místa kolem sebe, odpovídej na otázky od snadných po expertní, líhni a vychovej vlastního mazlíčka a měř síly s ostatními v časových soubojích. Zábava pro každý věk — a bezpečná i pro děti. Google Play srpen 2026, App Store brzy.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="document.getElementById('notify-section').scrollIntoView({behavior:'smooth'});gtag('event','notify_intent',{project:'gream'})">Chci být upozorněn →</button>
-      <button class="btn-ghost" onclick="document.getElementById('press').scrollIntoView({behavior:'smooth'})">Press Kit</button>
+      <button class="btn-primary" onclick="document.getElementById('notify-section').scrollIntoView({behavior:'smooth'});gtag('event','notify_intent',{project:'gream'})" data-cs="Chci být upozorněn →" data-en="Notify me →">Chci být upozorněn →</button>
     </div>
     <div class="hero-stats">
       <div class="hstat"><div class="hstat-n">iOS</div><div class="hstat-l">App Store</div></div>
       <div class="hstat"><div class="hstat-n">Android</div><div class="hstat-l">Google Play</div></div>
-      <div class="hstat"><div class="hstat-n">'26</div><div class="hstat-l">Launch rok</div></div>
+      <div class="hstat"><div class="hstat-n">'26</div><div class="hstat-l" data-cs="Rok vydání" data-en="Launch year">Launch rok</div></div>
     </div>
   </div>
 </section>
@@ -260,20 +300,20 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 <div class="page-content">
 
   <section class="reveal">
-    <div class="cs-eyebrow">O projektu</div>
+    <div class="cs-eyebrow" data-cs="O projektu" data-en="About the project">O projektu</div>
     <div class="about-grid">
       <div>
-        <p class="about-text">Gream je vzdělávací PWA aplikace zaměřená na hravé učení pro děti. Kombinuje gamifikaci s reálnými vzdělávacími obsahy — čtení, počítání, logika — v krátkých, zábavných sessionech navržených pro každodenní rodinné využití.</p>
-        <p class="about-text">Cílem je 10–15 minut denně s dítětem. Žádné reklamy, žádný pay-to-win, žádné energetické systémy. Čistý zážitek s reálnou vzdělávací hodnotou.</p>
-        <p class="about-text">Offline funkčnost díky PWA architektuře. Funguje i bez připojení — ideální pro cestování nebo místa se slabým signálem.</p>
+        <p class="about-text" data-cs="Gream je kvízová hra pro každý věk. Objevuješ reálná místa kolem sebe, odpovídáš na otázky napříč šesti světy — od snadných pro děti až po expertní pro dospělé — a za správné odpovědi líhneš a vychováváš vlastního mazlíčka. Kvízy má rád každý; Gream je jen dělá zábavnějšími a dostane tě k nim ven." data-en="Gream is a quiz game for every age. You explore real places around you, answer questions across six worlds — from easy for kids to expert for adults — and earn a pet you hatch and raise. Everyone loves a good quiz; Gream just makes it more fun and gets you outside for it.">Gream je kvízová hra pro každý věk. Objevuješ reálná místa kolem sebe, odpovídáš na otázky napříč šesti světy — od snadných pro děti až po expertní pro dospělé — a za správné odpovědi líhneš a vychováváš vlastního mazlíčka. Kvízy má rád každý; Gream je jen dělá zábavnějšími a dostane tě k nim ven.</p>
+        <p class="about-text" data-cs="A není to jen sólo: měř síly s ostatními v časových soubojích, hraj denní kolo se stejnými otázkami pro všechny a šplhej v žebříčku. Souboje se dají hrát i venku na místech jako parky nebo hospody — venkovní pub-quiz s partou." data-en="And it's not just solo: go head-to-head in timed battles, play the daily round with the same questions for everyone, and climb the leaderboard. Battles can even be played outside at spots like parks or pubs — an outdoor pub-quiz with friends.">A není to jen sólo: měř síly s ostatními v časových soubojích, hraj denní kolo se stejnými otázkami pro všechny a šplhej v žebříčku. Souboje se dají hrát i venku na místech jako parky nebo hospody — venkovní pub-quiz s partou.</p>
+        <p class="about-text" data-cs="Bez reklam, bezpečné pro děti, funguje offline díky PWA architektuře. Přes 700 otázek v češtině i angličtině. Zdarma s volitelným Premium." data-en="No ads, safe for kids, works offline thanks to PWA architecture. Over 700 questions in Czech and English. Free with optional Premium.">Bez reklam, bezpečné pro děti, funguje offline díky PWA architektuře. Přes 700 otázek v češtině i angličtině. Zdarma s volitelným Premium.</p>
       </div>
       <div class="meta-cards">
-        <div class="meta-card"><div class="meta-lbl">Status</div><div class="meta-val">Pre-launch</div></div>
-        <div class="meta-card"><div class="meta-lbl">Platforma</div><div class="meta-val">iOS · Android</div></div>
-        <div class="meta-card"><div class="meta-lbl">Distribuce</div><div class="meta-val">App Store · Play</div></div>
-        <div class="meta-card"><div class="meta-lbl">Cílovka</div><div class="meta-val">Děti & rodiče</div></div>
-        <div class="meta-card"><div class="meta-lbl">Tech</div><div class="meta-val">React Native · PWA</div></div>
-        <div class="meta-card"><div class="meta-lbl">Release</div><div class="meta-val">Srpen 2026</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Status" data-en="Status">Status</div><div class="meta-val">Pre-launch</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Platforma" data-en="Platform">Platforma</div><div class="meta-val">iOS · Android</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Distribuce" data-en="Distribution">Distribuce</div><div class="meta-val" data-cs="Google Play (App Store brzy)" data-en="Google Play (App Store soon)">Google Play (App Store brzy)</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Cílovka" data-en="Audience">Cílovka</div><div class="meta-val" data-cs="Každý věk · bezpečné pro děti" data-en="All ages · kid-safe">Každý věk · bezpečné pro děti</div></div>
+        <div class="meta-card"><div class="meta-lbl">Tech</div><div class="meta-val" data-cs="PWA · Capacitor" data-en="PWA · Capacitor">PWA · Capacitor</div></div>
+        <div class="meta-card"><div class="meta-lbl">Release</div><div class="meta-val" data-cs="Srpen 2026" data-en="August 2026">Srpen 2026</div></div>
       </div>
     </div>
   </section>
@@ -282,53 +322,67 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 
   <section class="reveal">
     <div class="cs-eyebrow">Preview</div>
-    <h2 class="cs-title">Screenshoty & <em>design.</em></h2>
-    <div class="preview-area">
-      <div class="preview-grid-bg"></div>
-      <div>
-        <div class="preview-letter">G</div>
-        <div class="preview-hint">Screenshoty budou přidány před launchem</div>
+    <h2 class="cs-title" data-cs-html="Objevuj světy, &lt;em&gt;vylíhni mazlíčka.&lt;/em&gt;" data-en-html="Discover worlds, &lt;em&gt;hatch a pet.&lt;/em&gt;">Objevuj světy, <em>vylíhni mazlíčka.</em></h2>
+    <div class="gg-how">
+      <div class="gg-egg">
+        <img src="img/gream/egg_pixel.png" alt="Gream — vajíčko Greamíka" loading="lazy" decoding="async">
+        <div class="gg-egg-cap" data-cs="Začínáš s vajíčkem" data-en="You start with an egg">Začínáš s vajíčkem</div>
+      </div>
+      <div class="gg-steps">
+        <div class="gg-step"><span class="gg-n">1</span><div><b data-cs="Choď po světě" data-en="Explore the world">Choď po světě</b><p data-cs="Prozkoumáváš reálná místa kolem sebe — hra tě navede po mapě do souvisejících lokací." data-en="You explore real places around you — the game guides you on a map to relevant locations.">Prozkoumáváš reálná místa kolem sebe — hra tě navede po mapě do souvisejících lokací.</p></div></div>
+        <div class="gg-step"><span class="gg-n">2</span><div><b data-cs="Odpovídej správně" data-en="Answer correctly">Odpovídej správně</b><p data-cs="Na každém místě plníš výzvy a odpovídáš na otázky z daného světa. Za správné odpovědi sbíráš semínka." data-en="At each place you complete challenges and answer questions from that world. Correct answers earn you seeds.">Na každém místě plníš výzvy a odpovídáš na otázky z daného světa. Za správné odpovědi sbíráš semínka.</p></div></div>
+        <div class="gg-step"><span class="gg-n">3</span><div><b data-cs="Vylíhni a vychovej" data-en="Hatch and raise">Vylíhni a vychovej</b><p data-cs="Podle světa, kterému se nejvíc věnuješ, se Greamík vylíhne — a pak s tebou roste. Za plnění úkolů získáváš odznaky." data-en="Depending on the world you focus on most, your Greamík hatches — and then grows with you. Completing tasks earns you badges.">Podle světa, kterému se nejvíc věnuješ, se Greamík vylíhne — a pak s tebou roste. Za plnění úkolů získáváš odznaky.</p></div></div>
       </div>
     </div>
+    <div class="gg-sub" data-cs="Šest světů k objevování" data-en="Six worlds to explore">Šest světů k objevování</div>
+    <div class="world-grid">
+      <figure class="world"><img src="img/gream/w_nature.jpg" alt="Svět Příroda" loading="lazy" decoding="async"><figcaption data-cs="🌿 Příroda" data-en="🌿 Nature">🌿 Příroda</figcaption></figure>
+      <figure class="world"><img src="img/gream/w_language.jpg" alt="Svět Jazyk" loading="lazy" decoding="async"><figcaption data-cs="📖 Jazyk" data-en="📖 Language">📖 Jazyk</figcaption></figure>
+      <figure class="world"><img src="img/gream/w_logic.jpg" alt="Svět Logika" loading="lazy" decoding="async"><figcaption data-cs="🧩 Logika" data-en="🧩 Logic">🧩 Logika</figcaption></figure>
+      <figure class="world"><img src="img/gream/w_feelings.jpg" alt="Svět Pocity" loading="lazy" decoding="async"><figcaption data-cs="💛 Pocity" data-en="💛 Feelings">💛 Pocity</figcaption></figure>
+      <figure class="world"><img src="img/gream/w_arts.jpg" alt="Svět Umění" loading="lazy" decoding="async"><figcaption data-cs="🎨 Umění" data-en="🎨 Arts">🎨 Umění</figcaption></figure>
+      <figure class="world"><img src="img/gream/w_world.jpg" alt="Svět Svět" loading="lazy" decoding="async"><figcaption data-cs="🌍 Svět" data-en="🌍 World">🌍 Svět</figcaption></figure>
+    </div>
+    <p class="shot-note" data-cs="Každý svět má vlastní výzvy a vede k jinému Greamíkovi · odznaky za splněné úkoly" data-en="Each world has its own challenges and leads to a different Greamík · badges for completed tasks">Každý svět má vlastní výzvy a vede k jinému Greamíkovi · odznaky za splněné úkoly</p>
   </section>
 
   <section class="reveal">
-    <div class="cs-eyebrow">Klíčové rysy</div>
-    <h2 class="cs-title">Co dělá Gream <em>jiným.</em></h2>
+    <div class="cs-eyebrow" data-cs="Klíčové rysy" data-en="Key features">Klíčové rysy</div>
+    <h2 class="cs-title" data-cs-html="Co dělá Gream &lt;em&gt;jiným.&lt;/em&gt;" data-en-html="What makes Gream &lt;em&gt;different.&lt;/em&gt;">Co dělá Gream <em>jiným.</em></h2>
     <div class="features-list">
       <div class="feature-item">
         <div class="fi-num">01</div>
         <div class="fi-content">
-          <div class="fi-title">Gamifikované učení s denním odměnovým systémem</div>
-          <div class="fi-desc">Každá dokončená session přináší odměnu. Vizuální progress, sbíratelné prvky a milníky motivují bez závislosti.</div>
+          <div class="fi-title" data-cs="Gamifikované učení s denním odměnovým systémem" data-en="Gamified learning with a daily reward system">Gamifikované učení s denním odměnovým systémem</div>
+          <div class="fi-desc" data-cs="Každá dokončená session přináší odměnu. Vizuální progress, sbíratelné prvky a milníky motivují bez závislosti." data-en="Every completed session brings a reward. Visual progress, collectibles and milestones motivate without addiction.">Každá dokončená session přináší odměnu. Vizuální progress, sbíratelné prvky a milníky motivují bez závislosti.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">02</div>
         <div class="fi-content">
-          <div class="fi-title">Offline funkčnost (PWA)</div>
-          <div class="fi-desc">Aplikace funguje bez internetu. Stáhne si obsah předem a synchronizuje progress až bude připojení k dispozici.</div>
+          <div class="fi-title" data-cs="Offline funkčnost (PWA)" data-en="Offline functionality (PWA)">Offline funkčnost (PWA)</div>
+          <div class="fi-desc" data-cs="Aplikace funguje bez internetu. Stáhne si obsah předem a synchronizuje progress až bude připojení k dispozici." data-en="The app works without internet. It downloads content in advance and syncs progress once a connection is available.">Aplikace funguje bez internetu. Stáhne si obsah předem a synchronizuje progress až bude připojení k dispozici.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">03</div>
         <div class="fi-content">
-          <div class="fi-title">10–15 min. session navržena pro rodinu</div>
-          <div class="fi-desc">Každá session je krátká a soustředěná. Ideální pro ráno před školou nebo večerní rutinu. Rodiče vidí progress.</div>
+          <div class="fi-title" data-cs="Souboje, denní kolo a žebříček" data-en="Battles, daily round and leaderboard">Souboje, denní kolo a žebříček</div>
+          <div class="fi-desc" data-cs="Změř síly s ostatními v časových soubojích na 10 otázek. Denní kolo dává všem stejné otázky a řadí je do žebříčku. Souboje jdou hrát i venku na místech jako parky nebo hospody — venkovní pub-quiz." data-en="Go head-to-head in timed 10-question battles. The daily round gives everyone the same questions and ranks them on a leaderboard. Battles can be played outdoors at spots like parks or pubs — an outdoor pub-quiz.">Změř síly s ostatními v časových soubojích na 10 otázek. Denní kolo dává všem stejné otázky a řadí je do žebříčku. Souboje jdou hrát i venku na místech jako parky nebo hospody — venkovní pub-quiz.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">04</div>
         <div class="fi-content">
-          <div class="fi-title">Žádné reklamy, žádný pay-to-win</div>
-          <div class="fi-desc">Čistý zážitek. Model: Freemium s jednorázovým odemčením. Žádné předplatné, žádné reklamy pro děti.</div>
+          <div class="fi-title" data-cs="Bez reklam, bezpečné pro děti" data-en="No ads, safe for kids">Bez reklam, bezpečné pro děti</div>
+          <div class="fi-desc" data-cs="Čistý zážitek bez reklam a bez pay-to-win. Zdarma s volitelným Premium (víc soubojů a nejtěžší úroveň). Vhodné pro celou rodinu." data-en="A clean experience — no ads, no pay-to-win. Free with optional Premium (more battles and the hardest tier). Suitable for the whole family.">Čistý zážitek bez reklam a bez pay-to-win. Zdarma s volitelným Premium (víc soubojů a nejtěžší úroveň). Vhodné pro celou rodinu.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">05</div>
         <div class="fi-content">
-          <div class="fi-title">Reálný vzdělávací obsah</div>
-          <div class="fi-desc">Hry nejsou jen zábava — každá aktivita má konkrétní vzdělávací záměr mapovaný na školní curriculum.</div>
+          <div class="fi-title" data-cs="Přes 700 otázek — od dětí po experty" data-en="Over 700 questions — from kids to experts">Přes 700 otázek — od dětí po experty</div>
+          <div class="fi-desc" data-cs="Šest světů, čtyři obtížnosti od snadné po extrémní, čeština i angličtina. Snadné pobaví děti, extrémní potrápí i dospělé. Různé typy otázek: výběr, doplňování, řazení, přiřazování." data-en="Six worlds, four difficulties from easy to extreme, Czech and English. Easy entertains kids, extreme challenges even adults. Varied question types: choice, fill-in, sorting, matching.">Šest světů, čtyři obtížnosti od snadné po extrémní, čeština i angličtina. Snadné pobaví děti, extrémní potrápí i dospělé. Různé typy otázek: výběr, doplňování, řazení, přiřazování.</div>
         </div>
       </div>
     </div>
@@ -337,81 +391,55 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   <div class="divider"></div>
 
   <section id="notify-section" class="reveal">
-    <div class="cs-eyebrow">Upozornění při launch</div>
-    <h2 class="cs-title">Chci být <em>první.</em></h2>
-    <p style="font-size:16px;color:var(--dim);font-weight:300;max-width:480px;margin-bottom:28px;line-height:1.7;">Zadej email a pošleme ti upozornění v den launche. Žádný spam — jen jeden email.</p>
+    <div class="cs-eyebrow" data-cs="Upozornění při launch" data-en="Launch notification">Upozornění při launch</div>
+    <h2 class="cs-title" data-cs-html="Chci být &lt;em&gt;první.&lt;/em&gt;" data-en-html="I want to be &lt;em&gt;first.&lt;/em&gt;">Chci být <em>první.</em></h2>
+    <p style="font-size:16px;color:var(--dim);font-weight:300;max-width:480px;margin-bottom:28px;line-height:1.7;" data-cs="Zadej email a pošleme ti upozornění v den launche. Žádný spam — jen jeden email." data-en="Enter your email and we&#x27;ll notify you on launch day. No spam — just one email.">Zadej email a pošleme ti upozornění v den launche. Žádný spam — jen jeden email.</p>
 
     <form id="notify-form" onsubmit="submitNotify(event)">
       <div class="notify-form">
         <input class="n-input" type="email" id="n-email" placeholder="váš@email.cz" required autocomplete="email">
-        <button class="n-btn" type="submit">Upozornit mě →</button>
+        <button class="n-btn" type="submit" data-cs="Upozornit mě →" data-en="Notify me →">Upozornit mě →</button>
       </div>
       <div class="n-msg" id="n-msg"></div>
-      <p class="n-note">Odhlásit se jedním klikem · Žádný spam</p>
+      <p class="n-note" data-cs="Odhlásit se jedním klikem · Žádný spam" data-en="Unsubscribe with one click · No spam">Odhlásit se jedním klikem · Žádný spam</p>
     </form>
 
     <div class="store-badges">
-      <a class="store-badge" href="#" onclick="gtag('event','appstore_intent',{project:'gream'})">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12l3 3 5-6"/></svg>
-        <div><div class="sb-lbl">Dostupné na</div><div class="sb-name">App Store</div></div>
-      </a>
-      <a class="store-badge" href="#" onclick="gtag('event','playstore_intent',{project:'gream'})">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        <div><div class="sb-lbl">Dostupné na</div><div class="sb-name">Google Play</div></div>
-      </a>
+      <span class="store-badge" style="cursor:default" onclick="gtag('event','playstore_intent',{project:'gream'})">
+        <svg width="18" height="20" viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.6 1.4 247.2-247v-5.8L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c17.1-9.9 17.1-25.8-.1-34.9l-1.2-.9zM85.5 452.9L325.3 277.5l-60.1-60.1L85.5 452.9z"/></svg>
+        <div><div class="sb-lbl" data-cs="Srpen 2026" data-en="August 2026">Srpen 2026</div><div class="sb-name">Google Play</div></div>
+      </span>
+      <span class="store-badge soon" aria-disabled="true">
+        <svg width="17" height="20" viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+        <div><div class="sb-lbl" data-cs="Brzy" data-en="Soon">Brzy</div><div class="sb-name">App Store</div></div>
+      </span>
     </div>
   </section>
 
-  <div class="divider"></div>
-
-  <section id="press" class="reveal">
-    <div class="cs-eyebrow">Press Kit</div>
-    <h2 class="cs-title">Pro <em>média.</em></h2>
-    <div class="press-grid">
-      <div class="press-item"><div><div class="press-name">Logo Gream</div><div class="press-format">SVG · PNG</div></div><div class="press-icon">↓</div></div>
-      <div class="press-item"><div><div class="press-name">Screenshoty</div><div class="press-format">PNG · iOS · Android</div></div><div class="press-icon">↓</div></div>
-      <div class="press-item"><div><div class="press-name">App preview video</div><div class="press-format">MP4 · Brzy</div></div><div class="press-icon">↓</div></div>
-      <div class="press-item"><div><div class="press-name">Factsheet</div><div class="press-format">PDF · CZ · EN</div></div><div class="press-icon">↓</div></div>
-      <div class="press-item"><div><div class="press-name">Feature graphic</div><div class="press-format">PNG · 1024×500</div></div><div class="press-icon">↓</div></div>
-      <div class="press-item"><div><div class="press-name">App icon</div><div class="press-format">PNG · 1024×1024</div></div><div class="press-icon">↓</div></div>
-    </div>
-    <p style="font-size:13px;color:var(--dim);font-weight:300;">Press dotazy: <a href="mailto:press@3rstudio.eu" style="color:var(--teal);text-decoration:none;font-weight:600;">press@3rstudio.eu</a></p>
-  </section>
 
   <div class="divider"></div>
 
   <section class="cta-strip reveal">
     <div>
-      <div class="cs-eyebrow">Launch · Srpen 2026</div>
-      <div class="cs-title" style="margin-bottom:8px;">Sleduj <em>Gream.</em></div>
-      <div style="font-size:15px;color:var(--dim);font-weight:300;">Zaregistruj zájem a dostaneš první přístup.</div>
+      <div class="cs-eyebrow" data-cs="Launch · Srpen 2026" data-en="Launch · August 2026">Launch · Srpen 2026</div>
+      <div class="cs-title" style="margin-bottom:8px;" data-cs-html="Sleduj &lt;em&gt;Gream.&lt;/em&gt;" data-en-html="Follow &lt;em&gt;Gream.&lt;/em&gt;">Sleduj <em>Gream.</em></div>
+      <div style="font-size:15px;color:var(--dim);font-weight:300;" data-cs="Zaregistruj zájem a dostaneš první přístup." data-en="Register your interest and get first access.">Zaregistruj zájem a dostaneš první přístup.</div>
     </div>
     <div style="display:flex;gap:10px;flex-shrink:0;flex-wrap:wrap;">
-      <button class="btn-primary" onclick="document.getElementById('notify-section').scrollIntoView({behavior:'smooth'})">Upozornit mě →</button>
-      <button class="btn-ghost" onclick="document.getElementById('press').scrollIntoView({behavior:'smooth'})">Press Kit</button>
+      <button class="btn-primary" onclick="document.getElementById('notify-section').scrollIntoView({behavior:'smooth'})" data-cs="Upozornit mě →" data-en="Notify me →">Upozornit mě →</button>
     </div>
   </section>
 
   <div class="divider"></div>
 
   <section class="reveal">
-    <div class="cs-eyebrow">Další projekty</div>
-    <h2 class="cs-title">Víc od <em>3R Studio.</em></h2>
+    <div class="cs-eyebrow" data-cs="Další projekty" data-en="More projects">Další projekty</div>
+    <h2 class="cs-title" data-cs-html="Víc od &lt;em&gt;3R Studio.&lt;/em&gt;" data-en-html="More from &lt;em&gt;3R Studio.&lt;/em&gt;">Víc od <em>3R Studio.</em></h2>
     <div class="other-grid">
       <a class="other-card" href="conflux.html">
         <div class="oc-letter" style="color:#b8890c">C</div>
         <div class="oc-name">CONFLUX</div>
-        <div class="oc-type">Narativní karetní hra · PC</div>
-      </a>
-      <a class="other-card" href="#">
-        <div class="oc-letter" style="color:#b8890c">R</div>
-        <div class="oc-name">RECHO</div>
-        <div class="oc-type">Gothic Sci-Fi Action RPG · PC</div>
-      </a>
-      <a class="other-card" href="#">
-        <div class="oc-letter" style="color:#7c3aed">Ψ</div>
-        <div class="oc-name">PULSE</div>
-        <div class="oc-type">AI agent · Experiment</div>
+        <div class="oc-type" data-cs="Narativní karetní hra · PC" data-en="Narrative card game · PC">Narativní karetní hra · PC</div>
       </a>
     </div>
   </section>
@@ -419,13 +447,13 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 </div>
 
 <footer style="border-top:0.5px solid var(--border);padding:28px 80px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);">
-  <a href="index.html"><img src="logo-dark.png" alt="3R Studio" style="height:22px;"></a>
+  <a href="index.html"><img src="logo.svg" alt="3R Studio" style="height:30px;"></a>
   <div style="font-size:11px;color:var(--muted);">© 2026 3R Studio · ČR</div>
-  <a href="index.html" style="font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color=''">← Zpět na studio</a>
+  <a href="index.html" style="font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color=''" data-cs="← Zpět na studio" data-en="← Back to studio">← Zpět na studio</a>
 </footer>
 
-<script>
-const NL_URL = 'https://n8n.3rstudio.eu/webhook/newsletter';
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const NL_URL = '/api/hook/newsletter';
 async function submitNotify(e) {
   e.preventDefault();
   const email = document.getElementById('n-email').value;
@@ -449,6 +477,17 @@ const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+<script>
+const LANG_KEY='3rs-lang';
+let currentLang=localStorage.getItem(LANG_KEY)||'cs';
+function setLang(lang){
+  currentLang=lang; localStorage.setItem(LANG_KEY,lang); document.documentElement.lang=lang;
+  document.querySelectorAll('[data-cs]').forEach(el=>{ if(el.dataset[lang]!=null) el.textContent=el.dataset[lang]; });
+  document.querySelectorAll('[data-cs-html]').forEach(el=>{ const v=lang==='en'?el.dataset.enHtml:el.dataset.csHtml; if(v!=null) el.innerHTML=v; });
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+}
+setLang(currentLang);
 </script>
 </body>
 </html>
