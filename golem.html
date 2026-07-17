@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Golem — postav si vlastní appku z napsaných slov. Presety, AI stavitel, žádné předplatné: appku vlastníš jako jeden soubor. 3R Studio.">
+<meta property="og:title" content="Golem — 3R Studio">
+<meta property="og:description" content="Write the words. It comes alive. Apps you own — one file, no subscription, no lock-in.">
+<title>Golem — 3R Studio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23f5c518'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='16' font-weight='900' font-style='italic' text-anchor='middle' fill='%23111110'%3E3R%3C/text%3E%3C/svg%3E">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H8MKHHNS5G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H8MKHHNS5G');
+  gtag('event', 'project_view', { project: 'golem' });
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,700;1,800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --teal: #b45309; --teal-fill: #d97706; --teal-light: rgba(180,83,9,0.09);
+  --bg: #f8f6f2; --bg2: #f9f3e9; --bg3: #f3e8d5;
+  --text: #111110; --dim: rgba(17,17,16,0.52); --muted: rgba(17,17,16,0.36);
+  --border: rgba(17,17,16,0.09);
+  --r: 10px; --r-lg: 16px; --r-xl: 22px;
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 2px; }
+
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; background: rgba(248,246,242,0.92);
+  backdrop-filter: blur(20px); border-bottom: 0.5px solid var(--border); z-index: 100;
+}
+.lang-btn{font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--dim);padding:5px 10px;border-radius:100px;cursor:pointer;border:none;background:transparent;transition:all .2s;}
+.lang-btn:hover{color:var(--text);}
+.lang-btn.active{background:var(--teal);color:#fff;}
+.nav-lang{display:flex;gap:2px;}
+.nav-back {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--dim); text-decoration: none; transition: color 0.2s;
+}
+.nav-back:hover { color: var(--teal); }
+.nav-back svg { transition: transform 0.2s; }
+.nav-back:hover svg { transform: translateX(-3px); }
+.nav-logo { display: flex; align-items: center; text-decoration: none; }
+.nav-logo img { height: 36px; }
+
+#hero {
+  min-height: 88vh; display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 120px 80px 72px; position: relative; overflow: hidden;
+  background: var(--bg2);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(180,83,9,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(180,83,9,0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+.hero-glow { position: absolute; width: 600px; height: 600px; top: -150px; right: -150px; background: radial-gradient(circle, rgba(217,119,6,0.14) 0%, transparent 65%); pointer-events: none; }
+.hero-letter {
+  position: absolute; bottom: -60px; right: 10px;
+  font-family: Georgia, serif; font-size: clamp(240px,28vw,420px);
+  font-weight: 700; color: rgba(180,83,9,0.08); line-height: 1; pointer-events: none; user-select: none;
+}
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
+.hero-breadcrumb {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+}
+.hero-breadcrumb a { color: var(--teal); text-decoration: none; }
+.hero-breadcrumb a:hover { text-decoration: underline; }
+.hero-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--teal); background: var(--teal-light); border: 0.5px solid rgba(180,83,9,0.3);
+  padding: 6px 14px; border-radius: 100px; margin-bottom: 20px;
+}
+.s-dot { width: 4px; height: 4px; background: var(--teal); border-radius: 50%; animation: blink 1.5s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.25} }
+.hero-title {
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(60px, 9.5vw, 140px);
+  font-weight: 800; font-style: italic; line-height: 0.9; letter-spacing: -0.04em; margin-bottom: 20px;
+  color: var(--teal);
+}
+.hero-sub-title { font-size: clamp(14px, 1.8vw, 18px); color: var(--dim); font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 28px; }
+.hero-desc { font-size: 17px; color: var(--dim); line-height: 1.75; max-width: 580px; margin-bottom: 40px; font-weight: 300; }
+.hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--teal); color: #fff; padding: 14px 32px; border-radius: 8px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; border: none; transition: background 0.2s, transform 0.2s;
+  display: inline-flex; align-items: center; gap: 8px; text-decoration: none;
+}
+.btn-primary:hover { background: #92400e; transform: translateY(-2px); }
+.btn-ghost {
+  background: transparent; color: var(--dim); padding: 14px 24px; border-radius: 8px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; border: 0.5px solid var(--border); transition: border-color 0.2s, color 0.2s;
+  display: inline-flex; align-items: center; text-decoration: none;
+}
+.btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+.hero-stats { display: flex; gap: 40px; margin-top: 48px; }
+.hstat-n { font-family: 'Inter', sans-serif; font-size: 36px; font-style: italic; font-weight: 800; color: var(--teal); line-height: 1; margin-bottom: 4px; }
+.hstat-l { font-size: 10px; letter-spacing: 0.22em; color: var(--muted); text-transform: uppercase; font-weight: 500; }
+
+.page-content { max-width: 1200px; margin: 0 auto; padding: 80px 80px 120px; }
+.cs-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.3em; color: var(--teal); text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+.cs-eyebrow::before { content: ''; width: 16px; height: 1px; background: var(--teal); }
+.cs-title { font-family: 'Inter', sans-serif; font-size: clamp(24px, 3vw, 38px); font-weight: 800; font-style: italic; line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 40px; }
+.cs-title em { font-style: normal; color: var(--teal); }
+.about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 64px; margin-bottom: 80px; align-items: start; }
+.about-text { font-size: 16px; color: var(--dim); line-height: 1.8; font-weight: 300; margin-bottom: 20px; }
+.meta-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.meta-card { background: #fff; border: 0.5px solid var(--border); border-radius: var(--r); padding: 16px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.meta-lbl { font-size: 9px; letter-spacing: 0.28em; color: var(--muted); text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
+.meta-val { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--text); }
+
+.features-list { display: flex; flex-direction: column; border: 0.5px solid var(--border); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 80px; background: #fff; }
+.feature-item { display: flex; align-items: flex-start; gap: 20px; padding: 22px 28px; border-bottom: 0.5px solid var(--border); transition: background 0.2s; }
+.feature-item:last-child { border-bottom: none; }
+.feature-item:hover { background: var(--teal-light); }
+.fi-num { font-family: 'Inter', sans-serif; font-style: italic; font-weight: 800; font-size: 22px; color: rgba(180,83,9,0.4); min-width: 32px; }
+.fi-title { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 5px; color: var(--text); }
+.fi-desc { font-size: 13px; color: var(--dim); line-height: 1.65; font-weight: 300; }
+
+.gg-how{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center;margin-bottom:34px;}
+.gg-glyph{text-align:center;font-size:110px;line-height:1;filter:drop-shadow(0 12px 24px rgba(180,83,9,.20));}
+.gg-glyph-cap{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-top:8px;}
+.gg-steps{display:flex;flex-direction:column;gap:16px;}
+.gg-step{display:flex;gap:14px;align-items:flex-start;}
+.gg-n{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.gg-step b{display:block;font-size:15px;font-weight:800;margin-bottom:2px;}
+.gg-step p{font-size:13px;line-height:1.5;color:var(--dim);font-weight:300;margin:0;}
+@media(max-width:640px){.gg-how{grid-template-columns:1fr;}}
+
+.legend-box { background: var(--bg2); border: 0.5px solid rgba(180,83,9,0.2); border-radius: var(--r-xl); padding: 48px; margin-bottom: 80px; position: relative; overflow: hidden; }
+.legend-box::after { content: 'ש'; position: absolute; right: 16px; bottom: -40px; font-family: Georgia, serif; font-size: 200px; color: rgba(180,83,9,0.07); line-height: 1; pointer-events: none; }
+.legend-text { font-size: 16px; color: var(--dim); line-height: 1.85; font-weight: 300; max-width: 700px; font-style: italic; }
+.legend-text b { color: var(--text); font-style: normal; }
+
+.notify-form { display: flex; gap: 10px; max-width: 480px; margin-bottom: 12px; }
+.n-input {
+  flex: 1; background: #fff; border: 0.5px solid var(--border); border-radius: 8px;
+  padding: 13px 16px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--text);
+  outline: none; transition: border-color 0.2s;
+}
+.n-input::placeholder { color: var(--muted); }
+.n-input:focus { border-color: rgba(180,83,9,0.5); }
+.n-btn {
+  background: var(--teal); color: #fff; padding: 13px 22px; border-radius: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  cursor: pointer; border: none; transition: background 0.2s, transform 0.2s; white-space: nowrap;
+}
+.n-btn:hover { background: #92400e; transform: translateY(-1px); }
+.n-msg { font-size: 12px; color: var(--teal); display: none; margin-top: 8px; font-weight: 600; }
+.n-note { font-size: 11px; color: var(--muted); font-weight: 300; margin-top: 8px; }
+
+.cta-strip { background: var(--bg2); border: 0.5px solid rgba(180,83,9,0.2); border-radius: var(--r-xl); padding: 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+
+.other-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 40px; }
+.other-card { background: #fff; border: 0.5px solid var(--border); border-radius: var(--r-lg); padding: 22px; text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.other-card:hover { border-color: rgba(180,83,9,0.35); transform: translateY(-2px); }
+.oc-letter { font-family: 'Inter', sans-serif; font-style: italic; font-weight: 800; font-size: 30px; color: var(--teal); margin-bottom: 10px; }
+.oc-name { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.01em; color: var(--text); }
+.oc-type { font-size: 11px; color: var(--dim); }
+
+.divider { height: 1px; background: linear-gradient(to right, transparent, rgba(180,83,9,0.2), transparent); margin: 80px 0; }
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  #hero { padding: 100px 40px 60px; }
+  .page-content { padding: 60px 40px 80px; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .other-grid { grid-template-columns: 1fr 1fr; }
+  .cta-strip { flex-direction: column; }
+}
+@media (max-width: 640px) {
+  #hero { padding: 100px 24px 48px; }
+  #nav { padding: 0 24px; }
+  .page-content { padding: 40px 24px 60px; }
+  .meta-cards { grid-template-columns: 1fr; }
+  .other-grid { grid-template-columns: 1fr; }
+  .notify-form { flex-direction: column; }
+  .hero-stats { flex-wrap: wrap; gap: 24px; }
+  .legend-box { padding: 32px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-back" href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    3R Studio
+  </a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="nav-lang">
+      <button class="lang-btn active" data-lang="cs" onclick="setLang('cs')">CZ</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="nav-logo" href="index.html"><img src="logo.svg" alt="3R Studio"></a>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-letter">ש</div>
+  <div class="hero-content">
+    <div class="hero-breadcrumb">
+      <a href="index.html">3R Studio</a> / <span data-cs="Projekty" data-en="Projects">Projekty</span> / Golem
+    </div>
+    <div class="hero-status"><div class="s-dot"></div> <span data-cs="Soukromá beta · 2026" data-en="Private beta · 2026">Soukromá beta · 2026</span></div>
+    <h1 class="hero-title">Golem</h1>
+    <div class="hero-sub-title" data-cs="Postav si appku z napsaných slov · web · bez programování" data-en="Build apps from written words · web · no coding">Postav si appku z napsaných slov · web · bez programování</div>
+    <p class="hero-desc" data-cs="Úkolovník, výdaje, inventář, cokoliv — popíšeš, co chceš, a appka ožije před očima. Uprav ji kliknutím, nebo nech AI přepsat její „šém“. A pak si ji stáhni: jeden HTML soubor, který je celá appka. Žádné předplatné, žádný účet, žádný server. Vlastníš ji." data-en="A to-do list, expense tracker, inventory, anything — describe what you want and the app comes alive before your eyes. Tweak it by clicking, or let AI rewrite its “shem”. Then download it: one HTML file that IS the whole app. No subscription, no account, no server. You own it.">Úkolovník, výdaje, inventář, cokoliv — popíšeš, co chceš, a appka ožije před očima. Uprav ji kliknutím, nebo nech AI přepsat její „šém“. A pak si ji stáhni: jeden HTML soubor, který je celá appka. Žádné předplatné, žádný účet, žádný server. Vlastníš ji.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('notify-section').scrollIntoView({behavior:'smooth'});gtag('event','notify_intent',{project:'golem'})" data-cs="Chci první přístup →" data-en="I want first access →">Chci první přístup →</button>
+      <a class="btn-ghost" href="https://golem.3rstudio.eu" target="_blank" rel="noopener" onclick="gtag('event','beta_open',{project:'golem'})" data-cs="Otevřít betu (s heslem)" data-en="Open beta (password)">Otevřít betu (s heslem)</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">1</div><div class="hstat-l" data-cs="Soubor = celá appka" data-en="File = the whole app">Soubor = celá appka</div></div>
+      <div class="hstat"><div class="hstat-n">0</div><div class="hstat-l" data-cs="Předplatných" data-en="Subscriptions">Předplatných</div></div>
+      <div class="hstat"><div class="hstat-n">∞</div><div class="hstat-l" data-cs="Funguje navždy" data-en="Works forever">Funguje navždy</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="page-content">
+
+  <section class="reveal">
+    <div class="cs-eyebrow" data-cs="O projektu" data-en="About the project">O projektu</div>
+    <div class="about-grid">
+      <div>
+        <p class="about-text" data-cs="Golem staví malé užitečné aplikace z jediného čitelného předpisu — „šému“. Vybereš hotový preset, postavíš si vlastní v jednoduchém staviteli, nebo appku prostě popíšeš a AI ji složí. Každá změna se projeví okamžitě a tvoje záznamy vždycky přežijí — Golem data nikdy nemaže." data-en="Golem builds small useful apps from a single readable blueprint — the “shem”. Pick a ready-made preset, build your own in a simple builder, or just describe the app and AI assembles it. Every change applies instantly and your records always survive — Golem never deletes data.">Golem staví malé užitečné aplikace z jediného čitelného předpisu — „šému“. Vybereš hotový preset, postavíš si vlastní v jednoduchém staviteli, nebo appku prostě popíšeš a AI ji složí. Každá změna se projeví okamžitě a tvoje záznamy vždycky přežijí — Golem data nikdy nemaže.</p>
+        <p class="about-text" data-cs="A hlavně: appka je tvoje. Exportuješ ji jako jediný HTML soubor — engine, struktura i data v jednom. Funguje offline, nahraješ ji na vlastní web, pošleš kamarádovi. Až tady jednou nic nepoběží, tvoje appka poběží dál." data-en="Most importantly: the app is yours. Export it as a single HTML file — engine, structure and data in one. It works offline, you can upload it to your own site or send it to a friend. Even if this place goes dark one day, your app keeps running.">A hlavně: appka je tvoje. Exportuješ ji jako jediný HTML soubor — engine, struktura i data v jednom. Funguje offline, nahraješ ji na vlastní web, pošleš kamarádovi. Až tady jednou nic nepoběží, tvoje appka poběží dál.</p>
+        <p class="about-text" data-cs="AI stavění funguje s tvým vlastním API klíčem (Anthropic / OpenAI), nebo úplně zdarma přes copy-paste do ChatGPT či Claude. Nic neprochází našimi servery — žádné servery pro to nemáme." data-en="AI building works with your own API key (Anthropic / OpenAI), or completely free via copy-paste through ChatGPT or Claude. Nothing passes through our servers — there are no servers to pass through.">AI stavění funguje s tvým vlastním API klíčem (Anthropic / OpenAI), nebo úplně zdarma přes copy-paste do ChatGPT či Claude. Nic neprochází našimi servery — žádné servery pro to nemáme.</p>
+      </div>
+      <div class="meta-cards">
+        <div class="meta-card"><div class="meta-lbl">Status</div><div class="meta-val" data-cs="Soukromá beta" data-en="Private beta">Soukromá beta</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Platforma" data-en="Platform">Platforma</div><div class="meta-val">Web · offline</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Distribuce" data-en="Distribution">Distribuce</div><div class="meta-val" data-cs="Online + ke stažení" data-en="Hosted + download">Online + ke stažení</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Cílovka" data-en="Audience">Cílovka</div><div class="meta-val" data-cs="Kdokoliv, i bez techniky" data-en="Anyone, no tech needed">Kdokoliv, i bez techniky</div></div>
+        <div class="meta-card"><div class="meta-lbl">Tech</div><div class="meta-val" data-cs="Statický web · bez backendu" data-en="Static web · no backend">Statický web · bez backendu</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Jazyky" data-en="Languages">Jazyky</div><div class="meta-val">EN · CS</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="reveal">
+    <div class="cs-eyebrow" data-cs="Legenda" data-en="The legend">Legenda</div>
+    <h2 class="cs-title" data-cs-html="Napiš správná slova a &lt;em&gt;hlína ožije.&lt;/em&gt;" data-en-html="Write the right words and &lt;em&gt;clay comes alive.&lt;/em&gt;">Napiš správná slova a <em>hlína ožije.</em></h2>
+    <div class="legend-box">
+      <p class="legend-text" data-cs="Stará pražská legenda vypráví o rabim Löwovi, který uhnětl z vltavské hlíny postavu — a když jí do úst vložil šém, svitek se správnými slovy, golem ožil a sloužil. Přesně tak funguje tenhle Golem: engine je hlína, která sama nic neumí. Šém je pár čitelných řádků, které popisují tvou appku. Vložíš je — a věc ožije. Změníš slova — a změní se i ona. &lt;b&gt;Slova jsou tvoje. Golem je tvůj.&lt;/b&gt;" data-en="An old Prague legend tells of Rabbi Loew, who shaped a figure from Vltava clay — and when he placed a shem in its mouth, a scroll bearing the right words, the golem came alive and served. That is exactly how this Golem works: the engine is clay that can do nothing on its own. The shem is a few readable lines describing your app. Put them in — and the thing comes alive. Change the words — and it changes too. <b>The words are yours. The golem is yours.</b>">Stará pražská legenda vypráví o rabim Löwovi, který uhnětl z vltavské hlíny postavu — a když jí do úst vložil šém, svitek se správnými slovy, golem ožil a sloužil. Přesně tak funguje tenhle Golem: engine je hlína, která sama nic neumí. Šém je pár čitelných řádků, které popisují tvou appku. Vložíš je — a věc ožije. Změníš slova — a změní se i ona. <b>Slova jsou tvoje. Golem je tvůj.</b></p>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="cs-eyebrow" data-cs="Jak to funguje" data-en="How it works">Jak to funguje</div>
+    <div class="gg-how">
+      <div class="gg-glyph-wrap" style="text-align:center;">
+        <div class="gg-glyph">🗿</div>
+        <div class="gg-glyph-cap" data-cs="Tři cesty k appce" data-en="Three paths to an app">Tři cesty k appce</div>
+      </div>
+      <div class="gg-steps">
+        <div class="gg-step"><span class="gg-n">1</span><div><b data-cs="Vyber, postav, nebo popiš" data-en="Pick, build, or describe">Vyber, postav, nebo popiš</b><p data-cs="Hotové presety (úkoly, výdaje, inventář, poznámky), jednoduchý stavitel polí a pohledů, nebo AI, která appku složí z jedné věty." data-en="Ready-made presets (tasks, expenses, inventory, notes), a simple builder for fields and views, or AI that assembles the app from one sentence.">Hotové presety (úkoly, výdaje, inventář, poznámky), jednoduchý stavitel polí a pohledů, nebo AI, která appku složí z jedné věty.</p></div></div>
+        <div class="gg-step"><span class="gg-n">2</span><div><b data-cs="Používej a ohýbej za běhu" data-en="Use it, bend it live">Používej a ohýbej za běhu</b><p data-cs="Seznamy, kanban, grafy, statistiky, barevná pravidla. Přidáš pole a formulář ho hned má. Data přežijí každou změnu." data-en="Lists, kanban boards, charts, stats, color rules. Add a field and the form has it instantly. Data survives every change.">Seznamy, kanban, grafy, statistiky, barevná pravidla. Přidáš pole a formulář ho hned má. Data přežijí každou změnu.</p></div></div>
+        <div class="gg-step"><span class="gg-n">3</span><div><b data-cs="Stáhni a vlastni" data-en="Download and own">Stáhni a vlastni</b><p data-cs="Jeden klik a máš jediný HTML soubor — celou appku i s daty. Offline, navždy, kdekoliv. Tohle žádný SaaS nenabídne." data-en="One click and you get a single HTML file — the whole app, data included. Offline, forever, anywhere. No SaaS will offer you that.">Jeden klik a máš jediný HTML soubor — celou appku i s daty. Offline, navždy, kdekoliv. Tohle žádný SaaS nenabídne.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="reveal">
+    <div class="cs-eyebrow" data-cs="Co umí" data-en="Features">Co umí</div>
+    <h2 class="cs-title" data-cs-html="Appka, kterou &lt;em&gt;vlastníš.&lt;/em&gt;" data-en-html="An app you &lt;em&gt;own.&lt;/em&gt;">Appka, kterou <em>vlastníš.</em></h2>
+    <div class="features-list">
+      <div class="feature-item"><div class="fi-num">01</div><div><div class="fi-title" data-cs="Presety na jeden klik" data-en="One-click presets">Presety na jeden klik</div><div class="fi-desc" data-cs="Úkoly, výdaje s grafem, inventář, poznámky — otevřeš a hned funguje. A dál si ji ohneš podle sebe." data-en="Tasks, expenses with a chart, inventory, notes — open it and it just works. Then bend it to your needs.">Úkoly, výdaje s grafem, inventář, poznámky — otevřeš a hned funguje. A dál si ji ohneš podle sebe.</div></div></div>
+      <div class="feature-item"><div class="fi-num">02</div><div><div class="fi-title" data-cs="Stavitel bez programování" data-en="No-code builder">Stavitel bez programování</div><div class="fi-desc" data-cs="Přidej pole, vyber typ, hotovo. Pro zvědavé je vedle toho i surový šém — čitelný JSON s validátorem, který ti srozumitelně řekne, co je špatně." data-en="Add a field, pick a type, done. For the curious there's also the raw shem — readable JSON with a validator that tells you in plain words what's wrong.">Přidej pole, vyber typ, hotovo. Pro zvědavé je vedle toho i surový šém — čitelný JSON s validátorem, který ti srozumitelně řekne, co je špatně.</div></div></div>
+      <div class="feature-item"><div class="fi-num">03</div><div><div class="fi-title" data-cs="AI stavitel — bez našich serverů" data-en="AI builder — no servers of ours">AI stavitel — bez našich serverů</div><div class="fi-desc" data-cs="Popiš appku a AI napíše šém. S vlastním klíčem (Anthropic/OpenAI) přímo z prohlížeče, nebo zdarma přes copy-paste do ChatGPT či Claude." data-en="Describe the app and AI writes the shem. With your own key (Anthropic/OpenAI) straight from the browser, or free via copy-paste through ChatGPT or Claude.">Popiš appku a AI napíše šém. S vlastním klíčem (Anthropic/OpenAI) přímo z prohlížeče, nebo zdarma přes copy-paste do ChatGPT či Claude.</div></div></div>
+      <div class="feature-item"><div class="fi-num">04</div><div><div class="fi-title" data-cs="Data nikdy neumřou" data-en="Data never dies">Data nikdy neumřou</div><div class="fi-desc" data-cs="Přejmenuj pole, změň typ, smaž sloupec — záznamy zůstávají. Změna struktury ti nikdy nesmaže, co sis zapsal." data-en="Rename a field, change a type, drop a column — records stay. A structure change never deletes what you wrote down.">Přejmenuj pole, změň typ, smaž sloupec — záznamy zůstávají. Změna struktury ti nikdy nesmaže, co sis zapsal.</div></div></div>
+      <div class="feature-item"><div class="fi-num">05</div><div><div class="fi-title" data-cs="Pohledy a pravidla" data-en="Views and rules">Pohledy a pravidla</div><div class="fi-desc" data-cs="Seznam, kanban, graf, statistiky. „Po termínu → červeně“ napíšeš jako pravidlo, ne jako kód." data-en="List, kanban, chart, stat tiles. “Overdue → red” is a rule you write, not code you program.">Seznam, kanban, graf, statistiky. „Po termínu → červeně“ napíšeš jako pravidlo, ne jako kód.</div></div></div>
+      <div class="feature-item"><div class="fi-num">06</div><div><div class="fi-title" data-cs="Export: jeden soubor navždy" data-en="Export: one file, forever">Export: jeden soubor navždy</div><div class="fi-desc" data-cs="Celá appka jako jediný HTML soubor — engine, šém i data. Nahraj na svůj hosting, pošli mailem, archivuj. Anti-SaaS." data-en="The whole app as a single HTML file — engine, shem and data. Upload to your hosting, send by email, archive it. Anti-SaaS.">Celá appka jako jediný HTML soubor — engine, šém i data. Nahraj na svůj hosting, pošli mailem, archivuj. Anti-SaaS.</div></div></div>
+    </div>
+  </section>
+
+  <section class="reveal" id="notify-section">
+    <div class="cs-eyebrow" data-cs="Beta" data-en="Beta">Beta</div>
+    <h2 class="cs-title" data-cs-html="Chci &lt;em&gt;první přístup.&lt;/em&gt;" data-en-html="I want &lt;em&gt;first access.&lt;/em&gt;">Chci <em>první přístup.</em></h2>
+    <p class="about-text" style="max-width:560px;" data-cs="Golem je teď v soukromé betě. Nech mi e-mail a ozvu se, až se otevře — a první testeři dostanou přístup nejdřív." data-en="Golem is in private beta right now. Leave your e-mail and I'll reach out when it opens — early testers get access first.">Golem je teď v soukromé betě. Nech mi e-mail a ozvu se, až se otevře — a první testeři dostanou přístup nejdřív.</p>
+    <form class="notify-form" onsubmit="submitNotify(event)">
+      <input class="n-input" id="n-email" type="email" required placeholder="tvuj@email.cz">
+      <button class="n-btn" type="submit" data-cs="Upozornit mě →" data-en="Notify me →">Upozornit mě →</button>
+    </form>
+    <div class="n-msg" id="n-msg"></div>
+    <div class="n-note" data-cs="Žádný spam. Jen jedna zpráva, až to bude." data-en="No spam. Just one message when it's ready.">Žádný spam. Jen jedna zpráva, až to bude.</div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="reveal">
+    <div class="cs-eyebrow" data-cs="Další projekty" data-en="More projects">Další projekty</div>
+    <h2 class="cs-title" data-cs-html="Víc od &lt;em&gt;3R Studio.&lt;/em&gt;" data-en-html="More from &lt;em&gt;3R Studio.&lt;/em&gt;">Víc od <em>3R Studio.</em></h2>
+    <div class="other-grid">
+      <a class="other-card" href="gream.html">
+        <div class="oc-letter" style="color:#0891b2">G</div>
+        <div class="oc-name">Gream</div>
+        <div class="oc-type" data-cs="Kvíz venku · mobil" data-en="Outdoor quiz · mobile">Kvíz venku · mobil</div>
+      </a>
+      <a class="other-card" href="conflux.html">
+        <div class="oc-letter" style="color:#b8890c">C</div>
+        <div class="oc-name">CONFLUX</div>
+        <div class="oc-type" data-cs="Narativní karetní hra · PC" data-en="Narrative card game · PC">Narativní karetní hra · PC</div>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<footer style="border-top:0.5px solid var(--border);padding:28px 80px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);">
+  <a href="index.html"><img src="logo.svg" alt="3R Studio" style="height:30px;"></a>
+  <div style="font-size:11px;color:var(--muted);">© 2026 3R Studio · ČR</div>
+  <a href="index.html" style="font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;" onmouseover="this.style.color='var(--teal)'" onmouseout="this.style.color=''" data-cs="← Zpět na studio" data-en="← Back to studio">← Zpět na studio</a>
+</footer>
+
+<script>
+const NL_URL = '/api/hook/newsletter';
+async function submitNotify(e) {
+  e.preventDefault();
+  const email = document.getElementById('n-email').value;
+  const msg = document.getElementById('n-msg');
+  const btn = e.target.querySelector('.n-btn');
+  btn.disabled = true;
+  try {
+    await fetch(NL_URL, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ email, source: 'golem-beta' }) });
+    msg.style.display = 'block';
+    msg.textContent = currentLang === 'en' ? '✓ You are on the list. Talk soon!' : '✓ Jsi na seznamu. Ozvu se!';
+    document.getElementById('n-email').value = '';
+    gtag('event', 'notify_signup', { project: 'golem' });
+  } catch {
+    msg.style.display = 'block'; msg.style.color = '#dc2626';
+    msg.textContent = currentLang === 'en' ? 'Error — try again.' : 'Chyba — zkus to znovu.';
+  }
+  btn.disabled = false;
+}
+
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+<script>
+const LANG_KEY='3rs-lang';
+let currentLang=localStorage.getItem(LANG_KEY)||'cs';
+function setLang(lang){
+  currentLang=lang; localStorage.setItem(LANG_KEY,lang); document.documentElement.lang=lang;
+  document.querySelectorAll('[data-cs]').forEach(el=>{ if(el.dataset[lang]!=null) el.textContent=el.dataset[lang]; });
+  document.querySelectorAll('[data-cs-html]').forEach(el=>{ const v=lang==='en'?el.dataset.enHtml:el.dataset.csHtml; if(v!=null) el.innerHTML=v; });
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+}
+setLang(currentLang);
+</script>
+</body>
+</html>
