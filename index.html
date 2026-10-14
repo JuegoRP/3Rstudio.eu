@@ -9,12 +9,14 @@
 <meta property="og:type" content="website">
 <title>3R Studio — Indie Games & Creative Tech</title>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H8MKHHNS5G"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', { ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied', analytics_storage:'denied' });
+  if ((document.cookie.split('; ').find(function(r){return r.indexOf('cookie-consent=')===0;})||'').slice(-4)==='=yes') { gtag('consent','update',{ analytics_storage:'granted' }); }
   gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
+  gtag('config', 'G-H8MKHHNS5G');
 </script>
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23f5c518'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='16' font-weight='900' font-style='italic' text-anchor='middle' fill='%23111110'%3E3R%3C/text%3E%3C/svg%3E">
@@ -182,6 +184,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 .nav-cta:hover { opacity: 0.82; transform: translateY(-1px); }
 
 .mobile-toggle { display: none; background: none; border: none; color: var(--text); cursor: pointer; padding: 4px; font-size: 22px; }
+.mobile-menu { position: fixed; top: 64px; left: 0; right: 0; background: var(--bg2); border-bottom: 1px solid var(--border); box-shadow: 0 24px 44px -22px rgba(0,0,0,0.28); display: none; flex-direction: column; padding: 6px 20px 14px; z-index: 99; }
+.mobile-menu.open { display: flex; }
+.mm-link { background: none; border: none; text-align: left; font-family: inherit; font-size: 15px; font-weight: 600; color: var(--text); padding: 13px 4px; border-bottom: 0.5px solid var(--border); cursor: pointer; text-decoration: none; display: block; }
+.mm-link:last-child { border-bottom: none; }
 
 /* ===== HERO ===== */
 #hero {
@@ -315,6 +321,11 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   color: rgba(245,197,24,0.048); line-height: 1; pointer-events: none; letter-spacing: -0.05em;
 }
 
+.feat-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; opacity:.62; transition:opacity .5s, transform 4s ease; }
+.carousel-slide:hover .feat-photo { opacity:.75; transform:scale(1.04); }
+.carousel-slide.has-photo .feat-letter { display:none; }
+.carousel-slide.has-photo .feat-glow { opacity:.5; }
+
 .feat-arrow {
   position: absolute; top: 24px; right: 24px;
   width: 40px; height: 40px; border: 0.5px solid rgba(255,255,255,0.12); border-radius: 50%;
@@ -429,18 +440,16 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 /* ===== ROADMAP ===== */
 #roadmap { padding: 100px 120px 0; }
 
-.roadmap-wrap { position: relative; padding: 56px 0 0; }
-.roadmap-line { position: absolute; top: 20px; left: 0; right: 0; height: 1px; background: var(--border); }
-.roadmap-progress { position: absolute; top: 20px; left: 0; width: 25%; height: 1px; background: linear-gradient(to right, var(--yellow), rgba(184,137,12,0.2)); }
+.roadmap-wrap { position: relative; padding: 20px 0 0; }
+.roadmap-line, .roadmap-progress { display: none; }
 
-.roadmap-items { display: grid; grid-template-columns: repeat(5, 1fr); position: relative; }
+.roadmap-items { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 34px 22px; position: relative; }
 .rm-item { display: flex; flex-direction: column; align-items: center; text-align: center; }
 
 .rm-dot {
   width: 10px; height: 10px; border-radius: 50%;
   border: 2px solid var(--border); background: var(--bg);
-  margin-bottom: 20px; z-index: 1;
-  position: relative; top: -54px; margin-bottom: -44px;
+  margin-bottom: 12px; z-index: 1; position: static;
 }
 .rm-item.done .rm-dot { background: var(--yellow); border-color: var(--yellow); box-shadow: 0 0 10px rgba(184,137,12,0.3); }
 .rm-item.now .rm-dot { background: var(--bg); border-color: var(--yellow); animation: pulse-dot 2s ease-in-out infinite; }
@@ -545,6 +554,8 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   transition: opacity 0.14s;
 }
 .arcade-store-btn:hover { opacity: 0.78; }
+.arcade-store-btn.soon { opacity: 0.55; cursor: default; }
+.arcade-store-btn.soon:hover { opacity: 0.55; }
 .arcade-store-btn-texts { display: flex; flex-direction: column; gap: 1px; }
 .arcade-store-btn-sub { font-size: 8px; font-weight: 400; letter-spacing: 0.07em; text-transform: uppercase; opacity: 0.6; }
 .arcade-store-btn-name { font-size: 13px; font-weight: 700; letter-spacing: -0.01em; }
@@ -683,6 +694,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   #nav { padding: 0 40px; }
   .nav-center { display: none; }
   .mobile-toggle { display: block; }
+  .nav-cta { display: none; }
   #hero { padding: 0 60px; }
   #featured, #projects, #roadmap, #about, #community, #arcade, #newsletter, #contact, #footer { padding-left: 60px; padding-right: 60px; }
   .proj-grid { grid-template-columns: repeat(3, 1fr); }
@@ -696,6 +708,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   .proj-grid { grid-template-columns: repeat(2, 1fr); }
   .roadmap-items { grid-template-columns: repeat(3, 1fr); }
   .roadmap-line, .roadmap-progress { display: none; }
+  .rm-dot { position: static; top: 0; margin: 0 0 10px 0; }
   #newsletter { flex-direction: column; }
   .nl-form { min-width: unset; width: 100%; }
   #contact { flex-direction: column; align-items: flex-start; }
@@ -704,10 +717,16 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 @media (max-width: 640px) {
   #hero, #featured, #projects, #roadmap, #about, #community, #arcade, #newsletter, #contact, #footer { padding-left: 20px; padding-right: 20px; }
   #nav { padding: 0 20px; }
-  .proj-grid { grid-template-columns: 1fr 1fr; }
+  .proj-grid { grid-template-columns: 1fr; max-width: 420px; width: 100%; margin: 0 auto; }
+  .carousel-btn { top: auto; bottom: 14px; transform: none; width: 38px; height: 38px; font-size: 17px; }
+  .carousel-btn.prev { left: 16px; }
+  .carousel-btn.next { right: 16px; }
+  .filter-bar { justify-content: center; }
   #community { grid-template-columns: 1fr; }
   .hero-stats { gap: 28px; font-size: 90%; }
-  .roadmap-items { grid-template-columns: repeat(2, 1fr); }
+  .roadmap-items { grid-template-columns: 1fr; gap: 30px; }
+  .rm-item { align-items: flex-start; text-align: left; }
+  .rm-events { max-width: none; }
   .carousel-track { height: 380px; }
   .feat-body { padding: 20px 24px 60px; }
   .feat-title-text { font-size: 36px; }
@@ -778,22 +797,6 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
             </div>
             <div class="mega-dot d-active"></div>
           </a>
-          <a class="mega-item" href="#">
-            <div class="mega-letter">R</div>
-            <div class="mega-info">
-              <div class="mega-name">RECHO</div>
-              <div class="mega-sub" data-cs="Action RPG · PC" data-en="Action RPG · PC">Action RPG · PC</div>
-            </div>
-            <div class="mega-dot d-proto"></div>
-          </a>
-          <a class="mega-item" href="#">
-            <div class="mega-letter">T</div>
-            <div class="mega-info">
-              <div class="mega-name">Threshold</div>
-              <div class="mega-sub" data-cs="Strategie · PC" data-en="Strategy · PC">Strategie · PC</div>
-            </div>
-            <div class="mega-dot d-proto"></div>
-          </a>
         </div>
         <div>
           <div class="mega-col-head" data-cs="Mobile" data-en="Mobile">Mobile</div>
@@ -805,74 +808,22 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
             </div>
             <div class="mega-dot d-pre"></div>
           </a>
-          <a class="mega-item" href="#">
-            <div class="mega-letter">B</div>
-            <div class="mega-info">
-              <div class="mega-name">Blind Roll</div>
-              <div class="mega-sub" data-cs="Labyrint · Mobile" data-en="Maze · Mobile">Labyrint · Mobile</div>
-            </div>
-            <div class="mega-dot d-dev"></div>
-          </a>
-          <a class="mega-item" href="#">
-            <div class="mega-letter">1</div>
-            <div class="mega-info">
-              <div class="mega-name">The 1% Focus</div>
-              <div class="mega-sub" data-cs="Výzva · Mobile" data-en="Challenge · Mobile">Výzva · Mobile</div>
-            </div>
-            <div class="mega-dot d-dev"></div>
-          </a>
-          <a class="mega-item" href="#">
-            <div class="mega-letter">N</div>
-            <div class="mega-info">
-              <div class="mega-name">Thread the Needle</div>
-              <div class="mega-sub" data-cs="Reflex · Mobile" data-en="Reflex · Mobile">Reflex · Mobile</div>
-            </div>
-            <div class="mega-dot d-dev"></div>
-          </a>
-          <a class="mega-item" href="#">
-            <div class="mega-letter">∞</div>
-            <div class="mega-info">
-              <div class="mega-name">100-Year Canvas</div>
-              <div class="mega-sub" data-cs="Pixel experiment" data-en="Pixel experiment">Pixel experiment</div>
-            </div>
-            <div class="mega-dot d-dev"></div>
-          </a>
-          <a class="mega-item" href="#">
-            <div class="mega-letter">E</div>
-            <div class="mega-info">
-              <div class="mega-name">Exactly</div>
-              <div class="mega-sub" data-cs="Timer · Mobile" data-en="Timer · Mobile">Timer · Mobile</div>
-            </div>
-            <div class="mega-dot d-dev"></div>
-          </a>
         </div>
         <div>
-          <div class="mega-col-head" data-cs="Experimenty" data-en="Experiments">Experimenty</div>
-          <a class="mega-item" href="#">
-            <div class="mega-letter">Ψ</div>
+          <div class="mega-col-head" data-cs="Builder" data-en="Builder">Builder</div>
+          <a class="mega-item" href="genesis/">
+            <div class="mega-letter">◈</div>
             <div class="mega-info">
-              <div class="mega-name">PULSE</div>
-              <div class="mega-sub" data-cs="AI agent · Research" data-en="AI agent · Research">AI agent · Research</div>
+              <div class="mega-name">Genesis</div>
+              <div class="mega-sub" data-cs="Simulační engine · Web/Desktop" data-en="Simulation engine · Web/Desktop">Simulační engine · Web/Desktop</div>
             </div>
-            <div class="mega-dot d-research"></div>
+            <div class="mega-dot d-active"></div>
           </a>
         </div>
-        <div>
-          <div class="mega-col-head" data-cs="Vize" data-en="Vision">Vize</div>
-          <a class="mega-item" href="#">
-            <div class="mega-letter" style="color:rgba(184,137,12,0.5)">▲</div>
-            <div class="mega-info">
-              <div class="mega-name">3Cue</div>
-              <div class="mega-sub" data-cs="AI platforma · 2027" data-en="AI platform · 2027">AI platforma · 2027</div>
-            </div>
-            <div class="mega-dot d-vision"></div>
-          </a>
-        </div>
-
         <div class="mega-foot">
-          <span class="mega-foot-txt" data-cs="11 projektů ve vývoji" data-en="11 projects in development">11 projektů ve vývoji</span>
+          <span class="mega-foot-txt" data-cs="2 hry + engine v aktivním vývoji" data-en="2 games + engine in active development">2 hry + engine v aktivním vývoji</span>
           <span class="mega-foot-link" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">
-            <span data-cs="Všechny →" data-en="All →">Všechny →</span>
+            <span data-cs="Zobrazit →" data-en="View →">Zobrazit →</span>
           </span>
         </div>
       </div>
@@ -883,9 +834,6 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
     </div>
     <div class="nav-item">
       <span class="nav-link" onclick="document.getElementById('community').scrollIntoView({behavior:'smooth'})" data-cs="Komunita" data-en="Community">Komunita</span>
-    </div>
-    <div class="nav-item">
-      <a class="nav-link" href="blog.html" data-cs="Blog" data-en="Blog">Blog</a>
     </div>
   </div>
 
@@ -898,6 +846,16 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
     <button class="mobile-toggle" aria-label="Menu">☰</button>
   </div>
 </nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a class="mm-link" href="conflux.html">CONFLUX</a>
+  <a class="mm-link" href="gream.html">Gream</a>
+  <a class="mm-link" href="genesis/">Genesis <span style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--yellow);border:0.5px solid rgba(184,137,12,0.3);border-radius:100px;padding:2px 7px;margin-left:6px;vertical-align:middle;">Builder</span></a>
+  <button class="mm-link" onclick="mmGo('projects')" data-cs="Projekty" data-en="Projects">Projekty</button>
+  <button class="mm-link" onclick="mmGo('about')" data-cs="Studio" data-en="Studio">Studio</button>
+  <button class="mm-link" onclick="mmGo('community')" data-cs="Komunita" data-en="Community">Komunita</button>
+  <button class="mm-link" onclick="mmGo('contact')" data-cs="Kontakt" data-en="Contact">Kontakt</button>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -924,7 +882,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 <section id="featured">
   <div class="sec-head">
     <div>
-      <div class="eyebrow" data-cs="Launch · Srpen 2026" data-en="Launch · August 2026">Launch · Srpen 2026</div>
+      <div class="eyebrow" data-cs="Ve vývoji · vydání konec 2026" data-en="In development · release late 2026">Ve vývoji · vydání konec 2026</div>
       <h2 class="sec-title"><span data-cs="Přicházejí" data-en="Coming">Přicházejí</span> <em><span data-cs="brzy." data-en="soon.">brzy.</span></em></h2>
     </div>
   </div>
@@ -932,37 +890,39 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
     <div class="carousel-track" id="carousel-track">
 
       <!-- Slide 1: CONFLUX -->
-      <a class="carousel-slide" href="conflux.html">
+      <a class="carousel-slide has-photo" href="conflux.html">
         <div class="feat-bg"></div>
+        <img class="feat-photo" src="img/conflux/conflux_logo_black_v2.jpg" alt="" loading="lazy" decoding="async" style="opacity:.95;">
         <div class="feat-grid-bg"></div>
         <div class="feat-glow"></div>
         <div class="feat-letter">C</div>
         <div class="feat-arrow">↗</div>
-        <div class="feat-launch-badge" data-cs="Itch.io · Srpen 2026" data-en="Itch.io · August 2026">Itch.io · Srpen 2026</div>
+        <div class="feat-launch-badge" data-cs="Itch.io · konec 2026" data-en="Itch.io · late 2026">Itch.io · konec 2026</div>
         <div class="feat-body">
           <div class="feat-status"><div class="status-dot"></div><span data-cs="Aktivní vývoj" data-en="Active development">Aktivní vývoj</span></div>
           <div class="feat-title-text">CONFLUX</div>
           <div class="feat-type-txt" data-cs="Narativní karetní hra · PC · itch.io" data-en="Narrative card game · PC · itch.io">Narativní karetní hra · PC · itch.io</div>
-          <div class="feat-desc-txt" data-cs="Každé rozhodnutí mění tok dění. Karetní mechanika potkává hluboký narativ inspirovaný klasickými text adventures." data-en="Every decision changes the flow. Card mechanics meet deep narrative inspired by classic text adventures.">Každé rozhodnutí mění tok dění. Karetní mechanika potkává hluboký narativ inspirovaný klasickými text adventures.</div>
+          <div class="feat-desc-txt" data-cs="Konflikt frakcí řádu a chaosu — a Neznámo mezi nimi. Každé rozhodnutí větví příběh a ukáže ti, kým jsi." data-en="Factions of order and chaos — and the Unknown between them. Every decision branches the story and shows you who you are.">Konflikt frakcí řádu a chaosu — a Neznámo mezi nimi. Každé rozhodnutí větví příběh a ukáže ti, kým jsi.</div>
         </div>
       </a>
 
       <!-- Slide 2: Gream -->
-      <a class="carousel-slide" href="gream.html">
+      <a class="carousel-slide has-photo" href="gream.html">
         <div class="feat-bg" style="background: linear-gradient(135deg, #0a1a10 0%, #0a0a0a 65%);"></div>
+        <img class="feat-photo" src="img/gream/feat_gream.jpg" alt="" loading="lazy" decoding="async">
         <div class="feat-grid-bg"></div>
         <div class="feat-glow" style="background: radial-gradient(circle, rgba(6,182,212,0.09) 0%, transparent 70%);"></div>
         <div class="feat-letter" style="color:rgba(6,182,212,0.048)">G</div>
         <div class="feat-arrow">↗</div>
-        <div class="feat-launch-badge" style="background:#06b6d4; color:#fff;" data-cs="App Store · 2026" data-en="App Store · 2026">App Store · 2026</div>
+        <div class="feat-launch-badge" style="background:#06b6d4; color:#fff;" data-cs="Google Play · konec 2026" data-en="Google Play · late 2026">Google Play · konec 2026</div>
         <div class="feat-body">
           <div class="feat-status" style="color:#06b6d4; background:rgba(6,182,212,0.08); border-color:rgba(6,182,212,0.25)">
             <div class="status-dot" style="background:#06b6d4; animation:none"></div>
-            <span data-cs="Pre-launch" data-en="Pre-launch">Pre-launch</span>
+            <span data-cs="Ve vývoji" data-en="In development">Ve vývoji</span>
           </div>
           <div class="feat-title-text">Gream</div>
-          <div class="feat-type-txt" data-cs="Vzdělávací mobilní hra · iOS · Android" data-en="Educational mobile game · iOS · Android">Vzdělávací mobilní hra · iOS · Android</div>
-          <div class="feat-desc-txt" data-cs="Hravé učení pro děti. Gamifikace s reálnými vzdělávacími obsahy. Navrženo pro každodenní 10–15 min. session s rodinou." data-en="Playful learning for children. Gamification with real educational content. Designed for daily 10–15 min. family sessions.">Hravé učení pro děti. Gamifikace s reálnými vzdělávacími obsahy. Navrženo pro každodenní 10–15 min. session s rodinou.</div>
+          <div class="feat-type-txt" data-cs="Kvízová hra venku · Android (iOS brzy)" data-en="Outdoor quiz game · Android (iOS soon)">Kvízová hra venku · Android (iOS brzy)</div>
+          <div class="feat-desc-txt" data-cs="Kvíz, který tě dostane ven. Objevuj reálná místa, líhni vlastního mazlíčka a měř síly s ostatními v časových soubojích. Pro celou rodinu." data-en="A quiz that gets you outside. Explore real places, hatch your own pet and go head-to-head in timed battles. For the whole family.">Kvíz, který tě dostane ven. Objevuj reálná místa, líhni vlastního mazlíčka a měř síly s ostatními v časových soubojích. Pro celou rodinu.</div>
         </div>
       </a>
 
@@ -977,7 +937,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 </section>
 
 <!-- ALL PROJECTS -->
-<section id="projects" style="padding-top:80px; padding-bottom:0; padding-left:120px; padding-right:120px;">
+<section id="projects" style="padding-top:80px; padding-bottom:0;">
   <div class="sec-head">
     <div>
       <div class="eyebrow" data-cs="Showcase" data-en="Showcase">Showcase</div>
@@ -989,8 +949,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
     <button class="f-btn active" data-filter="all" data-cs="Vše" data-en="All">Vše</button>
     <button class="f-btn" data-filter="pc" data-cs="PC Hry" data-en="PC Games">PC Hry</button>
     <button class="f-btn" data-filter="mobile" data-cs="Mobile" data-en="Mobile">Mobile</button>
-    <button class="f-btn" data-filter="experiment" data-cs="Experimenty" data-en="Experiments">Experimenty</button>
-    <button class="f-btn" data-filter="vision" data-cs="Vize" data-en="Vision">Vize</button>
+    <button class="f-btn" data-filter="builder" data-cs="Builder" data-en="Builder">Builder</button>
   </div>
 
   <div class="proj-grid" id="proj-grid"></div>
@@ -999,7 +958,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 <div class="divider" style="margin-top:80px;"></div>
 
 <!-- ROADMAP -->
-<section id="roadmap" style="padding-top:100px;padding-bottom:0;padding-left:120px;padding-right:120px;">
+<section id="roadmap" style="padding-top:100px;padding-bottom:0;">
   <div class="sec-head">
     <div>
       <div class="eyebrow" data-cs="Časová osa" data-en="Timeline">Časová osa</div>
@@ -1012,47 +971,29 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
     <div class="roadmap-items">
       <div class="rm-item done">
         <div class="rm-dot"></div>
-        <div class="rm-date" data-cs="Červen '26" data-en="June '26">Červen '26</div>
+        <div class="rm-date" data-cs="Červen–Červenec '26" data-en="June–July '26">Červen–Červenec '26</div>
         <div class="rm-events">
           <div class="rm-event" data-cs="Pavler launch" data-en="Pavler launch">Pavler launch</div>
+          <div class="rm-event" data-cs="Weby live" data-en="Sites live">Weby live</div>
           <div class="rm-event" data-cs="n8n + AI tým" data-en="n8n + AI team">n8n + AI tým</div>
-          <div class="rm-event" data-cs="VPS + domény" data-en="VPS + domains">VPS + domény</div>
         </div>
       </div>
       <div class="rm-item now">
         <div class="rm-dot"></div>
-        <div class="rm-date" data-cs="Červenec '26" data-en="July '26">Červenec '26</div>
+        <div class="rm-date" data-cs="Srpen–Listopad '26" data-en="August–November '26">Srpen–Listopad '26</div>
         <div class="rm-events">
-          <div class="rm-event" data-cs="Weby live" data-en="Sites live">Weby live</div>
-          <div class="rm-event" data-cs="QA agenti" data-en="QA agents">QA agenti</div>
-          <div class="rm-event" data-cs="Překlady" data-en="Translations">Překlady</div>
+          <div class="rm-event" data-cs="CONFLUX · polish a vyvažování" data-en="CONFLUX · polish &amp; balancing">CONFLUX · polish a vyvažování</div>
+          <div class="rm-event" data-cs="Gream · souboje a obsah" data-en="Gream · battles &amp; content">Gream · souboje a obsah</div>
+          <div class="rm-event" data-cs="Testování s hráči" data-en="Player testing">Testování s hráči</div>
         </div>
       </div>
       <div class="rm-item">
         <div class="rm-dot"></div>
-        <div class="rm-date" data-cs="Srpen '26" data-en="August '26">Srpen '26</div>
+        <div class="rm-date" data-cs="Konec '26" data-en="Late '26">Konec '26</div>
         <div class="rm-events">
-          <div class="rm-event" data-cs="Gream launch" data-en="Gream launch">Gream launch</div>
-          <div class="rm-event" data-cs="CONFLUX itch.io" data-en="CONFLUX itch.io">CONFLUX itch.io</div>
-          <div class="rm-event" data-cs="Album release" data-en="Album release">Album release</div>
-        </div>
-      </div>
-      <div class="rm-item">
-        <div class="rm-dot"></div>
-        <div class="rm-date" data-cs="Q4 '26" data-en="Q4 '26">Q4 '26</div>
-        <div class="rm-events">
-          <div class="rm-event" data-cs="RECHO vývoj" data-en="RECHO dev">RECHO vývoj</div>
-          <div class="rm-event" data-cs="Steam setup" data-en="Steam setup">Steam setup</div>
-          <div class="rm-event" data-cs="Mobile apps" data-en="Mobile apps">Mobile apps</div>
-        </div>
-      </div>
-      <div class="rm-item">
-        <div class="rm-dot"></div>
-        <div class="rm-date" data-cs="2027+" data-en="2027+">2027+</div>
-        <div class="rm-events">
-          <div class="rm-event" data-cs="3Cue MVP" data-en="3Cue MVP">3Cue MVP</div>
-          <div class="rm-event" data-cs="Fundraising" data-en="Fundraising">Fundraising</div>
-          <div class="rm-event" data-cs="Expanze" data-en="Expansion">Expanze</div>
+          <div class="rm-event" data-cs="CONFLUX · itch.io" data-en="CONFLUX · itch.io">CONFLUX · itch.io</div>
+          <div class="rm-event" data-cs="Gream · Google Play" data-en="Gream · Google Play">Gream · Google Play</div>
+          <div class="rm-event" data-cs="Steam + App Store později" data-en="Steam + App Store later">Steam + App Store později</div>
         </div>
       </div>
     </div>
@@ -1145,20 +1086,20 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
     </div>
 
     <div class="arcade-actions">
-      <a class="arcade-store-btn" href="#" target="_blank" rel="noopener">
-        <svg width="16" height="19" viewBox="0 0 814 1000" fill="currentColor"><path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 420.3 8.1 250.1 8.1 172.5c0-145.3 95.1-221.5 188.5-221.5 75 0 116.8 50.1 157.8 50.1 43.3 0 93.7-52.5 167.2-52.5 26.4 0 108.2 2.6 168.1 97.5zm-164-97.5c-8.4 39.5-31.1 83.1-64.7 112.3-32.7 28.7-68.7 49.3-105.9 49.3-5.8 0-11.6-.6-16.8-1.3-.6-5.1-.6-10.3-.6-15.4 0-48.7 22-96.1 54.1-125.6 31.5-28.7 92.3-49.9 133.9-50.5v31.2z"/></svg>
+      <span class="arcade-store-btn soon">
+        <svg width="17" height="20" viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
         <div class="arcade-store-btn-texts">
-          <span class="arcade-store-btn-sub">Download on the</span>
+          <span class="arcade-store-btn-sub" data-cs="Brzy na" data-en="Soon on">Brzy na</span>
           <span class="arcade-store-btn-name">App Store</span>
         </div>
-      </a>
-      <a class="arcade-store-btn" href="#" target="_blank" rel="noopener">
+      </span>
+      <span class="arcade-store-btn soon">
         <svg width="16" height="18" viewBox="0 0 512 512" fill="currentColor"><path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l2.6 1.4 247.2-247v-5.8L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c17.1-9.9 17.1-25.8-.1-34.9l-1.2-.9zM85.5 452.9L325.3 277.5l-60.1-60.1L85.5 452.9z"/></svg>
         <div class="arcade-store-btn-texts">
-          <span class="arcade-store-btn-sub">Get it on</span>
+          <span class="arcade-store-btn-sub" data-cs="Brzy na" data-en="Soon on">Brzy na</span>
           <span class="arcade-store-btn-name">Google Play</span>
         </div>
-      </a>
+      </span>
     </div>
   </div>
 </section>
@@ -1195,8 +1136,8 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
       <div><div class="ci-lbl" data-cs="Web" data-en="Web">Web</div><div class="ci-val">3rstudio.eu</div></div>
       <span class="ci-arr">↗</span>
     </a>
-    <a class="ci" href="mailto:info@3rstudio.eu">
-      <div><div class="ci-lbl" data-cs="Email" data-en="Email">Email</div><div class="ci-val">info@3rstudio.eu</div></div>
+    <a class="ci" href="/cdn-cgi/l/email-protection#553c3b333a156627262120313c3a7b3020">
+      <div><div class="ci-lbl" data-cs="Email" data-en="Email">Email</div><div class="ci-val"><span class="__cf_email__" data-cfemail="a5cccbc3cae596d7d6d1d0c1ccca8bc0d0">[email&#160;protected]</span></div></div>
       <span class="ci-arr">↗</span>
     </a>
     <a class="ci" href="https://romanpavlorek.eu/">
@@ -1214,14 +1155,13 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   </a>
   <div class="footer-links">
     <a class="footer-lnk" href="#projects" data-cs="Projekty" data-en="Projects">Projekty</a>
-    <a class="footer-lnk" href="blog.html" data-cs="Blog" data-en="Blog">Blog</a>
     <a class="footer-lnk" href="#community" data-cs="Komunita" data-en="Community">Komunita</a>
     <a class="footer-lnk" href="#contact" data-cs="Kontakt" data-en="Contact">Kontakt</a>
   </div>
   <div class="footer-copy">© 2026 3R Studio · ČR</div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ===== LANGUAGE ===== */
 const LANG_KEY = '3rs-lang';
 let currentLang = localStorage.getItem(LANG_KEY) || 'cs';
@@ -1243,17 +1183,9 @@ function setLang(lang) {
 
 /* ===== PROJECTS DATA ===== */
 const PROJECTS = [
-  { id: 'conflux', filter: 'pc', letter: 'C', href: 'conflux.html', name: 'CONFLUX', type: { cs: 'Narativní karetní hra', en: 'Narrative Card Game' }, status: { cs: 'Aktivní vývoj', en: 'Active Dev' }, statusClass: 'ps-active', desc: { cs: '283 příběhových uzlů s větvícím příběhem. Každé rozhodnutí mění tok dění.', en: '283 story nodes with branching narrative. Every decision changes the flow.' }, platforms: ['PC', 'itch.io'] },
-  { id: 'gream', filter: 'mobile', letter: 'G', href: 'gream.html', name: 'Gream', type: { cs: 'Vzdělávací mobilní hra', en: 'Educational Mobile Game' }, status: { cs: 'Pre-launch', en: 'Pre-launch' }, statusClass: 'ps-pre', desc: { cs: 'Hravé učení pro děti. Gamifikace s reálnými vzdělávacími obsahy.', en: 'Playful learning for children. Gamification with real educational content.' }, platforms: ['iOS', 'Android'] },
-  { id: 'recho', filter: 'pc', letter: 'R', href: '#', name: 'RECHO', type: { cs: 'Gothic Sci-Fi Action RPG', en: 'Gothic Sci-Fi Action RPG' }, status: { cs: 'Raný vývoj', en: 'Early Dev' }, statusClass: 'ps-proto', desc: { cs: 'Audio jako mechanika. Tuner + Elders. GDD v2.0 hotov, vývoj pokračuje.', en: 'Audio as mechanic. Tuner + Elders. GDD v2.0 complete, development ongoing.' }, platforms: ['PC'] },
-  { id: 'threshold', filter: 'pc', letter: 'T', href: '#', name: 'Threshold', type: { cs: 'Tahová geopolitická strategie', en: 'Turn-based Geopolitical Strategy' }, status: { cs: 'Prototyp v0.1', en: 'Prototype v0.1' }, statusClass: 'ps-proto', desc: { cs: 'Diplomacie, ekonomika, vojenství. Každé rozhodnutí má dlouhodobé geopolitické následky.', en: 'Diplomacy, economy, military. Every decision has long-term geopolitical consequences.' }, platforms: ['PC'] },
-  { id: 'blindroll', filter: 'mobile', letter: 'B', href: '#', name: 'Blind Roll', type: { cs: 'Haptický labyrint', en: 'Haptic Maze' }, status: { cs: 'Ve vývoji', en: 'In Dev' }, statusClass: 'ps-dev', desc: { cs: 'Navigace labyrintem hmatem a zvukem. Premium 25 Kč.', en: 'Navigate a maze by touch and sound. Premium 25 CZK.' }, platforms: ['iOS', 'Android'] },
-  { id: 'focus', filter: 'mobile', letter: '1', href: '#', name: 'The 1% Focus', type: { cs: 'Sociální výzva', en: 'Social Challenge' }, status: { cs: 'Ve vývoji', en: 'In Dev' }, statusClass: 'ps-dev', desc: { cs: 'Každý den o 1 % lepší. Sleduj, sdílej, inspiruj ostatní.', en: 'Get 1% better every day. Track, share, inspire others.' }, platforms: ['iOS', 'Android'] },
-  { id: 'thread', filter: 'mobile', letter: 'N', href: '#', name: 'Thread the Needle', type: { cs: 'Precision reflex hra', en: 'Precision Reflex Game' }, status: { cs: 'Ve vývoji', en: 'In Dev' }, statusClass: 'ps-dev', desc: { cs: 'Proplouvej obtížemi na milimetry přesně. Free + no-ads unlock 25 Kč.', en: 'Navigate obstacles with millimeter precision. Free + no-ads unlock 25 CZK.' }, platforms: ['iOS', 'Android'] },
-  { id: 'canvas', filter: 'mobile', letter: '∞', href: '#', name: '100-Year Canvas', type: { cs: 'Sociální pixel experiment', en: 'Social Pixel Experiment' }, status: { cs: 'Ve vývoji', en: 'In Dev' }, statusClass: 'ps-dev', desc: { cs: 'Globální plátno pixelů. Každý přidá svůj kousek do společného obrazu.', en: 'Global pixel canvas. Everyone adds their piece to a shared image.' }, platforms: ['iOS', 'Android'] },
-  { id: 'exactly', filter: 'mobile', letter: 'E', href: '#', name: 'Exactly', type: { cs: 'Timer intuition hra', en: 'Timer Intuition Game' }, status: { cs: 'Ve vývoji', en: 'In Dev' }, statusClass: 'ps-dev', desc: { cs: 'Zastaví čas přesně na cíl bez sledování displeje. Freemium.', en: 'Stop the timer exactly on target without watching the display. Freemium.' }, platforms: ['iOS', 'Android'] },
-  { id: 'pulse', filter: 'experiment', letter: 'Ψ', href: '#', name: 'PULSE', type: { cs: 'AI agent · Experiment', en: 'AI Agent · Experiment' }, status: { cs: 'Výzkum', en: 'Research' }, statusClass: 'ps-research', desc: { cs: 'Mind loop, mood vektor, BUILD mód, perzistentní paměť. Výzkum limitů LLM agentů.', en: 'Mind loop, mood vector, BUILD mode, persistent memory. Research into LLM agent limits.' }, platforms: ['Experiment'] },
-  { id: '3cue', filter: 'vision', letter: '▲', href: '#', name: '3Cue', type: { cs: 'AI platforma · Vize', en: 'AI Platform · Vision' }, status: { cs: 'Vize · 2027', en: 'Vision · 2027' }, statusClass: 'ps-vision', desc: { cs: 'Platforma kde kdokoliv — bez technických znalostí — přijde s problémem a odejde s výsledkem.', en: 'Platform where anyone — without technical knowledge — comes with a problem and leaves with a result.' }, platforms: ['Web', 'B2B'], isVision: true }
+  { id: 'conflux', filter: 'pc', letter: 'C', href: 'conflux.html', name: 'CONFLUX', type: { cs: 'Narativní karetní hra', en: 'Narrative Card Game' }, status: { cs: 'Aktivní vývoj', en: 'Active Dev' }, statusClass: 'ps-active', desc: { cs: 'Konflikt frakcí a neznáma. Větvící se příběh, kde tvá rozhodnutí odhalují, kým jsi.', en: 'Factions and the unknown in conflict. A branching story where your choices reveal who you are.' }, platforms: ['PC', 'itch.io'] },
+  { id: 'gream', filter: 'mobile', letter: 'G', href: 'gream.html', name: 'Gream', type: { cs: 'Kvízová hra venku', en: 'Outdoor Quiz Game' }, status: { cs: 'Ve vývoji', en: 'In development' }, statusClass: 'ps-pre', desc: { cs: 'Kvíz, který tě dostane ven. Reálná místa, vlastní mazlíček, časové souboje.', en: 'A quiz that gets you outside. Real places, your own pet, timed battles.' }, platforms: ['Android'] },
+  { id: 'genesis', filter: 'builder', letter: 'G', href: 'genesis/', name: 'Genesis', type: { cs: 'Simulační engine · builder', en: 'Simulation engine · builder' }, status: { cs: 'Vize', en: 'Vision' }, statusClass: 'ps-vision', desc: { cs: 'Svět neběží na kódu, ale na ústavě. Jedno jádro, mnoho her. Determinismus, kauzalita, cestování časem, multi-modální AI.', en: 'A world that runs on a constitution, not code. One core, many games. Determinism, causality, time travel, multi-modal AI.' }, platforms: ['Web', 'Desktop'] },
 ];
 
 let currentFilter = 'all';
@@ -1287,7 +1219,7 @@ document.querySelectorAll('.f-btn').forEach(btn => {
 });
 
 /* ===== NEWSLETTER ===== */
-const NEWSLETTER_URL = 'https://n8n.3rstudio.eu/webhook/newsletter';
+const NEWSLETTER_URL = '/api/hook/newsletter';
 
 async function submitNewsletter(e) {
   e.preventDefault();
@@ -1463,7 +1395,7 @@ function startGame(e) {
   const gameName = wrap?.dataset.gameName || '3r-clicker';
   if (!src) return;
 
-  fetch('https://n8n.3rstudio.eu/webhook/arcade-lead', {
+  fetch('/api/hook/arcade-lead', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ nick, email, game: gameName, ts: Date.now() }),
@@ -1552,7 +1484,13 @@ document.getElementById('nl-email')?.addEventListener('focus', () => {
 function cookieConsent(choice) {
   document.cookie = 'cookie-consent=' + choice + '; max-age=' + (365*24*3600) + '; path=/; SameSite=Lax';
   document.getElementById('cookie-bar').style.display = 'none';
+  if (choice === 'yes' && typeof gtag === 'function') gtag('consent', 'update', { analytics_storage: 'granted' });
 }
+
+/* ===== MOBILE MENU ===== */
+(function(){ var mt=document.querySelector('.mobile-toggle'), mm=document.getElementById('mobile-menu');
+  if(mt&&mm){ mt.addEventListener('click', function(){ mm.classList.toggle('open'); }); } })();
+function mmGo(id){ var mm=document.getElementById('mobile-menu'); if(mm) mm.classList.remove('open'); var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); }
 
 /* ===== INIT ===== */
 setLang(currentLang);

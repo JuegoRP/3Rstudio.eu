@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENESIS — 3R Studio</title>
+<meta name="description" content="Genesis — simulační engine, kde svět neběží na kódu, ale na ústavě. Projekt 3R Studia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23f5c518'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='16' font-weight='900' font-style='italic' text-anchor='middle' fill='%23111110'%3E3R%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    --yellow: #b8890c; --yellow-fill: #f5c518; --yellow-glow: rgba(245,197,24,0.1);
+    --bg: #f8f6f2; --bg2: #f1ede6; --bg3: #e8e3db; --bg4: #ddd8cf;
+    --text: #111110; --dim: rgba(17,17,16,0.52); --muted: rgba(17,17,16,0.36); --border: rgba(17,17,16,0.09);
+    --r-sm: 6px; --r: 10px; --r-lg: 16px; --r-xl: 20px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  /* NAV */
+  #nav { position: sticky; top: 0; z-index: 50; height: 68px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; background: rgba(248,246,242,0.9); backdrop-filter: blur(12px); border-bottom: 0.5px solid var(--border); }
+  .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text); }
+  .nav-logo .logo-box { background: var(--yellow-fill); color: #111; font-family: 'Inter', sans-serif; font-weight: 800; font-style: italic; font-size: 15px; letter-spacing: -0.04em; padding: 5px 9px; border-radius: 5px; line-height: 1.1; }
+  .nav-logo .logo-studio { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .nav-back { font-size: 12px; font-weight: 600; color: var(--dim); text-decoration: none; padding: 7px 12px; border-radius: 100px; border: 0.5px solid var(--border); background: var(--bg2); }
+  .nav-back:hover { color: var(--text); }
+  .lang-toggle { display: flex; align-items: center; gap: 2px; background: var(--bg2); border: 0.5px solid var(--border); border-radius: 100px; padding: 3px; }
+  .lang-btn { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--dim); padding: 5px 10px; border-radius: 100px; cursor: pointer; border: none; background: transparent; }
+  .lang-btn.active { background: var(--yellow-fill); color: #111; }
+  /* obsah */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 56px 24px 90px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--yellow); background: var(--yellow-glow); border: 0.5px solid rgba(184,137,12,0.25); border-radius: 100px; padding: 5px 12px; margin-bottom: 20px; }
+  h1 { font-size: 52px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px; }
+  h1 .g { color: var(--yellow); }
+  .lead { font-size: 18px; color: var(--dim); max-width: 680px; margin-bottom: 30px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .btn { text-decoration: none; border-radius: var(--r); padding: 13px 24px; font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 7px; }
+  .btn.primary { background: var(--yellow-fill); color: #111; }
+  .btn.dark { background: var(--text); color: var(--bg); }
+  .btn.ghost { background: var(--bg2); color: var(--text); border: 0.5px solid var(--border); }
+  .hint { font-size: 12px; color: var(--muted); margin-bottom: 44px; }
+  .intro { text-align: center; }
+  .intro .lead { margin-left: auto; margin-right: auto; }
+  .intro .cta { justify-content: center; }
+  h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); margin: 46px 0 16px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 38px; } }
+  .card { background: #fff; border: 0.5px solid var(--border); border-radius: var(--r-lg); padding: 18px; }
+  .card .n { font-weight: 700; font-size: 15px; margin-bottom: 5px; }
+  .card .d { font-size: 13px; color: var(--dim); }
+  .worlds { display: flex; gap: 10px; flex-wrap: wrap; }
+  .world { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 100px; padding: 8px 15px; font-size: 13px; font-weight: 600; }
+  .note { font-size: 13px; color: var(--muted); margin-top: 40px; line-height: 1.8; padding: 18px; background: var(--bg2); border-radius: var(--r-lg); }
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .shots { grid-template-columns: 1fr; } }
+  .shot { border: 0.5px solid var(--border); border-radius: var(--r-lg); overflow: hidden; background: #0c0e13; }
+  .shot img { display: block; width: 100%; height: auto; }
+  .shot .cap { font-size: 12px; color: var(--dim); padding: 9px 13px; background: #fff; border-top: 0.5px solid var(--border); line-height: 1.5; }
+  footer { border-top: 0.5px solid var(--border); margin-top: 60px; padding: 26px 24px; text-align: center; font-size: 12px; color: var(--muted); }
+  footer a { color: var(--yellow); text-decoration: none; font-weight: 600; }
+  [data-en] { display: none; }
+  html[lang="en"] [data-cs] { display: none; }
+  html[lang="en"] [data-en] { display: revert; }
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a class="nav-logo" href="https://3rstudio.eu"><span class="logo-box">3R</span><span class="logo-studio">Studio</span></a>
+  <div class="nav-right">
+    <a class="nav-back" href="https://3rstudio.eu"><span data-cs>← zpět na 3R Studio</span><span data-en>← back to 3R Studio</span></a>
+    <div class="lang-toggle">
+      <button class="lang-btn active" data-lang="cs" onclick="setLang('cs')">CZ</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="intro">
+  <span class="badge" data-cs>Vize · Creative Tech R&amp;D</span><span class="badge" data-en>Vision · Creative Tech R&amp;D</span>
+  <h1>◈ <span class="g">GENESIS</span></h1>
+  <p class="lead" data-cs>Simulační engine, kde svět neběží na kódu, ale na <b>ústavě</b>. Místo tisíců řádků kódu popíšeš zákony světa v jediném čitelném souboru — a jedno jádro je vykoná. Voda vede proud, železo ve vlhku koroduje, oheň se šíří. Nic není napevno; složité situace <b>vznikají</b> ze srážky pár pravidel.</p>
+  <p class="lead" data-en>A simulation engine where the world doesn't run on code, but on a <b>constitution</b>. Instead of thousands of lines of code, you describe the laws of the world in one readable file — and a single core executes them. Water conducts current, iron corrodes when wet, fire spreads. Nothing is hard-coded; complex situations <b>emerge</b> from a few rules colliding.</p>
+
+  <p class="hint" style="font-size:14px;max-width:620px;margin:0 auto" data-cs><b style="color:var(--text)">Vize a interní R&amp;D 3R Studia.</b> Není to hotový produkt — je to směr, který zkoumáme: svět jako čitelná ústava, ne kód. Funkční prototyp běží interně; níže pár náhledů.</p>
+  <p class="hint" style="font-size:14px;max-width:620px;margin:0 auto" data-en><b style="color:var(--text)">A vision &amp; internal R&amp;D by 3R Studio.</b> Not a finished product — it's the direction we're exploring: the world as a readable constitution, not code. A working prototype runs internally; a few glimpses below.</p>
+  </div>
+
+  <h2 data-cs>Náhledy z prototypu</h2><h2 data-en>Prototype glimpses</h2>
+  <div class="shots">
+    <div class="shot"><img src="shot-studio.jpg" alt="Genesis Studio"><div class="cap"><span data-cs>Genesis Studio — IDE: AI konzole, živý náhled, inspektor materiálů a zákonů.</span><span data-en>Genesis Studio — the IDE: AI console, live preview, inspector of materials &amp; laws.</span></div></div>
+    <div class="shot"><img src="shot-eko.jpg" alt="Ekosystem"><div class="cap"><span data-cs>Ekosystém — dravci a kořist v rovnováze, populace samy oscilují.</span><span data-en>Ecosystem — predators and prey in balance, populations oscillate on their own.</span></div></div>
+    <div class="shot"><img src="shot-hub.jpg" alt="Genesis hub"><div class="cap"><span data-cs>Jedno jádro, více světů — CODEX, ekosystém, Game of Life.</span><span data-en>One core, many worlds — CODEX, ecosystem, Game of Life.</span></div></div>
+    <div class="shot"><img src="shot-ai.jpg" alt="AI orchestrator"><div class="cap"><span data-cs>Multi-modální AI orchestrátor — text, obrázky, hlas s vlastními klíči.</span><span data-en>Multi-modal AI orchestrator — text, images, voice with your own keys.</span></div></div>
+  </div>
+
+  <h2 data-cs>Čím se liší</h2><h2 data-en>What makes it different</h2>
+  <div class="grid">
+    <div class="card"><div class="n">🧬 <span data-cs>Ústava, ne kód</span><span data-en>Constitution, not code</span></div><div class="d"><span data-cs>Celý svět je jeden soubor materiálů, vlastností a zákonů. Změň ho a svět se změní — i za běhu, i větou přes AI konzoli.</span><span data-en>The whole world is one file of materials, properties and laws. Change it and the world changes — even at runtime, by a plain sentence via the AI console.</span></div></div>
+    <div class="card"><div class="n">🔗 <span data-cs>Kauzální graf</span><span data-en>Causal graph</span></div><div class="d"><span data-cs>Nejen co se stalo, ale <i>proč</i> — „jelen uhořel ← oheň se šířil ← blesk z bouřky". Řetěz, jaký běžný engine neukáže.</span><span data-en>Not just what happened, but <i>why</i> — “deer burned ← fire spread ← lightning”. A chain no ordinary engine shows.</span></div></div>
+    <div class="card"><div class="n">🕰 <span data-cs>Cestování časem</span><span data-en>Time travel</span></div><div class="d"><span data-cs>Přehraj svět zpět a podívej se na něj před požárem. Deterministicky reprodukovatelné.</span><span data-en>Rewind the world and see it before the fire. Deterministically reproducible.</span></div></div>
+    <div class="card"><div class="n">🎨 <span data-cs>Multi-modální AI</span><span data-en>Multi-modal AI</span></div><div class="d"><span data-cs>Generuj pravidla, obrázky, hlas — s vlastními klíči (Claude/GPT/Gemini/…). Vše běží u tebe, žádný cizí server.</span><span data-en>Generate rules, images, voice — with your own keys (Claude/GPT/Gemini/…). Runs on your side, no one else's server.</span></div></div>
+  </div>
+
+  <h2 data-cs>Co prototyp zkouší</h2><h2 data-en>What the prototype explores</h2>
+  <div class="worlds">
+    <div class="world">🗺️ <span data-cs>Project CODEX — survival RPG</span><span data-en>Project CODEX — survival RPG</span></div>
+    <div class="world">🌿 <span data-cs>Ekosystém — rovnováha dravec/kořist</span><span data-en>Ecosystem — predator/prey balance</span></div>
+    <div class="world">🔲 Game of Life</div>
+  </div>
+
+  <div class="note" data-cs><b>Vize, ne slib.</b> Genesis je otevřený výzkum 3R Studia — zkoumáme, jak daleko jde popsat živý svět jako ústavu místo kódu. Kde pomáhá AI, běží na <b>vlastních klíčích</b>, nikdy ne přes cizí server. Náhledy výše jsou z interního prototypu.</div>
+  <div class="note" data-en><b>A vision, not a promise.</b> Genesis is open R&amp;D by 3R Studio — exploring how far a living world can be described as a constitution instead of code. Where AI helps, it runs on <b>your own keys</b>, never someone else's server. The glimpses above are from an internal prototype.</div>
+</div>
+
+<footer><span data-cs>Projekt studia</span><span data-en>A project by</span> <a href="https://3rstudio.eu">3R Studio</a> · Roman Pavlorek</footer>
+
+<script>
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  try { localStorage.setItem('lang', lang); } catch {}
+}
+setLang((function(){ try { return localStorage.getItem('lang') || (navigator.language||'en').slice(0,2) === 'cs' ? 'cs' : 'en'; } catch { return 'en'; } })());
+</script>
+</body>
+</html>

@@ -400,7 +400,7 @@ html,body { height:100%; background:var(--bg); color:var(--text); font-family:'I
       </li>
       <li>
         <span class="intro-step-icon">🏆</span>
-        <span data-t-html="intro_s5">High Score = <strong>celkový počet řádků</strong>. Vydej všech 5 reálných projektů 2026 a bojuj o TOP 10!</span>
+        <span data-t-html="intro_s5">High Score = <strong>celkový počet řádků</strong>. Vydej všechny reálné projekty 3R Studia a bojuj o TOP 10!</span>
       </li>
     </ul>
     <button class="intro-start" onclick="closeIntro()" data-t="intro_start">Začít kódovat →</button>
@@ -462,7 +462,7 @@ const T = {
     intro_s2:'Jakmile je obrazovka plná, <strong>vydáš projekt</strong>! Nejdřív reálné projekty 2026, pak fiktivní.',
     intro_s3:'V shopu nakupuj <strong>generátory</strong> (kódují za tebe) a <strong>upgrady kliku</strong> (víc řádků na klik).',
     intro_s4:'Každý vydaný projekt je <strong>těžší než předchozí</strong> — čím déle hraješ, tím delší cesta k dalšímu.',
-    intro_s5:'High Score = <strong>celkový počet řádků</strong>. Vydej všech 5 reálných projektů 2026 a bojuj o TOP 10!',
+    intro_s5:'High Score = <strong>celkový počet řádků</strong>. Vydej všechny reálné projekty 3R Studia a bojuj o TOP 10!',
     intro_start:'Začít kódovat →',
     rc_title:'Všechny projekty 2026 hotové!',
     rc_msg:'Právě dokončil všechny projekty k roku 2026!<br>Ale nekončíme — uvidíme, s čím přijdeš. Bojuj o TOP 10!',
@@ -510,7 +510,7 @@ const T = {
     intro_s2:'Once the screen is full, you <strong>ship a project</strong>! First real 2026 projects, then fictional ones.',
     intro_s3:'In the shop, buy <strong>generators</strong> (code for you) and <strong>click upgrades</strong> (more lines per click).',
     intro_s4:'Each shipped project is <strong>harder than the last</strong> — the longer you play, the longer the road ahead.',
-    intro_s5:'High Score = <strong>total line count</strong>. Ship all 5 real 2026 projects and fight for TOP 10!',
+    intro_s5:'High Score = <strong>total line count</strong>. Ship all real 3R Studio projects and fight for TOP 10!',
     intro_start:'Start coding →',
     rc_title:'All 2026 projects done!',
     rc_msg:"You just completed all 2026 projects!<br>But we're not done — let's see what you come up with. Fight for TOP 10!",
@@ -559,8 +559,8 @@ window.addEventListener('message', e => {
 });
 
 // ── Server leaderboard — agent: vyplň URL až budou webhooky připraveny ──
-const LB_SUBMIT_URL = ''; // POST { name, score, game, ts } → uloží skóre
-const LB_FETCH_URL  = ''; // GET                            → vrátí [{name, score}, ...]
+const LB_SUBMIT_URL = '/api/lb/submit'; // POST { name, score, game, ts } → uloží skóre
+const LB_FETCH_URL  = '/api/lb/top'; // GET                            → vrátí [{name, score}, ...]
 
 let COLS = 0, ROWS = 0, TOTAL = 0;
 const CHARS = '01{}()=>+[];/*#!?_|@~\\^&%$'.split('');
@@ -580,11 +580,15 @@ function effectiveFD() { return BASE_FILL_DIVIDER * diffMult() * Math.max(getCPS
 
 // ── Tvoje skutečné projekty 2026 — uprav jména a linky ──
 const REAL_PROJECTS = [
-  { id:'r1', type:'game',  icon:'🎮', name:'3R Hra 2026 — Alpha',    desc:'Tvůj hlavní herní projekt roku 2026', link:'#' },
-  { id:'r2', type:'music', icon:'🎵', name:'3R Music EP Vol.1',       desc:'Hudební debut roku 2026',             link:'#' },
-  { id:'r3', type:'art',   icon:'🎨', name:'Art Collection 2026',     desc:'Série digitálních artworků',          link:'#' },
-  { id:'r4', type:'game',  icon:'🎮', name:'3R Hra 2026 — Beta',      desc:'Druhý herní projekt roku 2026',       link:'#' },
-  { id:'r5', type:'music', icon:'🎵', name:'Game OST 2026',           desc:'Soundtracky ke hrám roku 2026',       link:'#' },
+  { id:'r1', type:'game',  icon:'🎮', name:'CONFLUX',          desc:'Deck-builder RPG · 10 aktů kampaně',   link:'/conflux.html' },
+  { id:'r2', type:'game',  icon:'🎮', name:'Gream',            desc:'GPS hra s virtuálním mazlíčkem',       link:'/gream.html' },
+  { id:'r3', type:'music', icon:'🎵', name:'Pavler',           desc:'AI hudební projekt · 17 skladeb',      link:'#' },
+  { id:'r4', type:'game',  icon:'🎮', name:'RECHO',            desc:'Gothic sci-fi akční RPG · v přípravě', link:'#' },
+  { id:'r5', type:'game',  icon:'🎮', name:'Thread the Needle',desc:'Precision reflex hra · chystá se',     link:'#' },
+  { id:'r6', type:'game',  icon:'🎮', name:'Blind Roll',       desc:'Haptický labyrint · chystá se',        link:'#' },
+  { id:'r7', type:'game',  icon:'🎮', name:'1% Focus',         desc:'Sociální výzva · chystá se',           link:'#' },
+  { id:'r8', type:'game',  icon:'🎮', name:'100-Year Canvas',  desc:'Sociální pixel experiment · chystá se',link:'#' },
+  { id:'r9', type:'game',  icon:'🎮', name:'Exactly',          desc:'Timer intuition hra · chystá se',      link:'#' },
 ];
 
 // ── Fiktivní projekty (20) — cyklují po dokončení reálných ──
@@ -1059,6 +1063,7 @@ function checkLeaderboard() {
     return;
   }
 
+  if (name) submitServerScore(name, score);
   if (!qualifiesForLeaderboard(score)) return;
   if (name) {
     updateLeaderboardEntry(name, score);
@@ -1079,11 +1084,14 @@ function submitLeaderboardName() {
     postScoreToParent();
   } else {
     updateLeaderboardEntry(name, Math.floor(G.totalLines));
+    submitServerScore(name, Math.floor(G.totalLines));
   }
   renderOvLeaderboard();
 }
 
 function renderOvLeaderboard() {
+  // Global TOP 10 ze serveru ve VSECH rezimech (lokalni verze nize se uz nepouziva)
+  _renderOvLeaderboardServer(); return;
   if (IS_EMBEDDED) { _renderOvLeaderboardServer(); return; }
 
   const lb      = loadLeaderboard();

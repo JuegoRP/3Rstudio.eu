@@ -31,7 +31,7 @@ PC hry: **CONFLUX** (priorita), RECHO, Threshold · Mobile: **Gream** (priorita)
 **Zbývá / k ověření:**
 - [ ] **Google Analytics má placeholder `G-XXXXXXXXXX`** — měření neběží, doplnit reálné ID
 - [ ] **Sjednotit pozici CONFLUXu**: menu uvádí „CONFLUX · Steam", ale strategie je **Itch.io první**, Steam až po ověření zájmu — sjednotit napříč webem
-- [ ] **Gream termín**: web slibuje „App Store + Play, srpen 2026", reálně posunuto na **Q4 2026** (srpen = jen CONFLUX) — upravit
+- [x] **Gream termín**: VYŘEŠENO 2026-09-11 — CONFLUX i Gream posunuty ze srpna na **konec 2026**, weby uvádějí „Ve vývoji · vydání konec 2026"
 - [ ] Press kit a kompletní detailové stránky zbývajících her
 - [ ] První blog článek (sekce „Blog" připravená, prázdná)
 

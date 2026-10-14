@@ -3,17 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="CONFLUX — Narativní karetní hra s rozvětveným příběhem. 283 příběhových uzlů. 3R Studio.">
+<meta name="description" content="CONFLUX — narativní karetní hra o konfliktu frakcí řádu a chaosu, o Neznámu a o hledání sebe sama. Temná paralela s dneškem. 3R Studio.">
 <meta property="og:title" content="CONFLUX — 3R Studio">
-<meta property="og:description" content="Narativní karetní hra. 283 příběhových uzlů. Launch srpen 2026 na itch.io.">
+<meta property="og:description" content="Narativní karetní hra o konfliktu, neznámu a hledání sebe sama. Ještě ve vývoji — vychází na konci roku 2026 na itch.io.">
 <title>CONFLUX — 3R Studio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23f5c518'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='16' font-weight='900' font-style='italic' text-anchor='middle' fill='%23111110'%3E3R%3C/text%3E%3C/svg%3E">
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H8MKHHNS5G"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
+  gtag('config', 'G-H8MKHHNS5G');
   gtag('event', 'project_view', { project: 'conflux' });
 </script>
 
@@ -42,6 +43,10 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   padding: 0 48px; background: rgba(248,246,242,0.92);
   backdrop-filter: blur(20px); border-bottom: 0.5px solid var(--border); z-index: 100;
 }
+.lang-btn{font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--dim);padding:5px 10px;border-radius:100px;cursor:pointer;border:none;background:transparent;transition:all .2s;}
+.lang-btn:hover{color:var(--text);}
+.lang-btn.active{background:var(--yellow);color:#111;}
+.nav-lang{display:flex;gap:2px;}
 .nav-back {
   display: flex; align-items: center; gap: 8px;
   font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
@@ -51,7 +56,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 .nav-back svg { transition: transform 0.2s; }
 .nav-back:hover svg { transform: translateX(-3px); }
 .nav-logo { display: flex; align-items: center; text-decoration: none; }
-.nav-logo img { height: 26px; }
+.nav-logo img { height: 36px; }
 
 #hero {
   min-height: 88vh; display: flex; flex-direction: column; justify-content: flex-end;
@@ -151,6 +156,27 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 .preview-letter { font-family: 'Inter', sans-serif; font-size: 120px; font-style: italic; font-weight: 800; color: rgba(184,137,12,0.12); line-height: 1; margin-bottom: 16px; text-align: center; }
 .preview-hint { font-size: 12px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; font-weight: 500; text-align: center; }
 
+/* ── preview gallery (přidáno) ── */
+.shot-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:18px; }
+.shot { margin:0; border-radius:var(--r-lg); overflow:hidden; border:0.5px solid var(--border); background:var(--bg2); aspect-ratio:16/10; }
+.shot img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
+.shot:hover img { transform:scale(1.06); }
+.world-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:18px; }
+.world { margin:0; position:relative; border-radius:var(--r-lg); overflow:hidden; border:0.5px solid var(--border); aspect-ratio:2/3; }
+.world img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease; }
+.world:hover img { transform:scale(1.06); }
+.world figcaption { position:absolute; left:0; right:0; bottom:0; padding:12px 10px 9px; font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#fff; background:linear-gradient(transparent, rgba(0,0,0,.78)); }
+.gream-hero { position:relative; border-radius:var(--r-xl); overflow:hidden; border:0.5px solid var(--border); margin-bottom:12px; aspect-ratio:16/9; background:var(--bg2); }
+.gream-hero img.bg { width:100%; height:100%; object-fit:cover; display:block; }
+.gream-hero img.pet { position:absolute; right:5%; bottom:0; width:min(210px,34%); height:auto; filter:drop-shadow(0 10px 26px rgba(0,0,0,.3)); }
+.shot-note { text-align:center; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); margin:0 0 80px; font-weight:500; }
+
+.ss-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.ss{aspect-ratio:9/16;background:#0b0f14;border-radius:var(--r-lg);border:0.5px solid var(--border);overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.ss img{width:100%;height:100%;object-fit:contain;display:block;}
+@media(max-width:640px){.ss-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){ .shot-grid{grid-template-columns:repeat(2,1fr);} .world-grid{grid-template-columns:repeat(2,1fr);} }
+
 .devlog-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 80px; }
 .devlog-item {
   display: flex; gap: 24px; padding: 20px 24px;
@@ -226,7 +252,13 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     3R Studio
   </a>
-  <a class="nav-logo" href="index.html"><img src="logo-dark.png" alt="3R Studio"></a>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="nav-lang">
+      <button class="lang-btn active" data-lang="cs" onclick="setLang('cs')">CZ</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="nav-logo" href="index.html"><img src="logo.svg" alt="3R Studio"></a>
+  </div>
 </nav>
 
 <section id="hero">
@@ -235,21 +267,19 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   <div class="hero-letter">C</div>
   <div class="hero-content">
     <div class="hero-breadcrumb">
-      <a href="index.html">3R Studio</a> / Projekty / CONFLUX
+      <a href="index.html">3R Studio</a> / <span data-cs="Projekty" data-en="Projects">Projekty</span> / CONFLUX
     </div>
-    <div class="hero-status"><div class="s-dot"></div> V aktivním vývoji</div>
+    <div class="hero-status"><div class="s-dot"></div> <span data-cs="V aktivním vývoji" data-en="In active development">V aktivním vývoji</span></div>
     <h1 class="hero-title">CONFLUX</h1>
-    <div class="hero-sub-title">Narativní karetní hra · PC · Steam · itch.io</div>
-    <p class="hero-desc">283 příběhových uzlů. Každé rozhodnutí mění tok dění. Karetní mechanika potkává hluboký narativ inspirovaný klasickými text adventures — ale s moderním vizuálním zpracováním.</p>
+    <div class="hero-sub-title" data-cs="Narativní karetní hra · PC · itch.io · Steam brzy" data-en="Narrative card game · PC · itch.io · Steam soon">Narativní karetní hra · PC · itch.io · Steam brzy</div>
+    <p class="hero-desc" data-cs="Svět rozdělený mezi frakce řádu a chaosu — a Neznámo, které mění pravidla. Každou kartou a každým rozhodnutím píšeš příběh i sám sebe. Temná paralela s dneškem, kde nic není černobílé." data-en="A world split between factions of order and chaos — and an Unknown that rewrites the rules. With every card and every choice you write the story, and yourself. A dark parallel to today, where nothing is black and white.">Svět rozdělený mezi frakce řádu a chaosu — a Neznámo, které mění pravidla. Každou kartou a každým rozhodnutím píšeš příběh i sám sebe. Temná paralela s dneškem, kde nic není černobílé.</p>
     <div class="hero-actions">
-      <button class="btn-primary" onclick="gtag('event','wishlist_click',{project:'conflux'})">Wishlist na Steam →</button>
-      <button class="btn-ghost" onclick="document.getElementById('devlog').scrollIntoView({behavior:'smooth'})">Devlog</button>
-      <button class="btn-ghost" onclick="document.getElementById('press').scrollIntoView({behavior:'smooth'})">Press Kit</button>
+      <a class="btn-primary" href="index.html#newsletter" onclick="gtag('event','notify_intent',{project:'conflux'})" data-cs="Chci upozornění na launch →" data-en="Notify me at launch →">Chci upozornění na launch →</a>
     </div>
     <div class="hero-stats">
-      <div class="hstat"><div class="hstat-n">283</div><div class="hstat-l">Story nodes</div></div>
-      <div class="hstat"><div class="hstat-n">2026</div><div class="hstat-l">Launch rok</div></div>
-      <div class="hstat"><div class="hstat-n">PC</div><div class="hstat-l">Platforma</div></div>
+      <div class="hstat"><div class="hstat-n">10</div><div class="hstat-l" data-cs="Aktů kampaně" data-en="Campaign acts">Aktů kampaně</div></div>
+      <div class="hstat"><div class="hstat-n">2026</div><div class="hstat-l" data-cs="Rok vydání" data-en="Launch year">Launch rok</div></div>
+      <div class="hstat"><div class="hstat-n">PC</div><div class="hstat-l" data-cs="Platforma" data-en="Platform">Platforma</div></div>
     </div>
   </div>
 </section>
@@ -257,19 +287,19 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 <div class="page-content">
 
   <section class="reveal">
-    <div class="cs-eyebrow">O projektu</div>
+    <div class="cs-eyebrow" data-cs="O projektu" data-en="About the project">O projektu</div>
     <div class="about-grid">
       <div>
-        <p class="about-text">CONFLUX je narativní karetní hra s rozvětveným příběhem, kde hráč prochází sítí 283 vzájemně propojených příběhových uzlů. Každé rozhodnutí — každá zahraná karta — posouvá příběh jiným směrem a mění vztahy, události i dostupné možnosti.</p>
-        <p class="about-text">Inspirováno klasickými text adventures a modern deck-builder hrami. Cílem není vyhrát — ale pochopit. Každý průchod odhaluje nové vrstvy příběhu.</p>
-        <p class="about-text">Launch plánovaný nejdříve na itch.io, kde proběhne testování s komunitou. Steam až po potvrzené trakci a feedbacku.</p>
+        <p class="about-text" data-cs="CONFLUX je narativní karetní hra o světě roztrženém mezi znesvářené frakce — a o Neznámu, které jejich boj mění v něco většího. Přes každou zahranou kartu a každé rozhodnutí posouváš příběh, měníš vztahy a odhaluješ, na čí straně vlastně stojíš — a kým jsi." data-en="CONFLUX is a narrative card game about a world torn between warring factions — and an Unknown that turns their struggle into something larger. Through every card played and every decision you move the story, shift relationships and discover which side you are really on — and who you are.">CONFLUX je narativní karetní hra o světě roztrženém mezi znesvářené frakce — a o Neznámu, které jejich boj mění v něco většího. Přes každou zahranou kartu a každé rozhodnutí posouváš příběh, měníš vztahy a odhaluješ, na čí straně vlastně stojíš — a kým jsi.</p>
+        <p class="about-text" data-cs="Inspirováno klasickými text adventures a modern deck-builder hrami. Cílem není vyhrát — ale pochopit. Každý průchod odhaluje nové vrstvy příběhu." data-en="Inspired by classic text adventures and modern deck-builders. The goal is not to win — but to understand. Every playthrough reveals new layers of the story.">Inspirováno klasickými text adventures a modern deck-builder hrami. Cílem není vyhrát — ale pochopit. Každý průchod odhaluje nové vrstvy příběhu.</p>
+        <p class="about-text" data-cs="Launch plánovaný nejdříve na itch.io, kde proběhne testování s komunitou. Steam až po potvrzené trakci a feedbacku." data-en="Launch is planned first on itch.io, where community testing will take place. Steam only after confirmed traction and feedback.">Launch plánovaný nejdříve na itch.io, kde proběhne testování s komunitou. Steam až po potvrzené trakci a feedbacku.</p>
       </div>
       <div class="meta-cards">
-        <div class="meta-card"><div class="meta-lbl">Status</div><div class="meta-val">Aktivní vývoj</div></div>
-        <div class="meta-card"><div class="meta-lbl">Platforma</div><div class="meta-val">PC</div></div>
-        <div class="meta-card"><div class="meta-lbl">Distribuce</div><div class="meta-val">itch.io → Steam</div></div>
-        <div class="meta-card"><div class="meta-lbl">Žánr</div><div class="meta-val">Karetní · Narativní</div></div>
-        <div class="meta-card"><div class="meta-lbl">Release</div><div class="meta-val">Srpen 2026</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Status" data-en="Status">Status</div><div class="meta-val" data-cs="Aktivní vývoj" data-en="Active development">Aktivní vývoj</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Platforma" data-en="Platform">Platforma</div><div class="meta-val">PC</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Distribuce" data-en="Distribution">Distribuce</div><div class="meta-val">itch.io → Steam</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Žánr" data-en="Genre">Žánr</div><div class="meta-val" data-cs="Karetní · Narativní" data-en="Card · Narrative">Karetní · Narativní</div></div>
+        <div class="meta-card"><div class="meta-lbl" data-cs="Release" data-en="Release">Release</div><div class="meta-val" data-cs="Konec 2026" data-en="Late 2026">Konec 2026</div></div>
         <div class="meta-card"><div class="meta-lbl">Studio</div><div class="meta-val">3R Studio</div></div>
       </div>
     </div>
@@ -279,139 +309,83 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 
   <section class="reveal">
     <div class="cs-eyebrow">Preview</div>
-    <h2 class="cs-title">Screenshoty & <em>gameplay.</em></h2>
-    <div class="preview-area">
-      <div class="preview-grid-bg"></div>
-      <div>
-        <div class="preview-letter">C</div>
-        <div class="preview-hint">Screenshoty budou přidány před launchem</div>
-      </div>
+    <h2 class="cs-title" data-cs-html="Screenshoty &amp; &lt;em&gt;gameplay.&lt;/em&gt;" data-en-html="Screenshots &amp; &lt;em&gt;gameplay.&lt;/em&gt;">Screenshoty & <em>gameplay.</em></h2>
+    <div class="ss-grid">
+      <figure class="ss"><img src="img/conflux/shot_menu_v2.jpg" alt="CONFLUX — hlavní menu" loading="lazy" decoding="async"></figure>
+      <figure class="ss"><img src="img/conflux/shot_collection_v2.jpg" alt="CONFLUX — kolekce karet" loading="lazy" decoding="async"></figure>
+      <figure class="ss"><img src="img/conflux/shot_deck_v2.jpg" alt="CONFLUX — deck builder" loading="lazy" decoding="async"></figure>
+      <figure class="ss"><img src="img/conflux/shot_acts_v2.jpg" alt="CONFLUX — kampaň (10 aktů)" loading="lazy" decoding="async"></figure>
     </div>
+    <p class="shot-note" data-cs="Skutečné obrazovky ze hry · menu, kolekce karet, deck builder, kampaň" data-en="Real in-game screens · menu, card collection, deck builder, campaign">Skutečné obrazovky ze hry · menu, kolekce karet, deck builder, kampaň</p>
   </section>
 
   <section class="reveal">
-    <div class="cs-eyebrow">Klíčové rysy</div>
-    <h2 class="cs-title">Co dělá CONFLUX <em>unikátním.</em></h2>
+    <div class="cs-eyebrow" data-cs="Klíčové rysy" data-en="Key features">Klíčové rysy</div>
+    <h2 class="cs-title" data-cs-html="Co dělá CONFLUX &lt;em&gt;unikátním.&lt;/em&gt;" data-en-html="What makes CONFLUX &lt;em&gt;unique.&lt;/em&gt;">Co dělá CONFLUX <em>unikátním.</em></h2>
     <div class="features-list">
       <div class="feature-item">
         <div class="fi-num">01</div>
         <div class="fi-content">
-          <div class="fi-title">283 propojených příběhových uzlů</div>
-          <div class="fi-desc">Rozvětvený narativ kde každé rozhodnutí má následky. Žádná "správná" cesta — každý průchod je unikátní zkušeností.</div>
+          <div class="fi-title" data-cs="Konflikt frakcí a Neznáma" data-en="Factions and the Unknown in conflict">Konflikt frakcí a Neznáma</div>
+          <div class="fi-desc" data-cs="Rozvětvený narativ kde každé rozhodnutí má následky. Žádná &quot;správná&quot; cesta — každý průchod je unikátní zkušeností." data-en="A branching narrative where every decision has consequences. No &quot;right&quot; path — every playthrough is a unique experience.">Rozvětvený narativ kde každé rozhodnutí má následky. Žádná "správná" cesta — každý průchod je unikátní zkušeností.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">02</div>
         <div class="fi-content">
-          <div class="fi-title">Karetní mechanika organicky v příběhu</div>
-          <div class="fi-desc">Karty nejsou vrstvené na příběh — jsou jeho součástí. Každá karta reprezentuje rozhodnutí, schopnost nebo událost.</div>
+          <div class="fi-title" data-cs="Karetní mechanika organicky v příběhu" data-en="Card mechanics woven into the story">Karetní mechanika organicky v příběhu</div>
+          <div class="fi-desc" data-cs="Karty nejsou vrstvené na příběh — jsou jeho součástí. Každá karta reprezentuje rozhodnutí, schopnost nebo událost." data-en="Cards are not layered on top of the story — they are part of it. Each card represents a decision, ability or event.">Karty nejsou vrstvené na příběh — jsou jeho součástí. Každá karta reprezentuje rozhodnutí, schopnost nebo událost.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">03</div>
         <div class="fi-content">
-          <div class="fi-title">Autorský vizuální styl</div>
-          <div class="fi-desc">Každý prvek navržen ručně. Konzistentní estetika od UI po ilustrace — žádné generické assety.</div>
+          <div class="fi-title" data-cs="Autorský vizuální styl" data-en="Original visual style">Autorský vizuální styl</div>
+          <div class="fi-desc" data-cs="Každý prvek navržen ručně. Konzistentní estetika od UI po ilustrace — žádné generické assety." data-en="Every element designed by hand. Consistent aesthetics from UI to illustrations — no generic assets.">Každý prvek navržen ručně. Konzistentní estetika od UI po ilustrace — žádné generické assety.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">04</div>
         <div class="fi-content">
-          <div class="fi-title">Ručně psaný text</div>
-          <div class="fi-desc">Každý uzel, každý dialog — psáno s pozorností k jazyku. Žádný AI-generovaný placeholder text v příběhu.</div>
+          <div class="fi-title" data-cs="Ručně psaný text" data-en="Hand-written text">Ručně psaný text</div>
+          <div class="fi-desc" data-cs="Každá scéna, každý dialog — psáno s pozorností k jazyku. Žádný AI-generovaný výplňový text v příběhu." data-en="Every scene, every dialogue — written with care for language. No AI-generated filler text in the story.">Každá scéna, každý dialog — psáno s pozorností k jazyku. Žádný AI-generovaný výplňový text v příběhu.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">05</div>
         <div class="fi-content">
-          <div class="fi-title">Launch nejdříve itch.io</div>
-          <div class="fi-desc">Itch.io jako první platforma pro přímé spojení s komunitou, rychlý feedback a iteraci. Steam po potvrzené trakci.</div>
+          <div class="fi-title" data-cs="Launch nejdříve itch.io" data-en="Launch first on itch.io">Launch nejdříve itch.io</div>
+          <div class="fi-desc" data-cs="Itch.io jako první platforma pro přímé spojení s komunitou, rychlý feedback a iteraci. Steam po potvrzené trakci." data-en="Itch.io as the first platform for direct community connection, fast feedback and iteration. Steam after confirmed traction.">Itch.io jako první platforma pro přímé spojení s komunitou, rychlý feedback a iteraci. Steam po potvrzené trakci.</div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="divider"></div>
-
-  <section id="devlog" class="reveal">
-    <div class="cs-eyebrow">Devlog</div>
-    <h2 class="cs-title">Zápisky z <em>vývoje.</em></h2>
-    <div class="devlog-list">
-      <!-- Boti sem přidávají nové záznamy podle šablony níže -->
-      <a class="devlog-item" href="blog.html">
-        <div class="dl-date">Čer 2026</div>
-        <div class="dl-body">
-          <div class="dl-title">Struktura příběhových uzlů — jak funguje 283</div>
-          <div class="dl-excerpt">Jak jsem navrhl systém větvení příběhu tak, aby každé rozhodnutí dávalo smysl a zároveň vedlo k unikátní zkušenosti…</div>
-          <div class="dl-tag">Narativ · Design</div>
-        </div>
-      </a>
-      <!-- Šablona pro boty:
-      <a class="devlog-item" href="blog-post-[ID].html">
-        <div class="dl-date">[MMM YYYY]</div>
-        <div class="dl-body">
-          <div class="dl-title">[TITULEK]</div>
-          <div class="dl-excerpt">[KRÁTKÝ POPIS]</div>
-          <div class="dl-tag">[TAG1] · [TAG2]</div>
-        </div>
-      </a>
-      -->
-    </div>
-    <a href="blog.html" style="font-size:12px;color:var(--yellow);letter-spacing:0.12em;text-transform:uppercase;font-weight:700;">Všechny zápisky →</a>
-  </section>
-
-  <div class="divider"></div>
-
-  <section id="press" class="reveal">
-    <div class="cs-eyebrow">Press Kit</div>
-    <h2 class="cs-title">Pro <em>média.</em></h2>
-    <div class="press-grid">
-      <div class="press-item"><div><div class="press-name">Logo CONFLUX</div><div class="press-format">SVG · PNG · Tmavá + světlá</div></div><div class="press-icon">↓</div></div>
-      <div class="press-item"><div><div class="press-name">Screenshoty</div><div class="press-format">PNG · 1920×1080 · 4K</div></div><div class="press-icon">↓</div></div>
-      <div class="press-item"><div><div class="press-name">Gameplay trailer</div><div class="press-format">MP4 · 60fps · Brzy</div></div><div class="press-icon">↓</div></div>
-      <div class="press-item"><div><div class="press-name">Factsheet</div><div class="press-format">PDF · CZ · EN</div></div><div class="press-icon">↓</div></div>
-      <div class="press-item"><div><div class="press-name">Klíčová artwork</div><div class="press-format">PSD · PNG · 4K</div></div><div class="press-icon">↓</div></div>
-      <div class="press-item"><div><div class="press-name">Bio & příběh studia</div><div class="press-format">TXT · CZ · EN</div></div><div class="press-icon">↓</div></div>
-    </div>
-    <p style="font-size:13px;color:var(--dim);font-weight:300;">
-      Press dotazy: <a href="mailto:press@3rstudio.eu" style="color:var(--yellow);text-decoration:none;font-weight:600;">press@3rstudio.eu</a>
-    </p>
-  </section>
 
   <div class="divider"></div>
 
   <section class="cta-strip reveal">
     <div>
-      <div class="cs-eyebrow">Wishlist</div>
-      <div class="cs-title" style="margin-bottom:8px;">Sleduj <em>CONFLUX.</em></div>
-      <div class="cta-strip-sub">Přidej na wishlist a dostaneš notifikaci při launch. Každý wishlist pomáhá.</div>
+      <div class="cs-eyebrow" data-cs="Ve vývoji · itch.io · konec 2026" data-en="In development · itch.io · late 2026">Ve vývoji · itch.io · konec 2026</div>
+      <div class="cs-title" style="margin-bottom:8px;" data-cs-html="Sleduj &lt;em&gt;CONFLUX.&lt;/em&gt;" data-en-html="Follow &lt;em&gt;CONFLUX.&lt;/em&gt;">Sleduj <em>CONFLUX.</em></div>
+      <div class="cta-strip-sub" data-cs="Hra je pořád ve vývoji — nechceme vydat polovičatý produkt. Vychází na itch.io na konci roku 2026, Steam poté. Nech nám email a dozvíš se to první." data-en="The game is still in development — we won't ship it half-finished. It launches on itch.io at the end of 2026, Steam after that. Leave your email and be the first to know.">Hra je pořád ve vývoji — nechceme vydat polovičatý produkt. Vychází na itch.io na konci roku 2026, Steam poté. Nech nám email a dozvíš se to první.</div>
     </div>
     <div class="cta-strip-actions">
-      <button class="btn-primary" onclick="gtag('event','wishlist_click',{project:'conflux',location:'cta_strip'})">Wishlist na Steam →</button>
-      <button class="btn-ghost">Sledovat na itch.io</button>
+      <a class="btn-primary" href="index.html#newsletter" onclick="gtag('event','notify_intent',{project:'conflux',location:'cta_strip'})" data-cs="Chci upozornění na launch →" data-en="Notify me at launch →">Chci upozornění na launch →</a>
+      <span class="btn-ghost" style="opacity:.55;cursor:default" data-cs="Steam wishlist · brzy" data-en="Steam wishlist · soon">Steam wishlist · brzy</span>
     </div>
   </section>
 
   <div class="divider"></div>
 
   <section class="reveal">
-    <div class="cs-eyebrow">Další projekty</div>
-    <h2 class="cs-title">Víc od <em>3R Studio.</em></h2>
+    <div class="cs-eyebrow" data-cs="Další projekty" data-en="More projects">Další projekty</div>
+    <h2 class="cs-title" data-cs-html="Víc od &lt;em&gt;3R Studio.&lt;/em&gt;" data-en-html="More from &lt;em&gt;3R Studio.&lt;/em&gt;">Víc od <em>3R Studio.</em></h2>
     <div class="other-grid">
       <a class="other-card" href="gream.html">
         <div class="oc-letter" style="color:#0891b2">G</div>
         <div class="oc-name">Gream</div>
-        <div class="oc-type">Vzdělávací mobilní hra · iOS/Android</div>
-      </a>
-      <a class="other-card" href="#">
-        <div class="oc-letter">R</div>
-        <div class="oc-name">RECHO</div>
-        <div class="oc-type">Gothic Sci-Fi Action RPG · PC</div>
-      </a>
-      <a class="other-card" href="#">
-        <div class="oc-letter" style="color:#7c3aed">Ψ</div>
-        <div class="oc-name">PULSE</div>
-        <div class="oc-type">AI agent · Experiment</div>
+        <div class="oc-type" data-cs="Vzdělávací mobilní hra · iOS/Android" data-en="Educational mobile game · iOS/Android">Vzdělávací mobilní hra · iOS/Android</div>
       </a>
     </div>
   </section>
@@ -419,16 +393,27 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 </div>
 
 <footer style="border-top:0.5px solid var(--border);padding:28px 80px;display:flex;align-items:center;justify-content:space-between;background:var(--bg);">
-  <a href="index.html"><img src="logo-dark.png" alt="3R Studio" style="height:22px;"></a>
+  <a href="index.html"><img src="logo.svg" alt="3R Studio" style="height:30px;"></a>
   <div style="font-size:11px;color:var(--muted);">© 2026 3R Studio · ČR</div>
-  <a href="index.html" style="font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;transition:color 0.2s;" onmouseover="this.style.color='var(--yellow)'" onmouseout="this.style.color=''">← Zpět na studio</a>
+  <a href="index.html" style="font-size:11px;color:var(--dim);text-decoration:none;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;transition:color 0.2s;" onmouseover="this.style.color='var(--yellow)'" onmouseout="this.style.color=''" data-cs="← Zpět na studio" data-en="← Back to studio">← Zpět na studio</a>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
 }, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+<script>
+const LANG_KEY='3rs-lang';
+let currentLang=localStorage.getItem(LANG_KEY)||'cs';
+function setLang(lang){
+  currentLang=lang; localStorage.setItem(LANG_KEY,lang); document.documentElement.lang=lang;
+  document.querySelectorAll('[data-cs]').forEach(el=>{ if(el.dataset[lang]!=null) el.textContent=el.dataset[lang]; });
+  document.querySelectorAll('[data-cs-html]').forEach(el=>{ const v=lang==='en'?el.dataset.enHtml:el.dataset.csHtml; if(v!=null) el.innerHTML=v; });
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
+}
+setLang(currentLang);
 </script>
 </body>
 </html>
