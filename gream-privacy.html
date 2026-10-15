@@ -83,6 +83,7 @@ footer a { text-decoration: none; }
       <li>Přezdívka a avatar</li>
       <li>Postup ve hře, tvoji greamíci, semínka, odznaky a statistiky</li>
       <li>Volitelná profilová fotka (pokud si ji nastavíš)</li>
+      <li>Prozkoumané okolí na mapě, výprava dne a denní čas hraní nastavený rodičem</li>
       <li><strong>Přesná poloha (GPS)</strong> — používá se jen v zařízení: počítá vzdálenost k místům a pozná, že jsi u konkrétního místa na mapě. Přesné souřadnice <strong>nikdy</strong> neodesíláme.</li>
     </ul>
 
@@ -91,6 +92,8 @@ footer a { text-decoration: none; }
     <ul>
       <li><strong>Přezdívka + skóre a rating</strong> ze soubojů a denního kola — zobrazují se ostatním hráčům ve <strong>veřejném žebříčku</strong>.</li>
       <li><strong>Anonymní ID splněných míst na mapě</strong> — abychom u míst ukázali „👥 kolik hráčů je splnilo". Neukládáme, kde přesně jsi.</li>
+      <li><strong>Bitevní místa</strong> — kdo místo na mapě drží: ukládáme jen druh greamíka a skóre (bez přezdívky a ID hráče), nejvýš 14 dní.</li>
+      <li><strong>Týdenní liga</strong> — body ze soubojů pod náhodným ID hráče; v tabulce ligy se ukazuje přezdívka.</li>
       <li><strong>Nahlášení špatné otázky</strong> — které otázky se týká a proč, ať ji můžeme opravit.</li>
       <li><strong>Přibližná poloha kvůli mapě</strong> — poloha zaokrouhlená na zhruba 500 m a výřez mapy. Server podle ní najde zajímavá místa v okolí (data OpenStreetMap) a pošle mapu (OpenFreeMap přes naši mezipaměť). Polohu neukládáme a nepropojujeme ji s přezdívkou ani s ID hráče; cizí služby dostávají jen zaokrouhlenou oblast od našeho serveru, nikdy nic přímo z tvého zařízení.</li>
       <li><strong>Náhodné ID hráče</strong> vygenerované v zařízení — slouží jen k párování soupeřů, není spojené s e-mailem, telefonem ani jménem.</li>
@@ -144,6 +147,7 @@ footer a { text-decoration: none; }
       <li>Nickname and avatar</li>
       <li>Game progress, your greamíci (pets), seeds, badges and stats</li>
       <li>Optional profile photo (if you set one)</li>
+      <li>Explored areas on the map, the daily expedition and the daily play time set by a parent</li>
       <li><strong>Precise location (GPS)</strong> — used only on your device: it measures the distance to places and detects that you are at a specific map place. Precise coordinates are <strong>never</strong> sent.</li>
     </ul>
 
@@ -152,6 +156,8 @@ footer a { text-decoration: none; }
     <ul>
       <li><strong>Nickname + score and rating</strong> from battles and the daily round — shown to other players on a <strong>public leaderboard</strong>.</li>
       <li><strong>Anonymous IDs of completed map places</strong> — so we can show "👥 how many players completed" a place. We do not store where you are.</li>
+      <li><strong>Battle spots</strong> — who holds a place on the map: we store only the kind of greamík and the score (no nickname or player ID), for at most 14 days.</li>
+      <li><strong>Weekly league</strong> — battle points under a random player ID; the league table shows the nickname.</li>
       <li><strong>Bad-question reports</strong> — which question and why, so we can fix it.</li>
       <li><strong>Approximate location for the map</strong> — your location rounded to about 500 m and the map area. Our server uses it to find interesting places nearby (OpenStreetMap data) and to send the map (OpenFreeMap through our cache). We do not store it or link it to your nickname or player ID; third-party services only receive the rounded area from our server, never anything directly from your device.</li>
       <li><strong>A random player ID</strong> generated on your device — used only to match opponents; not linked to any email, phone or name.</li>
