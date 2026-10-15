@@ -73,9 +73,9 @@ footer a { text-decoration: none; }
   <!-- ═══════════════ ČESKY ═══════════════ -->
   <section id="lang-cs">
     <h1>Zásady ochrany osobních údajů</h1>
-    <p class="updated">Hra <strong>Gream</strong> · 3R Studio (Roman Pavlorek) · Aktualizováno 15. 7. 2026</p>
+    <p class="updated">Hra <strong>Gream</strong> · 3R Studio (Roman Pavlorek) · Aktualizováno 15. 10. 2026</p>
 
-    <p>Gream je kvízová hra pro celou rodinu. Soukromí bereme jako součást hry: <strong>tvoje poloha ani fotky nikdy neopustí zařízení.</strong> Níže přesně popisujeme, co se ukládá jen u tebe a co (anonymně) posíláme na náš server kvůli soubojům a žebříčkům.</p>
+    <p>Gream je kvízová hra pro celou rodinu. Soukromí bereme jako součást hry: <strong>tvoje přesná poloha ani fotky nikdy neopustí zařízení.</strong> Níže přesně popisujeme, co se ukládá jen u tebe a co (anonymně) posíláme na náš server kvůli soubojům a žebříčkům.</p>
 
     <h2>Co zůstává jen ve tvém zařízení</h2>
     <p>Tyto údaje se ukládají lokálně v aplikaci a <strong>neposílají se nikam</strong>:</p>
@@ -83,7 +83,7 @@ footer a { text-decoration: none; }
       <li>Přezdívka a avatar</li>
       <li>Postup ve hře, tvoji greamíci, semínka, odznaky a statistiky</li>
       <li>Volitelná profilová fotka (pokud si ji nastavíš)</li>
-      <li><strong>Poloha (GPS)</strong> — používá se jen v zařízení k rozpoznání, že jsi venku nebo u konkrétního místa na mapě. Souřadnice <strong>nikdy</strong> neodesíláme na server.</li>
+      <li><strong>Přesná poloha (GPS)</strong> — používá se jen v zařízení: počítá vzdálenost k místům a pozná, že jsi u konkrétního místa na mapě. Přesné souřadnice <strong>nikdy</strong> neodesíláme.</li>
     </ul>
 
     <h2>Co posíláme na náš server</h2>
@@ -92,11 +92,12 @@ footer a { text-decoration: none; }
       <li><strong>Přezdívka + skóre a rating</strong> ze soubojů a denního kola — zobrazují se ostatním hráčům ve <strong>veřejném žebříčku</strong>.</li>
       <li><strong>Anonymní ID splněných míst na mapě</strong> — abychom u míst ukázali „👥 kolik hráčů je splnilo". Neukládáme, kde přesně jsi.</li>
       <li><strong>Nahlášení špatné otázky</strong> — které otázky se týká a proč, ať ji můžeme opravit.</li>
+      <li><strong>Přibližná poloha kvůli mapě</strong> — poloha zaokrouhlená na zhruba 500 m a výřez mapy. Server podle ní najde zajímavá místa v okolí (data OpenStreetMap) a pošle mapu (OpenFreeMap přes naši mezipaměť). Polohu neukládáme a nepropojujeme ji s přezdívkou ani s ID hráče; cizí služby dostávají jen zaokrouhlenou oblast od našeho serveru, nikdy nic přímo z tvého zařízení.</li>
       <li><strong>Náhodné ID hráče</strong> vygenerované v zařízení — slouží jen k párování soupeřů, není spojené s e-mailem, telefonem ani jménem.</li>
     </ul>
 
     <div class="callout">
-      <p><strong>Přezdívku si volíš ty</strong> a objeví se ve veřejném žebříčku. Nezadávej do ní své celé jméno ani osobní údaje. Vulgární výrazy filtrujeme.</p>
+      <p><strong>Přezdívku si volíš ty</strong> a objeví se ve veřejném žebříčku. Nezadávej do ní své celé jméno ani osobní údaje. Vulgární výrazy filtrujeme v aplikaci i na serveru.</p>
     </div>
 
     <h2>Co NEděláme</h2>
@@ -106,12 +107,13 @@ footer a { text-decoration: none; }
       <li class="no">Žádné analytické nástroje třetích stran uvnitř hry</li>
       <li class="no">Nesbíráme e-mail, telefon ani kontakty</li>
       <li class="no">Nikdy neprodáváme tvoje data</li>
-      <li class="no">GPS souřadnice a fotky nikdy neopouští zařízení</li>
+      <li class="no">Přesné GPS souřadnice a fotky nikdy neopouští zařízení</li>
+      <li class="no">Aplikace se nespojuje s cizími servery (mapa i místa jdou přes náš server)</li>
     </ul>
 
     <h2>Oprávnění</h2>
     <ul>
-      <li class="yes"><strong>Poloha</strong> — jen pro venkovní výzvy a místa na mapě. Zpracovává se v zařízení; můžeš ji odmítnout a hrát domácí výzvy dál.</li>
+      <li class="yes"><strong>Poloha</strong> — jen pro venkovní výzvy a místa na mapě. Přesná poloha zůstává v zařízení, na server jde jen přibližná (≈ 500 m). Můžeš ji odmítnout a hrát domácí výzvy dál.</li>
       <li class="yes"><strong>Zvuk / hudba</strong> — přehrávání zvuků hry.</li>
     </ul>
 
@@ -132,9 +134,9 @@ footer a { text-decoration: none; }
   <!-- ═══════════════ ENGLISH ═══════════════ -->
   <section id="lang-en" class="hidden">
     <h1>Privacy Policy</h1>
-    <p class="updated"><strong>Gream</strong> · 3R Studio (Roman Pavlorek) · Updated July 15, 2026</p>
+    <p class="updated"><strong>Gream</strong> · 3R Studio (Roman Pavlorek) · Updated October 15, 2026</p>
 
-    <p>Gream is a quiz game for the whole family. Privacy is a feature: <strong>your location and photos never leave your device.</strong> Below is exactly what stays only on your device and what we (anonymously) send to our server for battles and leaderboards.</p>
+    <p>Gream is a quiz game for the whole family. Privacy is a feature: <strong>your precise location and photos never leave your device.</strong> Below is exactly what stays only on your device and what we (anonymously) send to our server for battles and leaderboards.</p>
 
     <h2>What stays only on your device</h2>
     <p>Stored locally in the app and <strong>never sent anywhere</strong>:</p>
@@ -142,7 +144,7 @@ footer a { text-decoration: none; }
       <li>Nickname and avatar</li>
       <li>Game progress, your greamíci (pets), seeds, badges and stats</li>
       <li>Optional profile photo (if you set one)</li>
-      <li><strong>Location (GPS)</strong> — used only on your device to detect that you are outdoors or near a specific map place. Coordinates are <strong>never</strong> sent to the server.</li>
+      <li><strong>Precise location (GPS)</strong> — used only on your device: it measures the distance to places and detects that you are at a specific map place. Precise coordinates are <strong>never</strong> sent.</li>
     </ul>
 
     <h2>What we send to our server</h2>
@@ -151,11 +153,12 @@ footer a { text-decoration: none; }
       <li><strong>Nickname + score and rating</strong> from battles and the daily round — shown to other players on a <strong>public leaderboard</strong>.</li>
       <li><strong>Anonymous IDs of completed map places</strong> — so we can show "👥 how many players completed" a place. We do not store where you are.</li>
       <li><strong>Bad-question reports</strong> — which question and why, so we can fix it.</li>
+      <li><strong>Approximate location for the map</strong> — your location rounded to about 500 m and the map area. Our server uses it to find interesting places nearby (OpenStreetMap data) and to send the map (OpenFreeMap through our cache). We do not store it or link it to your nickname or player ID; third-party services only receive the rounded area from our server, never anything directly from your device.</li>
       <li><strong>A random player ID</strong> generated on your device — used only to match opponents; not linked to any email, phone or name.</li>
     </ul>
 
     <div class="callout">
-      <p><strong>You choose your nickname</strong> and it appears on the public leaderboard. Please don't use your full name or personal details in it. Profanity is filtered.</p>
+      <p><strong>You choose your nickname</strong> and it appears on the public leaderboard. Please don't use your full name or personal details in it. Profanity is filtered in the app and on the server.</p>
     </div>
 
     <h2>What we do NOT do</h2>
@@ -165,12 +168,13 @@ footer a { text-decoration: none; }
       <li class="no">No third-party analytics inside the game</li>
       <li class="no">We don't collect email, phone or contacts</li>
       <li class="no">We never sell your data</li>
-      <li class="no">GPS coordinates and photos never leave the device</li>
+      <li class="no">Precise GPS coordinates and photos never leave the device</li>
+      <li class="no">The app does not connect to third-party servers (map and places go through our server)</li>
     </ul>
 
     <h2>Permissions</h2>
     <ul>
-      <li class="yes"><strong>Location</strong> — only for outdoor challenges and map places. Processed on-device; you can decline and keep playing home challenges.</li>
+      <li class="yes"><strong>Location</strong> — only for outdoor challenges and map places. Your precise location stays on the device; only an approximate one (≈ 500 m) goes to our server. You can decline and keep playing home challenges.</li>
       <li class="yes"><strong>Audio / music</strong> — playing game sounds.</li>
     </ul>
 
