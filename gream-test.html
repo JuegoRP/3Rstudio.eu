@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Gream — test pro známé / Friends test — 3R Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #0891b2; --teal-fill: #06b6d4; --teal-light: rgba(8,145,178,0.1);
+  --bg: #f8f6f2; --bg2: #f0f7f9;
+  --text: #111110; --dim: rgba(17,17,16,0.62); --muted: rgba(17,17,16,0.4);
+  --border: rgba(17,17,16,0.1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', system-ui, sans-serif; color: var(--text);
+  background: var(--bg); line-height: 1.7; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 780px; margin: 0 auto; padding: 32px 22px 90px; }
+header.bar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-bottom: 40px; flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; text-decoration: none; color: var(--text); }
+.brand .logo {
+  width: 30px; height: 30px; border-radius: 7px; background: #f5c518;
+  display: grid; place-items: center; font-weight: 900; font-style: italic;
+  font-size: 14px; color: #111110;
+}
+.lang { display: inline-flex; gap: 2px; background: #fff; border: 1px solid var(--border); border-radius: 9px; padding: 3px; }
+.lang button {
+  border: 0; background: none; font: inherit; font-weight: 700; font-size: 13px;
+  padding: 5px 11px; border-radius: 6px; cursor: pointer; color: var(--muted);
+}
+.lang button.active { background: var(--teal); color: #fff; }
+h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 6vw, 40px); line-height: 1.12; letter-spacing: -0.02em; margin-bottom: 8px; }
+.updated { color: var(--muted); font-size: 14px; margin-bottom: 34px; }
+h2 { font-family: 'Space Grotesk', sans-serif; font-size: 21px; margin: 34px 0 12px; letter-spacing: -0.01em; }
+p { margin-bottom: 14px; color: var(--dim); }
+ul { margin: 0 0 16px 2px; list-style: none; }
+li { position: relative; padding-left: 26px; margin-bottom: 10px; color: var(--dim); }
+li::before { content: ''; position: absolute; left: 6px; top: 11px; width: 7px; height: 7px; border-radius: 50%; background: var(--teal-fill); }
+li.no::before { background: #dc2626; }
+li.yes::before { background: #16a34a; }
+strong { color: var(--text); font-weight: 700; }
+a { color: var(--teal); }
+.callout {
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 14px;
+  padding: 18px 20px; margin: 22px 0;
+}
+.callout p:last-child { margin-bottom: 0; }
+footer { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--border); color: var(--muted); font-size: 14px; }
+footer a { text-decoration: none; }
+.hidden { display: none; }
+
+.l-en{display:none} html[lang=en] .l-en{display:inline} html[lang=en] .l-cs{display:none}
+html[lang=en] p.l-en, html[lang=en] div.l-en{display:block}
+.steps{counter-reset:s;margin:0 0 20px}
+.steps li{padding-left:34px}
+.steps li::before{counter-increment:s;content:counter(s);width:22px;height:22px;top:3px;left:0;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:800;background:var(--teal)}
+.play{display:inline-block;margin:6px 0 18px;padding:13px 22px;border-radius:12px;background:var(--teal);color:#fff;font-weight:800;text-decoration:none}
+form{background:#fff;border:1px solid var(--border);border-radius:16px;padding:22px;margin-top:10px}
+label{display:block;font-weight:700;font-size:15px;margin:16px 0 6px;color:var(--text)}
+label small{font-weight:500;color:var(--muted)}
+input[type=text],select,textarea{width:100%;font:inherit;font-size:16px;padding:11px 13px;border:1px solid var(--border);border-radius:10px;background:#fbfaf8;color:var(--text)}
+textarea{min-height:92px;resize:vertical}
+.stars{display:flex;gap:8px;flex-wrap:wrap}
+.stars label{margin:0;font-weight:600;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--border);border-radius:10px;cursor:pointer}
+.stars input{accent-color:var(--teal)}
+button.send{margin-top:20px;width:100%;padding:14px;border:0;border-radius:12px;background:var(--teal);color:#fff;font:inherit;font-weight:800;font-size:16px;cursor:pointer}
+button.send:disabled{opacity:.6}
+.msg{margin-top:14px;font-weight:700}
+.msg.ok{color:#16a34a}.msg.err{color:#dc2626}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="bar">
+    <a class="brand" href="gream.html"><span class="logo">3R</span> Gream</a>
+    <div class="lang">
+      <button data-l="cs" class="active" onclick="setLang('cs')">CS</button>
+      <button data-l="en" onclick="setLang('en')">EN</button>
+    </div>
+  </header>
+
+  <h1><span class="l-cs">Zahraj si Gream a řekni nám, co si myslíš</span><span class="l-en">Play Gream and tell us what you think</span></h1>
+  <p class="updated"><span class="l-cs">Testovací verze pro známé · děkujeme, že pomáháš!</span><span class="l-en">Test version for friends · thank you for helping!</span></p>
+
+  <h2><span class="l-cs">Jak na to</span><span class="l-en">How to</span></h2>
+  <ul class="steps">
+    <li><span class="l-cs">Otevři hru na telefonu tlačítkem níže (Chrome na Androidu, Safari na iPhonu).</span><span class="l-en">Open the game on your phone with the button below (Chrome on Android, Safari on iPhone).</span></li>
+    <li><span class="l-cs">Přidej si ji na plochu: v menu prohlížeče „Přidat na plochu“ / „Sdílet → Přidat na plochu“. Pak se chová jako aplikace.</span><span class="l-en">Add it to your home screen: browser menu “Add to Home screen” / “Share → Add to Home Screen”. Then it works like an app.</span></li>
+    <li><span class="l-cs">Hraj pár dní – doma i venku (výzvy na mapě, vajíčka, souboje). Prvních 7 dní je odemčené vše.</span><span class="l-en">Play for a few days – at home and outside (map challenges, eggs, battles). Everything is unlocked for the first 7 days.</span></li>
+    <li><span class="l-cs">Vyplň krátký dotazník níže. Klidně i víckrát.</span><span class="l-en">Fill in the short form below. More than once is fine.</span></li>
+  </ul>
+  <a class="play" href="https://juegorp.github.io/Gream/" target="_blank" rel="noopener"><span class="l-cs">▶ Hrát Gream</span><span class="l-en">▶ Play Gream</span></a>
+  <div class="callout"><p><span class="l-cs">Je to testovací verze – něco se může pokazit. Postup se ukládá jen v telefonu. Hra je pro celou rodinu, klidně ji dej i dětem.</span><span class="l-en">This is a test version – things may break. Progress is saved only on your phone. It's for the whole family, kids welcome.</span></p></div>
+
+  <h2><span class="l-cs">Dotazník</span><span class="l-en">Feedback</span></h2>
+  <form id="fb" onsubmit="send(event)">
+    <label><span class="l-cs">Jak tě hra bavila?</span><span class="l-en">How much fun was it?</span></label>
+    <div class="stars"><label><input type="radio" name="fun" value="1"> ★</label><label><input type="radio" name="fun" value="2"> ★★</label><label><input type="radio" name="fun" value="3"> ★★★</label><label><input type="radio" name="fun" value="4"> ★★★★</label><label><input type="radio" name="fun" value="5"> ★★★★★</label></div>
+
+    <label for="liked"><span class="l-cs">Co tě bavilo nejvíc?</span><span class="l-en">What did you enjoy most?</span></label>
+    <textarea id="liked" maxlength="1500"></textarea>
+
+    <label for="problems"><span class="l-cs">Co nefungovalo, bylo matoucí nebo tě štvalo?</span><span class="l-en">What didn't work, was confusing or annoying?</span> <small><span class="l-cs">(i chybné otázky)</span><span class="l-en">(wrong questions too)</span></small></label>
+    <textarea id="problems" maxlength="2000"></textarea>
+
+    <label for="ideas"><span class="l-cs">Co bys přidal(a) nebo změnil(a)?</span><span class="l-en">What would you add or change?</span></label>
+    <textarea id="ideas" maxlength="1500"></textarea>
+
+    <label for="days"><span class="l-cs">Jak dlouho jsi hrál(a)?</span><span class="l-en">How long did you play?</span></label>
+    <select id="days"><option value=""></option><option value="1 den">1 den / 1 day</option><option value="2–3 dny">2–3 dny / 2–3 days</option><option value="týden+">týden a víc / a week+</option></select>
+
+    <label for="pay"><span class="l-cs">Zaplatil(a) bys předplatné Gream Plus pro rodinu (89 Kč měsíčně / 749 Kč ročně)?</span><span class="l-en">Would you pay for a Gream Plus family subscription (89 CZK/month / 749 CZK/year)?</span></label>
+    <select id="pay"><option value=""></option><option value="ano">ano / yes</option><option value="možná">možná / maybe</option><option value="ne">ne / no</option></select>
+
+    <div>
+      <label for="age"><span class="l-cs">Kdo hrál</span><span class="l-en">Who played</span></label>
+      <select id="age"><option value=""></option><option>dítě do 8 / child under 8</option><option>dítě 9–12 / child 9–12</option><option>teenager</option><option>dospělý / adult</option><option>rodina společně / family together</option></select>
+      <label for="device"><span class="l-cs">Telefon</span><span class="l-en">Phone</span> <small><span class="l-cs">(např. Samsung A54, iPhone 13)</span><span class="l-en">(e.g. Samsung A54, iPhone 13)</span></small></label>
+      <input type="text" id="device" maxlength="60">
+      <label for="who"><span class="l-cs">Jméno nebo přezdívka</span><span class="l-en">Name or nickname</span> <small><span class="l-cs">(nepovinné)</span><span class="l-en">(optional)</span></small></label>
+      <input type="text" id="who" maxlength="40">
+    </div>
+    <button class="send" type="submit"><span class="l-cs">Odeslat</span><span class="l-en">Send</span></button>
+    <div class="msg" id="msg" role="status"></div>
+    <p style="font-size:13px;margin-top:12px"><span class="l-cs">Ukládáme jen to, co vyplníš (bez IP adresy a bez dat ze hry). Nepiš sem osobní údaje.</span><span class="l-en">We store only what you fill in (no IP address, no game data). Please don't include personal details.</span></p>
+  </form>
+
+  <footer>© 2026 3R Studio · <a href="gream.html">Gream</a> · <a href="gream-privacy.html">Soukromí / Privacy</a></footer>
+</div>
+<script>
+function setLang(l){
+  document.documentElement.lang = l;
+  document.querySelectorAll('.lang button').forEach(b => b.classList.toggle('active', b.dataset.l === l));
+  try { localStorage.setItem('3rs-lang', l); } catch {}
+}
+try { setLang(new URLSearchParams(location.search).get('lang') || localStorage.getItem('3rs-lang') || 'cs'); } catch { setLang('cs'); }
+async function send(e){
+  e.preventDefault();
+  const v = id => document.getElementById(id).value.trim();
+  const cs = document.documentElement.lang !== 'en';
+  const body = { lang: document.documentElement.lang, fun: Number((document.querySelector('input[name=fun]:checked')||{}).value||0),
+    liked: v('liked'), problems: v('problems'), ideas: v('ideas'), days: v('days'), pay: v('pay'), age: v('age'), device: v('device'), who: v('who') };
+  const msg = document.getElementById('msg'), btn = document.querySelector('button.send');
+  if (!body.fun && !body.liked && !body.problems && !body.ideas) { msg.className = 'msg err'; msg.textContent = cs ? 'Vyplň aspoň hodnocení nebo jednu odpověď.' : 'Please fill in at least the rating or one answer.'; return; }
+  btn.disabled = true; msg.className = 'msg'; msg.textContent = cs ? 'Odesílám…' : 'Sending…';
+  try {
+    const r = await fetch('https://3rstudio.eu/api/gream/feedback', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || !j.ok) throw new Error(j.error || r.status);
+    document.getElementById('fb').reset(); msg.className = 'msg ok'; msg.textContent = cs ? 'Díky! Odesláno. 💚' : 'Thanks! Sent. 💚';
+  } catch (err) { msg.className = 'msg err'; msg.textContent = cs ? 'Nepodařilo se odeslat – zkus to prosím za chvíli.' : 'Could not send – please try again later.'; }
+  finally { btn.disabled = false; }
+}
+</script>
+</body>
+</html>
