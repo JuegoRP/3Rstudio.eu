@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Gream — kvízová hra pro celou rodinu. Objevuj svět venku, líhni a vychovej mazlíčka, souboj se ostatními. Otázky od snadných po expertní. Bezpečné i pro děti. Android, App Store brzy. 3R Studio.">
+<meta name="description" content="Gream — kvízová hra pro celou rodinu. Vylušti, vylíhni, vyraž ven: odpovídej na otázky doma i venku, sbírej 24 greamíků, hraj souboje a týdenní ligu. Přes 2 500 ověřených otázek, nové každý týden. Bez reklam, bezpečné pro děti.">
 <meta property="og:title" content="Gream — 3R Studio">
-<meta property="og:description" content="Kvízová hra pro celou rodinu — venku, se sbíratelným mazlíčkem a souboji. Bezpečné i pro děti. Google Play konec 2026, App Store později.">
+<meta property="og:description" content="Vylušti. Vylíhni. Vyraž ven. Kvízová hra pro celou rodinu — 24 greamíků ke sbírání, výpravy venku a souboje. Bez reklam, bezpečné i pro děti.">
 <title>Gream — 3R Studio</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%23f5c518'/%3E%3Ctext x='16' y='23' font-family='sans-serif' font-size='16' font-weight='900' font-style='italic' text-anchor='middle' fill='%23111110'%3E3R%3C/text%3E%3C/svg%3E">
 
@@ -256,6 +256,14 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
   .store-badges { flex-direction: column; }
   .hero-stats { flex-wrap: wrap; gap: 24px; }
 }
+
+/* Snímky ze hry (verze 1.1) */
+.gshots{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:8px 0 36px}
+.gshot{margin:0;text-align:center}
+.gshot img{width:100%;height:auto;border-radius:22px;border:1px solid rgba(255,255,255,.12);box-shadow:0 10px 30px rgba(0,0,0,.35);display:block;background:#1a2a14}
+.gshot figcaption{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-top:10px}
+@media(max-width:820px){.gshots{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:8px;margin-left:-4px;margin-right:-4px}.gshot{flex:0 0 62%;scroll-snap-align:center}}
+.hero-logo{display:block;width:min(340px,80%);height:auto;margin:6px 0 4px;filter:drop-shadow(0 8px 24px rgba(0,0,0,.35))}
 </style>
 </head>
 <body>
@@ -283,9 +291,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
       <a href="index.html">3R Studio</a> / <span data-cs="Projekty" data-en="Projects">Projekty</span> / Gream
     </div>
     <div class="hero-status"><div class="s-dot"></div> <span data-cs="Ve vývoji · vydání konec 2026" data-en="In development · release late 2026">Ve vývoji · vydání konec 2026</span></div>
-    <h1 class="hero-title">Gream</h1>
-    <div class="hero-sub-title" data-cs="Kvíz venku · pro celou rodinu · Android (iOS brzy)" data-en="Outdoor quiz · for the whole family · Android (iOS soon)">Kvíz venku · pro celou rodinu · Android (iOS brzy)</div>
-    <p class="hero-desc" data-cs="Kvíz, který tě dostane ven. Objevuj reálná místa kolem sebe, odpovídej na otázky od snadných po expertní, líhni a vychovej vlastního mazlíčka a měř síly s ostatními v časových soubojích. Zábava pro každý věk — a bezpečná i pro děti. Vychází na Google Play na konci roku 2026, App Store později." data-en="A quiz that gets you outside. Explore real places around you, answer questions from easy to expert, hatch and raise your own pet, and go head-to-head with others in timed battles. Fun for every age — and safe for kids. Launching on Google Play at the end of 2026, App Store later.">Kvíz, který tě dostane ven. Objevuj reálná místa kolem sebe, odpovídej na otázky od snadných po expertní, líhni a vychovej vlastního mazlíčka a měř síly s ostatními v časových soubojích. Zábava pro každý věk — a bezpečná i pro děti. Vychází na Google Play na konci roku 2026, App Store později.</p>
+    <h1 class="hero-title"><img class="hero-logo" src="img/gream/logo.png" alt="Gream" width="720" height="515"></h1>
+    <div class="hero-sub-title" data-cs="Vylušti. Vylíhni. Vyraž ven. · pro celou rodinu · Android (iOS později)" data-en="Quiz. Hatch. Explore. · for the whole family · Android (iOS later)">Vylušti. Vylíhni. Vyraž ven. · pro celou rodinu · Android (iOS později)</div>
+    <p class="hero-desc" data-cs="Kvíz, který tě dostane ven. Odpovídej na otázky doma i na místech kolem sebe, z vajíčka vylíhni greamíka podle témat, která tě baví, a sbírej všech 24. Pak se utkej v soubojích a týdenní lize. Pro děti i dospělé, bez reklam. Vychází na Google Play na konci roku 2026." data-en="A quiz that gets you outside. Answer questions at home and at places around you, hatch a Gream from an egg based on the topics you love, and collect all 24. Then take on others in battles and the weekly league. For kids and adults, no ads. Coming to Google Play at the end of 2026.">Kvíz, který tě dostane ven. Odpovídej na otázky doma i na místech kolem sebe, z vajíčka vylíhni greamíka podle témat, která tě baví, a sbírej všech 24. Pak se utkej v soubojích a týdenní lize. Pro děti i dospělé, bez reklam. Vychází na Google Play na konci roku 2026.</p>
     <div class="hero-actions">
       <button class="btn-primary" onclick="document.getElementById('notify-section').scrollIntoView({behavior:'smooth'});gtag('event','notify_intent',{project:'gream'})" data-cs="Chci být upozorněn →" data-en="Notify me →">Chci být upozorněn →</button>
     </div>
@@ -303,9 +311,9 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
     <div class="cs-eyebrow" data-cs="O projektu" data-en="About the project">O projektu</div>
     <div class="about-grid">
       <div>
-        <p class="about-text" data-cs="Gream je kvízová hra pro každý věk. Objevuješ reálná místa kolem sebe, odpovídáš na otázky napříč šesti světy — od snadných pro děti až po expertní pro dospělé — a za správné odpovědi líhneš a vychováváš vlastního mazlíčka. Kvízy má rád každý; Gream je jen dělá zábavnějšími a dostane tě k nim ven." data-en="Gream is a quiz game for every age. You explore real places around you, answer questions across six worlds — from easy for kids to expert for adults — and earn a pet you hatch and raise. Everyone loves a good quiz; Gream just makes it more fun and gets you outside for it.">Gream je kvízová hra pro každý věk. Objevuješ reálná místa kolem sebe, odpovídáš na otázky napříč šesti světy — od snadných pro děti až po expertní pro dospělé — a za správné odpovědi líhneš a vychováváš vlastního mazlíčka. Kvízy má rád každý; Gream je jen dělá zábavnějšími a dostane tě k nim ven.</p>
-        <p class="about-text" data-cs="A není to jen sólo: měř síly s ostatními v časových soubojích, hraj denní kolo se stejnými otázkami pro všechny a šplhej v žebříčku. Souboje se dají hrát i venku na místech jako parky nebo hospody — venkovní pub-quiz s partou." data-en="And it's not just solo: go head-to-head in timed battles, play the daily round with the same questions for everyone, and climb the leaderboard. Battles can even be played outside at spots like parks or pubs — an outdoor pub-quiz with friends.">A není to jen sólo: měř síly s ostatními v časových soubojích, hraj denní kolo se stejnými otázkami pro všechny a šplhej v žebříčku. Souboje se dají hrát i venku na místech jako parky nebo hospody — venkovní pub-quiz s partou.</p>
-        <p class="about-text" data-cs="Bez reklam, bezpečné pro děti, funguje offline díky PWA architektuře. Přes 700 otázek v češtině i angličtině. Zdarma s volitelným Premium." data-en="No ads, safe for kids, works offline thanks to PWA architecture. Over 700 questions in Czech and English. Free with optional Premium.">Bez reklam, bezpečné pro děti, funguje offline díky PWA architektuře. Přes 700 otázek v češtině i angličtině. Zdarma s volitelným Premium.</p>
+        <p class="about-text" data-cs="Gream je kvízová hra pro celou rodinu. Otázky jsou ve šesti světech a 33 tématech – od zvířat a vesmíru přes pravopis a hádanky až po historii, film nebo Česko – a ve čtyřech obtížnostech: snadné pobaví děti, extrémní potrápí i dospělé. Každá otázka prochází kontrolou pravdivosti a nové přibývají každý týden." data-en="Gream is a quiz game for the whole family. Questions span six worlds and 33 topics – from animals and space to spelling, riddles, history, film and more – in four difficulties: easy ones for kids, extreme ones that challenge adults. Every question is fact-checked, and new ones arrive every week.">Gream je kvízová hra pro celou rodinu. Otázky jsou ve šesti světech a 33 tématech – od zvířat a vesmíru přes pravopis a hádanky až po historii, film nebo Česko – a ve čtyřech obtížnostech: snadné pobaví děti, extrémní potrápí i dospělé. Každá otázka prochází kontrolou pravdivosti a nové přibývají každý týden.</p>
+        <p class="about-text" data-cs="Začínáš s vajíčkem. Vylíhne se z něj greamík podle témat, na která nejčastěji odpovídáš – a těch je 24. Venku na tebe čekají výprava dne a nová vajíčka a greamíci tam rostou dvakrát rychleji. Na vzácných místech na mapě se dá utkat o místo, doma i venku v soubojích proti nahrávkám ostatních hráčů, v denním kole a v týdenní lize." data-en="You start with an egg. It hatches into a Gream based on the topics you answer most – and there are 24 of them. Outside, the daily trip and new eggs are waiting, and Greams grow twice as fast. Rare spots on the map can be won in battles; at home and outside you battle recordings of other players, play the daily round and climb the weekly league.">Začínáš s vajíčkem. Vylíhne se z něj greamík podle témat, na která nejčastěji odpovídáš – a těch je 24. Venku na tebe čekají výprava dne a nová vajíčka a greamíci tam rostou dvakrát rychleji. Na vzácných místech na mapě se dá utkat o místo, doma i venku v soubojích proti nahrávkám ostatních hráčů, v denním kole a v týdenní lize.</p>
+        <p class="about-text" data-cs="Bez reklam a bez kupování výhod. Přesná poloha nikdy neopustí telefon, hra se nespojuje s cizími servery. Zdarma, s volitelným předplatným Gream Plus pro celou rodinu – venkovní výzvy, výpravy a vajíčka zůstávají zdarma navždy." data-en="No ads and no pay-to-win. Your exact location never leaves the phone and the game talks to no third-party servers. Free, with an optional Gream Plus subscription for the whole family – outdoor challenges, trips and eggs stay free forever.">Bez reklam a bez kupování výhod. Přesná poloha nikdy neopustí telefon, hra se nespojuje s cizími servery. Zdarma, s volitelným předplatným Gream Plus pro celou rodinu – venkovní výzvy, výpravy a vajíčka zůstávají zdarma navždy.</p>
       </div>
       <div class="meta-cards">
         <div class="meta-card"><div class="meta-lbl" data-cs="Status" data-en="Status">Status</div><div class="meta-val" data-cs="Ve vývoji" data-en="In development">Ve vývoji</div></div>
@@ -322,16 +330,23 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 
   <section class="reveal">
     <div class="cs-eyebrow">Preview</div>
-    <h2 class="cs-title" data-cs-html="Objevuj světy, &lt;em&gt;vylíhni mazlíčka.&lt;/em&gt;" data-en-html="Discover worlds, &lt;em&gt;hatch a pet.&lt;/em&gt;">Objevuj světy, <em>vylíhni mazlíčka.</em></h2>
+    <h2 class="cs-title" data-cs-html="Vylušti, &lt;em&gt;vylíhni, vyraž ven.&lt;/em&gt;" data-en-html="Quiz, &lt;em&gt;hatch, explore.&lt;/em&gt;">Vylušti, <em>vylíhni, vyraž ven.</em></h2>
+    <div class="gshots" aria-label="Snímky ze hry">
+      <figure class="gshot"><img src="img/gream/shots/cs-zahrada.jpg" data-src-cs="img/gream/shots/cs-zahrada.jpg" data-src-en="img/gream/shots/en-zahrada.jpg" alt="Zahrada s greamíky" data-alt-en="Garden with Greams" width="600" height="1300" loading="lazy" decoding="async"><figcaption data-cs="Zahrada s greamíky" data-en="Garden with Greams">Zahrada s greamíky</figcaption></figure>
+      <figure class="gshot"><img src="img/gream/shots/cs-vyzva.jpg" data-src-cs="img/gream/shots/cs-vyzva.jpg" data-src-en="img/gream/shots/en-vyzva.jpg" alt="Výzva" data-alt-en="Challenge" width="600" height="1300" loading="lazy" decoding="async"><figcaption data-cs="Výzva" data-en="Challenge">Výzva</figcaption></figure>
+      <figure class="gshot"><img src="img/gream/shots/cs-souboj.jpg" data-src-cs="img/gream/shots/cs-souboj.jpg" data-src-en="img/gream/shots/en-souboj.jpg" alt="Souboj" data-alt-en="Battle" width="600" height="1300" loading="lazy" decoding="async"><figcaption data-cs="Souboj" data-en="Battle">Souboj</figcaption></figure>
+      <figure class="gshot"><img src="img/gream/shots/cs-mapa.jpg" data-src-cs="img/gream/shots/cs-mapa.jpg" data-src-en="img/gream/shots/en-mapa.jpg" alt="Mapa a kompas" data-alt-en="Map and compass" width="600" height="1300" loading="lazy" decoding="async"><figcaption data-cs="Mapa a kompas" data-en="Map and compass">Mapa a kompas</figcaption></figure>
+      <figure class="gshot"><img src="img/gream/shots/cs-greamici.jpg" data-src-cs="img/gream/shots/cs-greamici.jpg" data-src-en="img/gream/shots/en-greamici.jpg" alt="Sbírka greamíků" data-alt-en="Gream collection" width="600" height="1300" loading="lazy" decoding="async"><figcaption data-cs="Sbírka greamíků" data-en="Gream collection">Sbírka greamíků</figcaption></figure>
+    </div>
     <div class="gg-how">
       <div class="gg-egg">
         <img src="img/gream/egg_pixel.png" alt="Gream — vajíčko Greamíka" loading="lazy" decoding="async">
         <div class="gg-egg-cap" data-cs="Začínáš s vajíčkem" data-en="You start with an egg">Začínáš s vajíčkem</div>
       </div>
       <div class="gg-steps">
-        <div class="gg-step"><span class="gg-n">1</span><div><b data-cs="Choď po světě" data-en="Explore the world">Choď po světě</b><p data-cs="Prozkoumáváš reálná místa kolem sebe — hra tě navede po mapě do souvisejících lokací." data-en="You explore real places around you — the game guides you on a map to relevant locations.">Prozkoumáváš reálná místa kolem sebe — hra tě navede po mapě do souvisejících lokací.</p></div></div>
-        <div class="gg-step"><span class="gg-n">2</span><div><b data-cs="Odpovídej správně" data-en="Answer correctly">Odpovídej správně</b><p data-cs="Na každém místě plníš výzvy a odpovídáš na otázky z daného světa. Za správné odpovědi sbíráš semínka." data-en="At each place you complete challenges and answer questions from that world. Correct answers earn you seeds.">Na každém místě plníš výzvy a odpovídáš na otázky z daného světa. Za správné odpovědi sbíráš semínka.</p></div></div>
-        <div class="gg-step"><span class="gg-n">3</span><div><b data-cs="Vylíhni a vychovej" data-en="Hatch and raise">Vylíhni a vychovej</b><p data-cs="Podle světa, kterému se nejvíc věnuješ, se Greamík vylíhne — a pak s tebou roste. Za plnění úkolů získáváš odznaky." data-en="Depending on the world you focus on most, your Greamík hatches — and then grows with you. Completing tasks earns you badges.">Podle světa, kterému se nejvíc věnuješ, se Greamík vylíhne — a pak s tebou roste. Za plnění úkolů získáváš odznaky.</p></div></div>
+        <div class="gg-step"><span class="gg-n">1</span><div><b data-cs="Odpovídej" data-en="Answer">Odpovídej</b><p data-cs="Doma i venku odpovídáš na otázky z šesti světů. Za správné odpovědi dostáváš semínka, za špatné o ně přicházíš." data-en="At home and outside you answer questions from six worlds. Right answers earn seeds, wrong ones cost them.">Doma i venku odpovídáš na otázky z šesti světů. Za správné odpovědi dostáváš semínka, za špatné o ně přicházíš.</p></div></div>
+        <div class="gg-step"><span class="gg-n">2</span><div><b data-cs="Vylíhni" data-en="Hatch">Vylíhni</b><p data-cs="Vajíčko poslouchá, na co odpovídáš. Vylíhne se z něj jeden z 24 greamíků – podle tématu, které tě nejvíc baví." data-en="Your egg listens to what you answer. It hatches into one of 24 Greams – matching the topic you love most.">Vajíčko poslouchá, na co odpovídáš. Vylíhne se z něj jeden z 24 greamíků – podle tématu, které tě nejvíc baví.</p></div></div>
+        <div class="gg-step"><span class="gg-n">3</span><div><b data-cs="Vyraž ven" data-en="Explore">Vyraž ven</b><p data-cs="Kompas tě dovede k výzvám kolem tebe. Venku čekají výprava dne, nová vajíčka a vzácná místa soubojů – a greamíci tam rostou dvakrát rychleji." data-en="The compass guides you to challenges nearby. Outside await the daily trip, new eggs and rare battle spots – and Greams grow twice as fast.">Kompas tě dovede k výzvám kolem tebe. Venku čekají výprava dne, nová vajíčka a vzácná místa soubojů – a greamíci tam rostou dvakrát rychleji.</p></div></div>
       </div>
     </div>
     <div class="gg-sub" data-cs="Šest světů k objevování" data-en="Six worlds to explore">Šest světů k objevování</div>
@@ -343,7 +358,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
       <figure class="world"><img src="img/gream/w_arts.jpg" alt="Svět Umění" loading="lazy" decoding="async"><figcaption data-cs="🎨 Umění" data-en="🎨 Arts">🎨 Umění</figcaption></figure>
       <figure class="world"><img src="img/gream/w_world.jpg" alt="Svět Svět" loading="lazy" decoding="async"><figcaption data-cs="🌍 Svět" data-en="🌍 World">🌍 Svět</figcaption></figure>
     </div>
-    <p class="shot-note" data-cs="Každý svět má vlastní výzvy a vede k jinému Greamíkovi · odznaky za splněné úkoly" data-en="Each world has its own challenges and leads to a different Greamík · badges for completed tasks">Každý svět má vlastní výzvy a vede k jinému Greamíkovi · odznaky za splněné úkoly</p>
+    <p class="shot-note" data-cs="Šest světů, 33 témat, 24 greamíků · odznaky za splněné výzvy" data-en="Six worlds, 33 topics, 24 Greams · badges for completed challenges">Šest světů, 33 témat, 24 greamíků · odznaky za splněné výzvy</p>
   </section>
 
   <section class="reveal">
@@ -353,36 +368,36 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
       <div class="feature-item">
         <div class="fi-num">01</div>
         <div class="fi-content">
-          <div class="fi-title" data-cs="Gamifikované učení s denním odměnovým systémem" data-en="Gamified learning with a daily reward system">Gamifikované učení s denním odměnovým systémem</div>
-          <div class="fi-desc" data-cs="Každá dokončená session přináší odměnu. Vizuální progress, sbíratelné prvky a milníky motivují bez závislosti." data-en="Every completed session brings a reward. Visual progress, collectibles and milestones motivate without addiction.">Každá dokončená session přináší odměnu. Vizuální progress, sbíratelné prvky a milníky motivují bez závislosti.</div>
+          <div class="fi-title" data-cs="Sbírej 24 greamíků" data-en="Collect 24 Greams">Sbírej 24 greamíků</div>
+          <div class="fi-desc" data-cs="Každý greamík patří k jednomu tématu a roste ve třech stádiích. V souboji má na svoje téma výhodu – a vlastní speciální schopnost." data-en="Every Gream belongs to one topic and grows through three stages. In battle it has an edge on its topic – and its own special move.">Každý greamík patří k jednomu tématu a roste ve třech stádiích. V souboji má na svoje téma výhodu – a vlastní speciální schopnost.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">02</div>
         <div class="fi-content">
-          <div class="fi-title" data-cs="Offline funkčnost (PWA)" data-en="Offline functionality (PWA)">Offline funkčnost (PWA)</div>
-          <div class="fi-desc" data-cs="Aplikace funguje bez internetu. Stáhne si obsah předem a synchronizuje progress až bude připojení k dispozici." data-en="The app works without internet. It downloads content in advance and syncs progress once a connection is available.">Aplikace funguje bez internetu. Stáhne si obsah předem a synchronizuje progress až bude připojení k dispozici.</div>
+          <div class="fi-title" data-cs="Hra, která tě dostane ven" data-en="A game that gets you outside">Hra, která tě dostane ven</div>
+          <div class="fi-desc" data-cs="Výzvy na místech do 120 m, výprava dne, vajíčka jen venku a kompas, který napovídá „přihořívá“. Doma se hraje taky – venku je to ale zábavnější." data-en="Challenges at spots within 120 m, a daily trip, eggs found only outside and a compass that tells you when you&#x27;re getting warmer. You can play at home too – outside is just more fun.">Výzvy na místech do 120 m, výprava dne, vajíčka jen venku a kompas, který napovídá „přihořívá“. Doma se hraje taky – venku je to ale zábavnější.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">03</div>
         <div class="fi-content">
           <div class="fi-title" data-cs="Souboje, denní kolo a žebříček" data-en="Battles, daily round and leaderboard">Souboje, denní kolo a žebříček</div>
-          <div class="fi-desc" data-cs="Změř síly s ostatními v časových soubojích na 10 otázek. Denní kolo dává všem stejné otázky a řadí je do žebříčku. Souboje jdou hrát i venku na místech jako parky nebo hospody — venkovní pub-quiz." data-en="Go head-to-head in timed 10-question battles. The daily round gives everyone the same questions and ranks them on a leaderboard. Battles can be played outdoors at spots like parks or pubs — an outdoor pub-quiz.">Změř síly s ostatními v časových soubojích na 10 otázek. Denní kolo dává všem stejné otázky a řadí je do žebříčku. Souboje jdou hrát i venku na místech jako parky nebo hospody — venkovní pub-quiz.</div>
+          <div class="fi-desc" data-cs="Souboje proti nahrávkám skutečných hráčů nebo botům, denní kolo se stejnými otázkami pro všechny, týdenní liga od bronzu po diamant a rodinný souboj na jednom telefonu." data-en="Battles against recordings of real players or bots, a daily round with the same questions for everyone, a weekly league from bronze to diamond, and a family battle on one phone.">Souboje proti nahrávkám skutečných hráčů nebo botům, denní kolo se stejnými otázkami pro všechny, týdenní liga od bronzu po diamant a rodinný souboj na jednom telefonu.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">04</div>
         <div class="fi-content">
           <div class="fi-title" data-cs="Bez reklam, bezpečné pro děti" data-en="No ads, safe for kids">Bez reklam, bezpečné pro děti</div>
-          <div class="fi-desc" data-cs="Čistý zážitek bez reklam a bez pay-to-win. Zdarma s volitelným Premium (víc soubojů a nejtěžší úroveň). Vhodné pro celou rodinu." data-en="A clean experience — no ads, no pay-to-win. Free with optional Premium (more battles and the hardest tier). Suitable for the whole family.">Čistý zážitek bez reklam a bez pay-to-win. Zdarma s volitelným Premium (víc soubojů a nejtěžší úroveň). Vhodné pro celou rodinu.</div>
+          <div class="fi-desc" data-cs="Žádné reklamy, žádné kupování výhod v souboji. Poloha se posílá jen zaokrouhlená na půl kilometru a jen na náš server. Rodičovská brána u nákupů a denní limit hraní." data-en="No ads, no buying an edge in battle. Location is only sent rounded to half a kilometre and only to our own server. Parental gate for purchases and a daily play-time limit.">Žádné reklamy, žádné kupování výhod v souboji. Poloha se posílá jen zaokrouhlená na půl kilometru a jen na náš server. Rodičovská brána u nákupů a denní limit hraní.</div>
         </div>
       </div>
       <div class="feature-item">
         <div class="fi-num">05</div>
         <div class="fi-content">
-          <div class="fi-title" data-cs="Přes 700 otázek — od dětí po experty" data-en="Over 700 questions — from kids to experts">Přes 700 otázek — od dětí po experty</div>
-          <div class="fi-desc" data-cs="Šest světů, čtyři obtížnosti od snadné po extrémní, čeština i angličtina. Snadné pobaví děti, extrémní potrápí i dospělé. Různé typy otázek: výběr, doplňování, řazení, přiřazování." data-en="Six worlds, four difficulties from easy to extreme, Czech and English. Easy entertains kids, extreme challenges even adults. Varied question types: choice, fill-in, sorting, matching.">Šest světů, čtyři obtížnosti od snadné po extrémní, čeština i angličtina. Snadné pobaví děti, extrémní potrápí i dospělé. Různé typy otázek: výběr, doplňování, řazení, přiřazování.</div>
+          <div class="fi-title" data-cs="Přes 2 500 otázek – a každý týden nové" data-en="Over 2,500 questions – and new ones every week">Přes 2 500 otázek – a každý týden nové</div>
+          <div class="fi-desc" data-cs="Šest světů, 33 témat, čtyři obtížnosti, čeština i angličtina. Výběr, psaní, odhad, řazení, přiřazování i „Kde to je?“ na mapě. Každá otázka prochází kontrolou pravdivosti." data-en="Six worlds, 33 topics, four difficulties, Czech and English. Multiple choice, typing, estimates, sorting, matching and “Where is it?” on a map. Every question is fact-checked.">Šest světů, 33 témat, čtyři obtížnosti, čeština i angličtina. Výběr, psaní, odhad, řazení, přiřazování i „Kde to je?“ na mapě. Každá otázka prochází kontrolou pravdivosti.</div>
         </div>
       </div>
     </div>
@@ -485,6 +500,7 @@ function setLang(lang){
   currentLang=lang; localStorage.setItem(LANG_KEY,lang); document.documentElement.lang=lang;
   document.querySelectorAll('[data-cs]').forEach(el=>{ if(el.dataset[lang]!=null) el.textContent=el.dataset[lang]; });
   document.querySelectorAll('[data-cs-html]').forEach(el=>{ const v=lang==='en'?el.dataset.enHtml:el.dataset.csHtml; if(v!=null) el.innerHTML=v; });
+  document.querySelectorAll('[data-src-cs]').forEach(img=>{ img.src=lang==='en'?img.dataset.srcEn:img.dataset.srcCs; if(img.dataset.altEn){ img.dataset.altCs=img.dataset.altCs||img.alt; img.alt=lang==='en'?img.dataset.altEn:img.dataset.altCs; } });
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang));
 }
 setLang(currentLang);
